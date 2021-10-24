@@ -72,6 +72,25 @@ static int octalToDecimal(int n)
 }
 
 /// <summary>
+/// Search for wire devices.
+/// </summary>
+/// <returns>Device Addresses</returns>
+String wireSearch()
+{
+	String addresses;
+	for (byte i = 1; i < 127; i++)
+	{
+		Wire.beginTransmission(i);
+		byte status = Wire.endTransmission();
+		if (status == 0)
+		{
+			addresses += (String)i;
+			addresses += ",";
+		}
+	}
+}
+
+/// <summary>
 /// Invoke method on serialEvent. After parse, done/special method invokes.
 /// </summary>
 /// <param name="done">Done function pointer</param>

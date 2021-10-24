@@ -8,8 +8,12 @@
 #endif
 
 unsigned long x2i(char* s);
+
 String toHex(unsigned long input, byte stringLength);
-static int octalToDecimal(int n);
+
+int octalToDecimal(int n);
+
+String wireSearch();
 
 struct DevicePropertiesTemplateSlave
 {
