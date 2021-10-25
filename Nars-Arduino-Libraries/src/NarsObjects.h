@@ -44,8 +44,7 @@ class NarsSerialCom
 public:
 	static unsigned long data[512];
 	static bool connected;
-	static void onSerialEvent(void (*done) (int registerrr, unsigned long data), void (*special) (int registerrr, String data));
-	static void onSerialEvent(void (*special) (int _register, String data));
+	static void onSerialEvent(void (*done) (unsigned int registerrr, unsigned long data), void (*special) (unsigned int registerrr, String data));
 };
 
 class WireHost
@@ -71,5 +70,7 @@ private:
 	bool recv;
 	byte recvData;
 };
+
+extern NarsSerialCom SerialCom;
 #endif
 

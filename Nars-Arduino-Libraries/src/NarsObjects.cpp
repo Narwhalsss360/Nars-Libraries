@@ -1,10 +1,14 @@
 #include "NarsObjects.h"
 #include "Wire.h"
+#include "LiquidCrystal_I2C.h"
+
+bool NarsSerialCom::connected;
+unsigned long NarsSerialCom::data[512];
 
 /// <summary>
-/// Outputs unsinged long from Hex String.
+/// Outputs unsinged long from Hex Char array.
 /// </summary>
-/// <param name="s">: Hex String</param>
+/// <param name="s">: Char Array</param>
 /// <returns>Number From Hex</returns>
 unsigned long x2i(char* s)
 {
@@ -95,7 +99,7 @@ String wireSearch()
 /// </summary>
 /// <param name="done">Done function pointer</param>
 /// <param name="special">Special function pointer</param>
-void NarsSerialCom::onSerialEvent(void (*done) (int _register, unsigned long data), void (*special) (int _register, String data))
+void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int _register, String data))
 {
 	String completeString;
 	String command;
@@ -116,7 +120,7 @@ void NarsSerialCom::onSerialEvent(void (*done) (int _register, unsigned long dat
 	{
 		String registerString = completeString.substring(2, 6);;
 		String dataString = completeString.substring(6, 14);;
-		int _register;
+		unsigned int _register;
 		unsigned long _data;
 		char _registerBuffer[4];
 		char dataBuffer[8];
@@ -137,10 +141,10 @@ void NarsSerialCom::onSerialEvent(void (*done) (int _register, unsigned long dat
 	if (command == "*S")
 	{
 		String registerString = completeString.substring(2, 6);
-		int _register;
-
+		unsigned int _register;
 		char _registerBuffer[4];
 		strcpy(_registerBuffer, registerString.c_str());
+		_register = x2i(_registerBuffer);
 
 		String specialString;
 		String temp = completeString;
@@ -161,76 +165,6 @@ void NarsSerialCom::onSerialEvent(void (*done) (int _register, unsigned long dat
 		connected = false;
 	}
 }			
-
-/// <summary>
-/// Invoke method on serialEvent. After parse, done/special method invokes.
-/// </summary>
-/// <param name="special">Special function pointer</param>
-void NarsSerialCom::onSerialEvent(void (*special) (int _register, String data))
-{
-	String completeString;
-	String command;
-
-	while (Serial.available())
-	{
-		char inChar = (char)Serial.read();
-		completeString += inChar;
-	}
-
-	command = completeString.substring(0, 2);
-	if (command == "*B")
-	{
-		connected = true;
-	}
-
-	if (command == "*D")
-	{
-		String registerString = completeString.substring(2, 6);;
-		String dataString = completeString.substring(6, 14);;
-		int _register;
-		unsigned long _data;
-		char _registerBuffer[4];
-		char dataBuffer[8];
-
-		strcpy(_registerBuffer, registerString.c_str());
-		strcpy(dataBuffer, dataString.c_str());
-
-		_register = x2i(_registerBuffer);
-		_data = x2i(dataBuffer);
-
-		if (_register <= 512)
-		{
-			data[_register] = _data;
-		}
-	}
-
-	if (command == "*S")
-	{
-		String registerString = completeString.substring(2, 6);
-		int _register;
-
-		char _registerBuffer[4];
-		strcpy(_registerBuffer, registerString.c_str());
-
-		String specialString;
-		String temp = completeString;
-		temp.remove(0, 6);
-		for (int i = 0; i < temp.length() - 1; i++)
-		{
-			char tempChar = (char)temp[i];
-			if (tempChar != '-')
-			{
-				specialString += tempChar;
-			}
-		}
-		special(_register, specialString);
-	}
-
-	if (command == "*E")
-	{
-		connected = false;
-	}
-}
 
 /// <summary>
 /// Check if client is available.

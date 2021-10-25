@@ -7,14 +7,29 @@
 #include <Wire.h>
 #include "NarsObjects.h"
 
-WireHost wh;
-
 // the setup function runs once when you press reset or power the board
-void setup() {
+void setup() 
+{
 	
 }
 
 // the loop function runs over and over again until power down or reset
-void loop() {
+void loop() 
+{
   
+}
+
+void serialEvent()
+{
+	SerialCom.onSerialEvent(&done, &special);
+}
+
+void done(int _register, unsigned long data)
+{
+
+}
+
+void special(int _register, String data)
+{
+
 }

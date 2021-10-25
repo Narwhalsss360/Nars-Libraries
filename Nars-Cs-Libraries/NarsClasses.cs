@@ -92,6 +92,46 @@
         }
 
         /// <summary>
+        /// Sends data as string to arduino using Nars Protocol. Returns message Data-Type
+        /// </summary>
+        /// <param name="register">Data register</param>
+        /// <param name="data">Data string</param>
+        /// <returns></returns>
+        public message sendSpecialData(int register, string data)
+        {
+            message newMessage;
+
+            if (state == States.CONNECTED)
+            {
+                string completeString = "*D";
+                if (register <= 65535)
+                {
+                    string registerString = NarsMethods.fixedLengthHex(register, 4);
+                    completeString += registerString + data + "-";
+                    serialPort.WriteLine(completeString);
+                    newMessage.complete = true;
+                    newMessage.sentMessage = completeString;
+                    newMessage.errorMessage = "";
+                    return newMessage;
+                }
+                else
+                {
+                    newMessage.complete = false;
+                    newMessage.sentMessage = "";
+                    newMessage.errorMessage = "Register Out-Of-Range";
+                    return newMessage;
+                }
+            }
+            else
+            {
+                newMessage.complete = false;
+                newMessage.sentMessage = "";
+                newMessage.errorMessage = "Not Connected";
+                return newMessage;
+            }
+        }
+
+        /// <summary>
         /// Connect to arduino. Sends connect message.
         /// </summary>
         public void connect()
