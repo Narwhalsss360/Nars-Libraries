@@ -15,29 +15,107 @@
             CONNECTED,
         }
 
-        public struct message
+        /// <summary>
+        /// Error type
+        /// </summary>
+        public enum Errors
         {
-            public bool complete;
-            public string sentMessage;
-            public string errorMessage;
+            NONE,
+            OUT_OF_RANGE,
+            NOT_CONNECTED,
+            ALREADY_CONNECTED
         }
 
-        public System.IO.Ports.SerialPort serialPort;
+        /// <summary>
+        /// message type for receiving
+        /// </summary>
+        public struct message
+        {
+            public bool special;
+            public int register;
+            public string data;
+            public string raw;
+        }
+
+        /// <summary>
+        /// result type for method returns
+        /// </summary>
+        public struct result
+        {
+            public bool complete;
+            public string message;
+            public Errors error;
+        }
+
+        /// <summary>
+        /// dataResult type for getter method
+        /// </summary>
+        public struct dataResult
+        {
+            public bool isString;
+            public string dataString;
+            public long dataLong;
+        }
+
+        public System.IO.Ports.SerialPort serialPort = new System.IO.Ports.SerialPort();
         /// <summary>
         /// Data storage array for all recieved data. Array index is register.
         /// </summary>
-        public long[] receivedData = new long[65535];
+        public string[] receivedData = new string[65535];
         /// <summary>
         /// State of connection.
         /// </summary>
-        States state = States.DISCONNECTED;
+        public States state = States.DISCONNECTED;
 
-        NarsSerialCom()
+        /// <summary>
+        /// Pointer for data recieve handler
+        /// </summary>
+        private System.Action<message> onReceiveHandler = null;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public NarsSerialCom()
         {
+            serialPort.BaudRate = 1000000;
             serialPort.Parity = System.IO.Ports.Parity.None;
             serialPort.StopBits = System.IO.Ports.StopBits.One;
             serialPort.DataBits = 8;
             serialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(DataRecievedHandler);
+        }
+
+        /// <summary>
+        /// Add handler that invokes after recieving data.
+        /// </summary>
+        /// <param name="onReceivePointer">System.Action pointer</param>
+        public void addOnReceiveHandler(System.Action<message> onReceivePointer)
+        {
+            onReceiveHandler = onReceivePointer;
+        }
+
+        /// <summary>
+        /// Get data from a register.
+        /// </summary>
+        /// <param name="register"></param>
+        /// <returns>dataResult type</returns>
+        public dataResult getData(int register)
+        {
+            dataResult data;
+            long val;
+            if (long.TryParse(receivedData[register], System.Globalization.NumberStyles.HexNumber, null, out val))
+            {
+                data.dataLong = val;
+                data.isString = false;
+                data.dataString = "";
+                return data;
+            }
+            else
+            {
+                data.dataLong = 0;
+                data.isString = true;
+                data.dataString = receivedData[register];
+                return data;
+            }
         }
 
         /// <summary>
@@ -46,9 +124,9 @@
         /// <param name="register">Data register</param>
         /// <param name="data">Data</param>
         /// <returns>Message Data-Type</returns>
-        public message sendData(int register, long data)
+        public result sendData(int register, long data)
         {
-            message newMessage;
+            result newMessage;
 
             if (state == States.CONNECTED)
             {
@@ -62,31 +140,31 @@
                         completeString += registerString + dataString + "-";
                         serialPort.WriteLine(completeString);
                         newMessage.complete = true;
-                        newMessage.sentMessage = completeString;
-                        newMessage.errorMessage = "";
+                        newMessage.message = completeString;
+                        newMessage.error = Errors.NONE;
                         return newMessage;
                     }
                     else
                     {
                         newMessage.complete = false;
-                        newMessage.sentMessage = "";
-                        newMessage.errorMessage = "Data Out-Of-Range";
+                        newMessage.message = "Error";
+                        newMessage.error = Errors.OUT_OF_RANGE;
                         return newMessage;
                     }
                 }
                 else
                 {
                     newMessage.complete = false;
-                    newMessage.sentMessage = "";
-                    newMessage.errorMessage = "Register Out-Of-Range";
+                    newMessage.message = "";
+                    newMessage.error = Errors.OUT_OF_RANGE;
                     return newMessage;
                 }
             }
             else
             {
                 newMessage.complete = false;
-                newMessage.sentMessage = "";
-                newMessage.errorMessage = "Not Connected";
+                newMessage.message = "Error";
+                newMessage.error = Errors.NOT_CONNECTED;
                 return newMessage;
             }
         }
@@ -97,36 +175,36 @@
         /// <param name="register">Data register</param>
         /// <param name="data">Data string</param>
         /// <returns></returns>
-        public message sendSpecialData(int register, string data)
+        public result sendSpecialData(int register, string data)
         {
-            message newMessage;
+            result newMessage;
 
             if (state == States.CONNECTED)
             {
-                string completeString = "*D";
+                string completeString = "*S";
                 if (register <= 65535)
                 {
                     string registerString = NarsMethods.fixedLengthHex(register, 4);
                     completeString += registerString + data + "-";
                     serialPort.WriteLine(completeString);
                     newMessage.complete = true;
-                    newMessage.sentMessage = completeString;
-                    newMessage.errorMessage = "";
+                    newMessage.message = completeString;
+                    newMessage.error = Errors.NONE;
                     return newMessage;
                 }
                 else
                 {
                     newMessage.complete = false;
-                    newMessage.sentMessage = "";
-                    newMessage.errorMessage = "Register Out-Of-Range";
+                    newMessage.message = "Error";
+                    newMessage.error = Errors.OUT_OF_RANGE;
                     return newMessage;
                 }
             }
             else
             {
                 newMessage.complete = false;
-                newMessage.sentMessage = "";
-                newMessage.errorMessage = "Not Connected";
+                newMessage.message = "Error";
+                newMessage.error = Errors.NOT_CONNECTED;
                 return newMessage;
             }
         }
@@ -134,32 +212,85 @@
         /// <summary>
         /// Connect to arduino. Sends connect message.
         /// </summary>
-        public void connect()
+        public result connect(string port)
         {
+            result result;
             if (state == States.DISCONNECTED)
             {
+                result.complete = true;
+                result.message = "Connected";
+                result.error = Errors.NONE;
+                serialPort.PortName = port;
                 serialPort.Open();
                 state = States.CONNECTED;
                 serialPort.WriteLine("*B-");
+                return result;
+            }
+            else
+            {
+                result.complete = false;
+                result.message = "Error";
+                result.error = Errors.ALREADY_CONNECTED;
+                return result;
             }
         }
 
         /// <summary>
         /// Disonnect from arduino. Sends disconnect message.
         /// </summary>
-        public void disconnect()
+        public result disconnect()
         {
+            result result;
             if (state == States.CONNECTED)
             {
+                result.complete = true;
+                result.message = "Disconnected";
+                result.error = Errors.NONE;
                 serialPort.WriteLine("*E-");
                 serialPort.Close();
                 state = States.DISCONNECTED;
+                return result;
+            }
+            else
+            {
+                result.complete = false;
+                result.message = "Error";
+                result.error = Errors.NOT_CONNECTED;
+                return result;
             }
         }
 
+        /// <summary>
+        /// On Receive
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataRecievedHandler(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-
+            System.IO.Ports.SerialPort temp = (System.IO.Ports.SerialPort)sender;
+            string line = temp.ReadLine();
+            message newMessage;
+            if (line.Substring(0, 2) == "*D")
+            {
+                if (line.Length == 16)
+                {
+                    newMessage.raw = line;
+                    newMessage.special = false;
+                    newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
+                    newMessage.data = line.Substring(6, 8);
+                    receivedData[newMessage.register] = newMessage.data;
+                    onReceiveHandler(newMessage);
+                }
+            }
+            else if(line.Substring(0, 2) == "*S")
+            {
+                newMessage.raw = line;
+                newMessage.special = true;
+                newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
+                newMessage.data = line.Substring(6, line.Length - 8);
+                receivedData[newMessage.register] = newMessage.data;
+                onReceiveHandler(newMessage);
+            }
         }
     }
 
@@ -168,7 +299,6 @@
     /// </summary>
     public static class NarsMethods
     {
-
         /// <summary>
         /// Returns fixed length hex string from number.
         /// </summary>

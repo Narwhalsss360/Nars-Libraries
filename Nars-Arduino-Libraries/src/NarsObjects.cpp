@@ -1,6 +1,5 @@
 #include "NarsObjects.h"
 #include "Wire.h"
-#include "LiquidCrystal_I2C.h"
 
 bool NarsSerialCom::connected;
 unsigned long NarsSerialCom::data[512];
@@ -165,6 +164,45 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 		connected = false;
 	}
 }			
+
+/// <summary>
+/// Sends data
+/// </summary>
+/// <param name="_register">register</param>
+/// <param name="data">data</param>
+void NarsSerialCom::send(unsigned int _register, unsigned long data)
+{
+	if (connected)
+	{
+		String completeString = "*D";
+		if (_register <= 65535 || data <= 4294967295)
+		{
+			String registerString = toHex(_register, 4);
+			String dataString = toHex(data, 8);
+			completeString += registerString + dataString + '-';
+			Serial.println(completeString);
+		}
+	}
+}
+
+/// <summary>
+/// Sends special data
+/// </summary>
+/// <param name="_register">register</param>
+/// <param name="data">data</param>
+void NarsSerialCom::sendSpecial(unsigned int _register, String data)
+{
+	if (connected)
+	{
+		String completeString = "*D";
+		if (_register <= 65535)
+		{
+			String registerString = toHex(_register, 4);
+			completeString += registerString + data + '-';
+			Serial.println(completeString);
+		}
+	}
+}
 
 /// <summary>
 /// Check if client is available.
