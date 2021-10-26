@@ -1,5 +1,5 @@
-#ifndef NarsObjects
-#define NarsObjects
+#ifndef NarsLibraries
+#define NarsLibraries
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
