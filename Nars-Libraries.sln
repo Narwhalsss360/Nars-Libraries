@@ -5,7 +5,10 @@ VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference", "Reference", "{7EA945F3-D5D6-4996-91D7-FA30C2E4A2FC}"
 	ProjectSection(SolutionItems) = preProject
+		Reference\Icons\014_-_Lathe-512.ico = Reference\Icons\014_-_Lathe-512.ico
+		Reference\Icons\307-3078351_certificate-icon-png-transparent-png.ico = Reference\Icons\307-3078351_certificate-icon-png-transparent-png.ico
 		Reference\SerialPort.dll = Reference\SerialPort.dll
+		Reference\Icons\wrench-icon.ico = Reference\Icons\wrench-icon.ico
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{960AC963-E95D-4FC7-98D2-58093CD260C9}"
