@@ -9,8 +9,9 @@ unsigned long x2i(char* s);
 struct RESULT
 {
 public:
-	static enum STATES
+	static enum class STATES
 	{
+		NONE,
 		CONNECTED,
 		ALREADY_CONNECTED,
 		DISCONNECTED,
@@ -18,23 +19,24 @@ public:
 		OUT_OF_RANGE,
 		LOST,
 		SENT,
-		RECEIVED
+		RECEIVED,
+		PARSED
 	};
 
-	STATES returnState;
+	STATES state = STATES::NONE;
 	std::string message;
 };
 
 struct MESSAGE : public RESULT
 {
 public:
-	static enum dataTypes
+	static enum DATATYPES
 	{
 		STRING,
 		ULONG
 	};
 
-	byte dataType;
+	DATATYPES dataType;
 	DWORD _resgister;
 	DWORD data;
 };
@@ -44,17 +46,15 @@ class NarsSerial
 public:
 	NarsSerial();
 
-	enum STATES
+	enum class STATES
 	{
 		DISCONNECTED,
 		CONNECTED
 	};
 
-	DCB dcb;
-
 	STATES state;
-	std::string data[65535];
-	void (*userOnRecvHandler)(MESSAGE);
+	DWORD data[65535];
+	std::string selectedPort;
 
 	RESULT connect(const char* selectedPort);
 	RESULT check();
@@ -64,8 +64,17 @@ public:
 	void addOnReceiveHandler(void (*onRecv) (MESSAGE));
 	RESULT disconnect();
 private:
+	HANDLE port;
+	DCB dcb;
+
+	bool errorReading;
+	void (*userOnRecvHandler)(MESSAGE);
 	unsigned int currentRegister;
-	void onNewData(MESSAGE message);
-	std::string oldMessage;
+	char oldMessage[256];
+	char currentMessage[256];
 	void setParamerters();
+	bool openPort();
+	void readLine();
+	void parseData();
+	bool first;
 };
