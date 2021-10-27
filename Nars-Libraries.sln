@@ -7,7 +7,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference", "Reference", "{
 	ProjectSection(SolutionItems) = preProject
 		Reference\Icons\014_-_Lathe-512.ico = Reference\Icons\014_-_Lathe-512.ico
 		Reference\Icons\307-3078351_certificate-icon-png-transparent-png.ico = Reference\Icons\307-3078351_certificate-icon-png-transparent-png.ico
+		Reference\Assembly-CSharp-firstpass.dll = Reference\Assembly-CSharp-firstpass.dll
+		Reference\Assembly-CSharp.dll = Reference\Assembly-CSharp.dll
 		Reference\SerialPort.dll = Reference\SerialPort.dll
+		Reference\UnityEngine.CoreModule.dll = Reference\UnityEngine.CoreModule.dll
+		Reference\UnityEngine.dll = Reference\UnityEngine.dll
+		Reference\UnityEngine.UI.dll = Reference\UnityEngine.UI.dll
 		Reference\Icons\wrench-icon.ico = Reference\Icons\wrench-icon.ico
 	EndProjectSection
 EndProject
@@ -36,6 +41,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "C++ Library Tests", "Testing\C++ NarSerialCom Test\C++ NarSerialCom Test.vcxproj", "{49389F59-7024-4D07-BBC3-11358BF88F8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework48 Tests", "Testing\Framework48 NarsSerialCom Test\Framework48 Tests.csproj", "{426EF248-BFBC-498E-A944-E7660A4C499B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F15CC078-B1DA-40FA-B170-F3A8D05A0AA9}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

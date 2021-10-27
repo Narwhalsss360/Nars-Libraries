@@ -1,4 +1,4 @@
-﻿namespace Nars_Libraries_Framework48
+﻿namespace Nars_Libraries_Framework45
 {
     namespace Serial
     {
@@ -280,7 +280,10 @@
                         newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
                         newMessage.data = line.Substring(6, 8);
                         receivedData[newMessage.register] = newMessage.data;
-                        onReceiveHandler(newMessage);
+                        if (onReceiveHandler != null)
+                        {
+                            onReceiveHandler(newMessage);
+                        }
                     }
                 }
                 else if (line.Substring(0, 2) == "*S")
@@ -290,7 +293,10 @@
                     newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
                     newMessage.data = line.Substring(6, line.Length - 8);
                     receivedData[newMessage.register] = newMessage.data;
-                    onReceiveHandler(newMessage);
+                    if (onReceiveHandler != null)
+                    {
+                        onReceiveHandler(newMessage);
+                    }
                 }
             }
         }
@@ -366,16 +372,99 @@
             /// </summary>
             private System.Action<message> onReceiveHandler = null;
 
-            OpenNETCF.IO.Ports.SerialPort serialPort;
+            public OpenNETCF.IO.Ports.SerialPort serialPort = new OpenNETCF.IO.Ports.SerialPort();
 
-            NarsSerialComOpenNET()
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            public NarsSerialComOpenNET()
             {
                 serialPort.BaudRate = 1000000;
                 serialPort.DataBits = 8;
                 serialPort.Parity = OpenNETCF.IO.Ports.Parity.None;
                 serialPort.StopBits = OpenNETCF.IO.Ports.StopBits.One;
+                serialPort.ReceivedEvent += DataRecievedHandler;
             }
 
+            /// <summary>
+            /// Disonnect from arduino. Sends disconnect message.
+            /// </summary>
+            public result disconnect()
+            {
+                result result;
+                if (state == States.CONNECTED)
+                {
+                    result.complete = true;
+                    result.message = "Disconnected";
+                    result.error = Errors.NONE;
+                    serialPort.WriteLine("*E-");
+                    serialPort.Close();
+                    state = States.DISCONNECTED;
+                    return result;
+                }
+                else
+                {
+                    result.complete = false;
+                    result.message = "Error";
+                    result.error = Errors.NOT_CONNECTED;
+                    return result;
+                }
+            }
+
+            public result connect(string port)
+            {
+                result result;
+                if (state == States.DISCONNECTED)
+                {
+                    result.complete = true;
+                    result.message = "Connected";
+                    result.error = Errors.NONE;
+                    serialPort.PortName = port;
+                    serialPort.Open();
+                    state = States.CONNECTED;
+                    serialPort.WriteLine("*B-");
+                    return result;
+                }
+                else
+                {
+                    result.complete = false;
+                    result.message = "Error";
+                    result.error = Errors.ALREADY_CONNECTED;
+                    return result;
+                }
+            }
+
+            /// <summary>
+            /// Get data from a register.
+            /// </summary>
+            /// <param name="register"></param>
+            /// <returns>dataResult type</returns>
+            public dataResult getData(int register)
+            {
+                dataResult data;
+                long val;
+                if (long.TryParse(receivedData[register], System.Globalization.NumberStyles.HexNumber, null, out val))
+                {
+                    data.dataLong = val;
+                    data.isString = false;
+                    data.dataString = "";
+                    return data;
+                }
+                else
+                {
+                    data.dataLong = 0;
+                    data.isString = true;
+                    data.dataString = receivedData[register];
+                    return data;
+                }
+            }
+
+            /// <summary>
+            /// Sends data to arduino using Nars Protocol. Returns message Data-Type
+            /// </summary>
+            /// <param name="register">Data register</param>
+            /// <param name="data">Data</param>
+            /// <returns>Message Data-Type</returns>
             public result sendData(int register, long data)
             {
                 result newMessage;
@@ -461,36 +550,43 @@
                 }
             }
 
+            /// <summary>
+            /// Add handler that invokes after recieving data.
+            /// </summary>
+            /// <param name="onReceivePointer">System.Action pointer</param>
             public void addOnReceiveHandler(System.Action<message> onReceivePointer)
             {
                 onReceiveHandler = onReceivePointer;
             }
 
-            private void DataRecievedHandler(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+            private void DataRecievedHandler(object sender, OpenNETCF.IO.Ports.SerialReceivedEventArgs e)
             {
                 OpenNETCF.IO.Ports.SerialPort temp = (OpenNETCF.IO.Ports.SerialPort)sender;
-                string line = temp.ReadLine();
+                string line = temp.ReadExisting();
                 message newMessage;
-                if (line.Substring(0, 2) == "*D")
+                if (line.Length >= 6)
                 {
-                    if (line.Length == 16)
+                    if (line.Substring(0, 2) == "*D")
+                    {
+                        if (line.Length == 17)
+                        {
+                            newMessage.raw = line;
+                            newMessage.special = false;
+                            newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
+                            newMessage.data = line.Substring(6, 8);
+                            receivedData[newMessage.register] = newMessage.data;
+                            onReceiveHandler(newMessage);
+                        }
+                    }
+                    else if (line.Substring(0, 2) == "*S")
                     {
                         newMessage.raw = line;
-                        newMessage.special = false;
+                        newMessage.special = true;
                         newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
-                        newMessage.data = line.Substring(6, 8);
+                        newMessage.data = line.Substring(6, line.Length - 8);
                         receivedData[newMessage.register] = newMessage.data;
                         onReceiveHandler(newMessage);
                     }
-                }
-                else if (line.Substring(0, 2) == "*S")
-                {
-                    newMessage.raw = line;
-                    newMessage.special = true;
-                    newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
-                    newMessage.data = line.Substring(6, line.Length - 8);
-                    receivedData[newMessage.register] = newMessage.data;
-                    onReceiveHandler(newMessage);
                 }
             }
         }
