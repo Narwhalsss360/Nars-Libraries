@@ -3,22 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nars-Arduino-Libraries", "Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems", "{09CE6CB0-5E27-47B4-925E-9B7B93668DAB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference", "Reference", "{7EA945F3-D5D6-4996-91D7-FA30C2E4A2FC}"
+	ProjectSection(SolutionItems) = preProject
+		Reference\SerialPort.dll = Reference\SerialPort.dll
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nars-Cs-Libraries-Framework", "Nars-Cs-Libraries\Nars-Cs-Libraries-Framework.csproj", "{88BCD96E-3167-4015-8764-F296C8076EE0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{960AC963-E95D-4FC7-98D2-58093CD260C9}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Nars-Python-Libraries3.9", "Nars-Python-Libraries\Nars-Python-Libraries3.9.pyproj", "{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{70736A8E-AC86-44D0-A41C-0E5CAA83908A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "emptySketch", "emptySketch\emptySketch.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nars Arduino Libraries", "Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems", "{09CE6CB0-5E27-47B4-925E-9B7B93668DAB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wire-1.0", "E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems", "{8A50F6F4-12CB-4520-8591-44974DE484A5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nars C++ Shared Libraries", "Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems", "{F44C4BC6-596B-4905-8CFD-9978AA1072A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nars Libraries Framework45", "Libraries\Nars-Libraries-Framework45\Nars Libraries Framework45.csproj", "{E893402D-B556-4488-85B4-6237EE8ADF61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nars Libraries Framework48", "Libraries\Nars-Libraries-Framework48\Nars Libraries Framework48.csproj", "{88BCD96E-3167-4015-8764-F296C8076EE0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Empty Arduino", "Reference\Empty Arduino\Empty Arduino.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Empty C++", "Reference\Empty C++\Empty C++.vcxproj", "{4B504505-4E7A-4B16-AEB8-DDED8D81916B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSP NarsSerialCom Test", "Testing\KSP NarsSerialCom Test\KSP NarsSerialCom Test.csproj", "{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Nars Python Libraries3.9", "Libraries\Nars-Python-Libraries\Nars Python Libraries3.9.pyproj", "{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{09ce6cb0-5e27-47b4-925e-9b7b93668dab}*SharedItemsImports = 9
-		E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems*{8a50f6f4-12cb-4520-8591-44974de484a5}*SharedItemsImports = 9
-		Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{09ce6cb0-5e27-47b4-925e-9b7b93668dab}*SharedItemsImports = 9
+		Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems*{4b504505-4e7a-4b16-aeb8-dded8d81916b}*SharedItemsImports = 4
+		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems*{f44c4bc6-596b-4905-8cfd-9978aa1072a7}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +44,18 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Debug|x64.Build.0 = Debug|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Debug|x86.Build.0 = Debug|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Release|x64.ActiveCfg = Release|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Release|x64.Build.0 = Release|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Release|x86.ActiveCfg = Release|Any CPU
+		{E893402D-B556-4488-85B4-6237EE8ADF61}.Release|x86.Build.0 = Release|Any CPU
 		{88BCD96E-3167-4015-8764-F296C8076EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88BCD96E-3167-4015-8764-F296C8076EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88BCD96E-3167-4015-8764-F296C8076EE0}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -41,12 +68,6 @@ Global
 		{88BCD96E-3167-4015-8764-F296C8076EE0}.Release|x64.Build.0 = Release|Any CPU
 		{88BCD96E-3167-4015-8764-F296C8076EE0}.Release|x86.ActiveCfg = Release|Any CPU
 		{88BCD96E-3167-4015-8764-F296C8076EE0}.Release|x86.Build.0 = Release|Any CPU
-		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|x64.ActiveCfg = Release|Any CPU
-		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|x86.ActiveCfg = Release|Any CPU
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x64.ActiveCfg = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.ActiveCfg = Debug|Win32
@@ -55,9 +76,47 @@ Global
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x64.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Debug|x64.ActiveCfg = Debug|x64
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Debug|x64.Build.0 = Debug|x64
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Debug|x86.ActiveCfg = Debug|Win32
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Debug|x86.Build.0 = Debug|Win32
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Release|Any CPU.ActiveCfg = Release|Win32
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Release|x64.ActiveCfg = Release|x64
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Release|x64.Build.0 = Release|x64
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Release|x86.ActiveCfg = Release|Win32
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B}.Release|x86.Build.0 = Release|Win32
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|x64.Build.0 = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|x86.Build.0 = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|x64.ActiveCfg = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|x64.Build.0 = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|x86.ActiveCfg = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|x86.Build.0 = Release|Any CPU
+		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|x64.ActiveCfg = Release|Any CPU
+		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09CE6CB0-5E27-47B4-925E-9B7B93668DAB} = {960AC963-E95D-4FC7-98D2-58093CD260C9}
+		{F44C4BC6-596B-4905-8CFD-9978AA1072A7} = {960AC963-E95D-4FC7-98D2-58093CD260C9}
+		{E893402D-B556-4488-85B4-6237EE8ADF61} = {960AC963-E95D-4FC7-98D2-58093CD260C9}
+		{88BCD96E-3167-4015-8764-F296C8076EE0} = {960AC963-E95D-4FC7-98D2-58093CD260C9}
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88} = {7EA945F3-D5D6-4996-91D7-FA30C2E4A2FC}
+		{4B504505-4E7A-4B16-AEB8-DDED8D81916B} = {7EA945F3-D5D6-4996-91D7-FA30C2E4A2FC}
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
+		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE} = {960AC963-E95D-4FC7-98D2-58093CD260C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89CBFD6B-35EB-4C41-8732-75553F226906}
