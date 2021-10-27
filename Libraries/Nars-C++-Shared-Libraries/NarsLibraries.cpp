@@ -29,13 +29,29 @@ unsigned long x2i(char* s)
 
 NarsSerial::NarsSerial()
 {
+	this->state = this->DISCONNECTED;
+	this->userOnRecvHandler = NULL;
+	this->setParamerters();
+}
 
+void NarsSerial::setParamerters()
+{
+	memset(&this->dcb, 0, sizeof(this->dcb));
+	this->dcb.DCBlength = sizeof(this->dcb);
 }
 
 RESULT NarsSerial::connect(const char* selectedPort)
 {
 	RESULT result;
-	
+
+	return result;
+}
+
+RESULT NarsSerial::check()
+{
+	RESULT result;
+	std::string temp;
+
 	return result;
 }
 
@@ -62,5 +78,20 @@ RESULT NarsSerial::sendSpecial(unsigned int _register, const char* data)
 
 void NarsSerial::addOnReceiveHandler(void (*onRecv) (MESSAGE))
 {
+	this->userOnRecvHandler = onRecv;
+}
 
+void NarsSerial::onNewData(MESSAGE message)
+{
+	if (this->userOnRecvHandler != NULL)
+	{
+		this->userOnRecvHandler(message);
+	}
+}
+
+RESULT NarsSerial::disconnect()
+{
+	RESULT result;
+
+	return result; 
 }

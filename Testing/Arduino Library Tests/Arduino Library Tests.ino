@@ -1,3 +1,4 @@
+#include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include "NarsLibraries.h"
 
@@ -8,21 +9,22 @@ unsigned long prev;
 
 void setup() 
 {
-	Serial.begin(1000000);
+	Serial.begin(115200);
 	LCD.init();
 	LCD.setBacklight(255);
-	LCD.print("Test");
+	LCD.print(x2i("AA"));
+	SerialCom.connected = true;
 }
 
 void loop() 
 {
 	uptime = millis();
+	SerialCom.send(24, 123);
 }
 
 void serialEvent()
 {
-	SerialCom.onSerialEvent(&done, &special);
-	uptime = millis();
+	//SerialCom.onSerialEvent(&done, &special);
 }
 
 void done(unsigned int _register, unsigned long data)

@@ -43,20 +43,29 @@ class NarsSerial
 {
 public:
 	NarsSerial();
+
 	enum STATES
 	{
-
+		DISCONNECTED,
+		CONNECTED
 	};
 
-	byte state;
+	DCB dcb;
+
+	STATES state;
 	std::string data[65535];
+	void (*userOnRecvHandler)(MESSAGE);
 
 	RESULT connect(const char* selectedPort);
+	RESULT check();
 	MESSAGE getData();
 	RESULT sendData(unsigned int _register, unsigned long data);
 	RESULT sendSpecial(unsigned int _register, const char* data);
-	RESULT check();
 	void addOnReceiveHandler(void (*onRecv) (MESSAGE));
+	RESULT disconnect();
 private:
 	unsigned int currentRegister;
+	void onNewData(MESSAGE message);
+	std::string oldMessage;
+	void setParamerters();
 };
