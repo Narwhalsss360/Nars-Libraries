@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using KSP.IO;
-using Nars_Libraries_Framework45;
+using Nars_Libraries_Framework45.Serial;
 
 namespace KSP_NarsSerialComOpenNET_Test
 {
@@ -13,6 +13,12 @@ namespace KSP_NarsSerialComOpenNET_Test
         {
             Debug.Log("Compiled and ran!");
             port.connect("\\\\.\\COM28");
+            port.addOnReceiveHandler(onRecv);
+        }
+
+        void onRecv(NarsSerialComOpenNET.message message)
+        {
+            Debug.Log(message.raw);
         }
     }
 }
