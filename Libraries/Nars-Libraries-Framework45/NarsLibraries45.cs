@@ -379,7 +379,7 @@
             /// </summary>
             public NarsSerialComOpenNET()
             {
-                serialPort.BaudRate = 1000000;
+                serialPort.BaudRate = 115200;
                 serialPort.DataBits = 8;
                 serialPort.Parity = OpenNETCF.IO.Ports.Parity.None;
                 serialPort.StopBits = OpenNETCF.IO.Ports.StopBits.One;

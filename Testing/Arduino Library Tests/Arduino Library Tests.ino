@@ -12,7 +12,6 @@ void setup()
 	Serial.begin(115200);
 	LCD.init();
 	LCD.setBacklight(255);
-	LCD.print(x2i("AA"));
 	SerialCom.connected = true;
 }
 
@@ -24,25 +23,21 @@ void loop()
 
 void serialEvent()
 {
-	//SerialCom.onSerialEvent(&done, &special);
+	SerialCom.onSerialEvent(&done, &special);
 }
 
 void done(unsigned int _register, unsigned long data)
 {
-	switch (_register)
+	uptime = millis();
+	if (uptime - prev >= 60)
 	{
-	case 1:
-
-	default:
-		break;
+		prev = uptime;
 	}
-	if (uptime - prev >= 80)
-	{
-		LCD.clear();
-		LCD.print("R " + (String)_register);
-		LCD.setCursor(0, 1);
-		LCD.print("D " + (String)data);
-	}
+	
+	LCD.clear();
+	LCD.print("R " + (String)_register);
+	LCD.setCursor(0, 1);
+	LCD.print("D " + (String)data);
 }
 
 void special(unsigned int _register, String data)
