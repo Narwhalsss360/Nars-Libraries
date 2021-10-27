@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KSP_NarsSerialCom_Test</RootNamespace>
-    <AssemblyName>KSP NarsSerialCom Test</AssemblyName>
+    <AssemblyName>KSP_NarsSerialCom_Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -59,7 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KSP NarsSerialComOpenNET Test.cs" />
+    <Compile Include="KSP_NarsSerialComOpenNET_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

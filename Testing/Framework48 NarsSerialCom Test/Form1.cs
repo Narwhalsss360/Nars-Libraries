@@ -39,14 +39,25 @@ namespace Framework48_NarsSerialCom_Test
 
         private void sendButton_Click(object sender, EventArgs e)
         {
+
+            int register = int.Parse(registerTextBox.Text);
+            long outn;
             switch (source)
             {
                 case Sources.NONE:
                     printOut("Warning: Must Select Serial Port source.");
                     break;
                 case Sources.SYSTEM:
+                    if (long.TryParse(dataTextBox.Text, out outn))
+                    {
+                        comSystem.sendData(register, outn);
+                    }
                     break;
                 case Sources.OPENNET:
+                    if (long.TryParse(dataTextBox.Text, out outn))
+                    {
+                        comOpenNET.sendData(register, outn);
+                    }
                     break;
                 default:
                     break;

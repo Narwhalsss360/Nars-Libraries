@@ -2,16 +2,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>0cf8c052-aee4-4d13-8fdb-bc92a3fa3cde</ProjectGuid>
+    <ProjectGuid>6d6680de-bb24-4995-98bc-982f22f49ab5</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>Nars_Library.py</StartupFile>
+    <StartupFile>Python_Tests.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Nars Python Libraries3.9</Name>
-    <RootNamespace>Nars-Python-Libraries</RootNamespace>
+    <Name>Python Tests</Name>
+    <RootNamespace>Python Test</RootNamespace>
+    <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +23,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Nars_Library.py" />
+    <Compile Include="Python_Tests.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Nars-Python-Libraries\Nars Python Libraries3.9.pyproj">
+      <Name>Nars Python Libraries3.9</Name>
+      <Project>{0cf8c052-aee4-4d13-8fdb-bc92a3fa3cde}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
