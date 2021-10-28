@@ -21,6 +21,8 @@ namespace Framework48_NarsSerialCom_Test
         DateTime dateTime; //datetime struct instance for timestamps
         object arg1 = null;
         object arg2 = null;
+        bool randomSends = false;
+        Timer timer = new Timer();
 
         enum Sources
         {
@@ -40,6 +42,7 @@ namespace Framework48_NarsSerialCom_Test
             comSystem.addOnReceiveHandler(onSystemRecv);
             comOpenNET.addOnReceiveHandler(onOpenRecv);
             this.FormClosing += onExit;
+            timer.Tick += sendRandom;
         }
 
         private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -178,59 +181,74 @@ namespace Framework48_NarsSerialCom_Test
                     }
                 case Sources.SYSTEM:
                     { 
-                    if (comSystem.state == NarsSerialCom.States.DISCONNECTED)
-                    {
-                        selectedPort = portComboBox.Text;
-                        NarsSerialCom.result result = comSystem.connect(selectedPort);
-                        if (result.complete)
+                        if (comSystem.state == NarsSerialCom.States.DISCONNECTED)
                         {
-                            connectButton.Text = "Disconnect";
-                            printOut($"Info: Connected through System source on port {selectedPort}.");
-                            sendButton.Enabled = true;
-                            sourceComboBox.Enabled = false;
-                            portComboBox.Enabled = false;
+                            if (portComboBox.Text != "")
+                            {
+                                selectedPort = portComboBox.Text;
+                                NarsSerialCom.result result = comSystem.connect(selectedPort);
+                                if (result.complete)
+                                {
+                                    connectButton.Text = "Disconnect";
+                                    printOut($"Info: Connected through System source on port {selectedPort}.");
+                                    sendButton.Enabled = true;
+                                    sourceComboBox.Enabled = false;
+                                    portComboBox.Enabled = false;
+                                }
+                                else
+                                {
+                                    printOut($" Error: {result.message} {result.error.ToString()}");
+                                }
+                            }
+                            else
+                            {
+                                printOut("Error: Select a port.");
+                            }
+                            
                         }
                         else
                         {
-                            printOut($" Error: {result.message} {result.error.ToString()}");
+                            NarsSerialCom.result result = comSystem.disconnect();
+                            if (result.complete)
+                            {
+                                connectButton.Text = "Connect";
+                                printOut($"Info: Disconnected from System source.");
+                                sendButton.Enabled = false;
+                                sourceComboBox.Enabled = true;
+                                portComboBox.Enabled = true;
+                            }
+                            else
+                            {
+                                printOut($"Error: {result.message} {result.error.ToString()}");
+                            }
                         }
-                    }
-                    else
-                    {
-                        NarsSerialCom.result result = comSystem.disconnect();
-                        if (result.complete)
-                        {
-                            connectButton.Text = "Connect";
-                            printOut($"Info: Disconnected from System source.");
-                            sendButton.Enabled = false;
-                            sourceComboBox.Enabled = true;
-                            portComboBox.Enabled = true;
-                        }
-                        else
-                        {
-                            printOut($"Error: {result.message} {result.error.ToString()}");
-                        }
-                    }
-                    break;
+                        break;
                     }
                 case Sources.OPENNET:
                     {
                         if (comOpenNET.state == NarsSerialComOpenNET.States.DISCONNECTED)
                         {
-                            selectedPort = "\\\\.\\" + portComboBox.Text;
-                            printOut(selectedPort);
-                            NarsSerialComOpenNET.result result = comOpenNET.connect(selectedPort);
-                            if (result.complete)
+                            if (portComboBox.Text != "")
                             {
-                                connectButton.Text = "Disconnect";
-                                printOut($"Info: Connected through openNET source on port {selectedPort}.");
-                                sendButton.Enabled = true;
-                                sourceComboBox.Enabled = false;
-                                portComboBox.Enabled = false;
+                                selectedPort = "\\\\.\\" + portComboBox.Text;
+                                printOut(selectedPort);
+                                NarsSerialComOpenNET.result result = comOpenNET.connect(selectedPort);
+                                if (result.complete)
+                                {
+                                    connectButton.Text = "Disconnect";
+                                    printOut($"Info: Connected through openNET source on port {selectedPort}.");
+                                    sendButton.Enabled = true;
+                                    sourceComboBox.Enabled = false;
+                                    portComboBox.Enabled = false;
+                                }
+                                else
+                                {
+                                    printOut($" Error: {result.message} {result.error.ToString()}");
+                                }
                             }
                             else
                             {
-                                printOut($" Error: {result.message} {result.error.ToString()}");
+                                printOut("Error: Select a port.");
                             }
                         }
                         else
@@ -411,6 +429,28 @@ namespace Framework48_NarsSerialCom_Test
                     ok = false;
                 }
             }
+            if (register == 0xFFFF)
+            {
+                if (data == 0)
+                {
+                    timer.Interval = 1;
+                }
+                else
+                {
+                    timer.Interval = (int)data;
+                }
+
+                if (randomSends)
+                {
+                    randomSends = false;
+                    printOut("Info: Turned off Random Sends.");
+                }
+                else
+                {
+                    randomSends = true;
+                    printOut("Info: Turned on Random Sends.");
+                }
+            }
             switch (source)
             {
                 case Sources.NONE:
@@ -420,14 +460,17 @@ namespace Framework48_NarsSerialCom_Test
                     {
                         if (ok)
                         {
-                            NarsSerialCom.result result = comSystem.sendData(register, data);
-                            if (result.complete)
+                            if (!randomSends)
                             {
-                                printOut($"Sent: {result.message}");
-                            }
-                            else
-                            {
-                                printOut($"Error: {result.error.ToString()}");
+                                NarsSerialCom.result result = comSystem.sendData(register, data);
+                                if (result.complete)
+                                {
+                                    printOut($"Sent: {result.message}");
+                                }
+                                else
+                                {
+                                    printOut($"Error: {result.error.ToString()}");
+                                }
                             }
                         }
                         break;
@@ -436,15 +479,19 @@ namespace Framework48_NarsSerialCom_Test
                     {
                         if (ok)
                         {
-                            NarsSerialComOpenNET.result result = comOpenNET.sendData(register, data);
-                            if (result.complete)
+                            if (!randomSends)
                             {
-                                printOut($"Sent: {result.message}");
+                                NarsSerialComOpenNET.result result = comOpenNET.sendData(register, data);
+                                if (result.complete)
+                                {
+                                    printOut($"Sent: {result.message}");
+                                }
+                                else
+                                {
+                                    printOut($"Error: {result.error.ToString()}");
+                                }
                             }
-                            else
-                            {
-                                printOut($"Error: {result.error.ToString()}");
-                            }
+
                         }
                         break;
                     }
@@ -564,6 +611,16 @@ namespace Framework48_NarsSerialCom_Test
                 default:
                     break;
             }
+            if (randomSends)
+            {
+                timer.Start();
+                timer.Enabled = true;
+            }
+            else
+            {
+                timer.Enabled = false;
+                timer.Stop();
+            }
         }
 
         private void getButton_Click(object sender, EventArgs e)
@@ -625,6 +682,48 @@ namespace Framework48_NarsSerialCom_Test
             timeStamps = timestampsCheckBox.Checked;
         }
 
+        void sendRandom(Object sender, EventArgs eventArgs)
+        {
+            Random random = new Random();
+            int register = random.Next(0, 65535);
+            uint data = int.MaxValue + (uint)random.Next(0, int.MaxValue);
+            switch (source)
+            {
+                case Sources.NONE:
+                    break;
+                case Sources.SYSTEM:
+                    {
+                        NarsSerialCom.result result = comSystem.sendData(register, data);
+                        if (result.complete)
+                        {
+                            printOut($"Sent: {result.message}");
+                        }
+                        else
+                        {
+                            printOut($"Error: {result.error.ToString()}");
+                        }
+                    }
+                    break;
+                case Sources.OPENNET:
+                    {
+                        NarsSerialComOpenNET.result result = comOpenNET.sendData(register, data);
+                        if (result.complete)
+                        {
+                            printOut($"Sent: {result.message}");
+                        }
+                        else
+                        {
+                            printOut($"Error: {result.error.ToString()}");
+                        }
+                    }
+                    break;
+                case Sources.USEFULS:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         void onOpenRecv(NarsSerialComOpenNET.message message)
         {
             outputTextBox.Invoke(new MethodInvoker(delegate { printOut($"Received {message.raw}"); }));
@@ -642,11 +741,11 @@ namespace Framework48_NarsSerialCom_Test
                 dateTime = DateTime.Now;
                 if (outputTextBox.Lines.Length != 0)
                 {
-                    outputTextBox.AppendText(Environment.NewLine + dateTime.ToString() + ": " + input);
+                    outputTextBox.AppendText(Environment.NewLine + dateTime.TimeOfDay.ToString() + ": " + input);
                 }
                 else
                 {
-                    outputTextBox.AppendText(dateTime.ToString() + ": " + input);
+                    outputTextBox.AppendText(dateTime.TimeOfDay.ToString() + ": " + input);
                 }
             }
             else

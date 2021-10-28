@@ -42,7 +42,7 @@ namespace KSP_NarsSerialComOpenNET_Test
                     port.sendSpecialData(0, FlightGlobals.ActiveVessel.GetDisplayName());
                     break;
                 default:        
-                    port.sendData(counter, data[counter]);
+                    port.sendData(counter, (uint)data[counter]);
                     break;
             }
 

@@ -7,7 +7,7 @@ LiquidCrystal_I2C LCD = LiquidCrystal_I2C(0x27, 16, 2);
 unsigned long uptime;
 unsigned long prev;
 
-bool debug = false;
+bool debug = true;
 
 void setup() 
 {
@@ -58,7 +58,7 @@ void special(unsigned int _register, String data)
 	{
 		LCD.clear();
 
-		LCD.setCursor(15, 0);
+		LCD.setCursor(0, 0);
 		LCD.print((String)_register);
 
 		LCD.setCursor(0, 1);
