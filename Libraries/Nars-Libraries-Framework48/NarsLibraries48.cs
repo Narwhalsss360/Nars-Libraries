@@ -125,7 +125,7 @@
             /// <param name="register">Data register</param>
             /// <param name="data">Data</param>
             /// <returns>Message Data-Type</returns>
-            public result sendData(int register, long data)
+            public result sendData(int register, uint data)
             {
                 result newMessage;
 

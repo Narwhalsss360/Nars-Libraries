@@ -7,7 +7,7 @@
     <ProjectGuid>{426EF248-BFBC-498E-A944-E7660A4C499B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Framework48_NarsSerialCom_Test</RootNamespace>
-    <AssemblyName>Framework48 NarsSerialCom Test</AssemblyName>
+    <AssemblyName>Framework48-Tests</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
