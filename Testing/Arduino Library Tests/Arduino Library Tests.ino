@@ -7,18 +7,20 @@ LiquidCrystal_I2C LCD = LiquidCrystal_I2C(0x27, 16, 2);
 unsigned long uptime;
 unsigned long prev;
 
+bool debug = false;
+
 void setup() 
 {
-	Serial.begin(115200);
+	Serial.begin(1000000);
 	LCD.init();
 	LCD.setBacklight(255);
 	SerialCom.connected = true;
+	LCD.print("INIT");
 }
 
 void loop() 
 {
-	uptime = millis();
-	SerialCom.send(24, 123);
+
 }
 
 void serialEvent()
@@ -27,20 +29,39 @@ void serialEvent()
 }
 
 void done(unsigned int _register, unsigned long data)
-{
-	uptime = millis();
-	if (uptime - prev >= 60)
+{	
+	if (debug)
 	{
-		prev = uptime;
+		LCD.clear();
+
+		LCD.setCursor(0, 0);
+		LCD.print("R " + (String)_register);
+
+		LCD.setCursor(0, 1);
+		LCD.print("D " + (String)data);
 	}
-	
-	LCD.clear();
-	LCD.print("R " + (String)_register);
-	LCD.setCursor(0, 1);
-	LCD.print("D " + (String)data);
+	else
+	{
+		LCD.clear();
+
+		LCD.setCursor(0, 0);
+		LCD.print((String)SerialCom.data[1] + " SURF");
+
+		LCD.setCursor(0, 1);
+		LCD.print((String)SerialCom.data[2] + " MSL");
+	}
 }
 
 void special(unsigned int _register, String data)
 {
+	if (debug)
+	{
+		LCD.clear();
 
+		LCD.setCursor(15, 0);
+		LCD.print((String)_register);
+
+		LCD.setCursor(0, 1);
+		LCD.print("D " + (String)data);
+	}
 }

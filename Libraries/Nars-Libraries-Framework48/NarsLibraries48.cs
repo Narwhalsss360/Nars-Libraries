@@ -78,7 +78,7 @@
             /// </summary>
             public NarsSerialCom()
             {
-                serialPort.BaudRate = 115200;
+                serialPort.BaudRate = 1000000;
                 serialPort.Parity = System.IO.Ports.Parity.None;
                 serialPort.StopBits = System.IO.Ports.StopBits.One;
                 serialPort.DataBits = 8;

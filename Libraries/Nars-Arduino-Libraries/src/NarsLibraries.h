@@ -42,7 +42,7 @@ struct DevicePropertiesTemplateMaster
 class NarsSerialCom
 {
 public:
-	static unsigned long data[512];
+	static unsigned long data[256];
 	static bool connected;
 	static void onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int registerrr, String data));
 	static void send(unsigned int _register, unsigned long data);

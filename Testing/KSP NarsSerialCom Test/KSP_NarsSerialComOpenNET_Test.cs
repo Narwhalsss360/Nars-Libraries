@@ -1,51 +1,64 @@
 ﻿using System;
 using UnityEngine;
 using Nars_Libraries_Framework45.Serial;
-using Nars_Libraries_Framework45.Usefuls;
 
 namespace KSP_NarsSerialComOpenNET_Test
 {
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class KSP_Test : MonoBehaviour
     {
+        const int regize = 2;
         NarsSerialComOpenNET port = new NarsSerialComOpenNET();
-        byte data1;
+        long[] data = new long[regize];
+        int counter = 0;
 
         public void Start()
         {
-            port.connect("\\\\.\\COM28");
+            if (port.state == NarsSerialComOpenNET.States.DISCONNECTED)
+            {
+                port.connect("\\\\.\\COM28");
+            }
             port.addOnReceiveHandler(onRecv);
         }
 
-        public void Update()
+        public void FixedUpdate()
         {
-            /*NarsSerialComOpenNET.result result = port.sendData(12, (long)FlightGlobals.ActiveVessel.orbit.ApA);
-            if (result.complete)
-            {
-                Debug.Log("Sent " + result.message);
-            }
-            else
-            {
-                Debug.Log("Error: " + result.message);
-            }*/
-
+            getVars();
+            send();
         }
 
-        void getGlobals()
+        void getVars()
         {
-            if (FlightGlobals.ActiveVessel.ActionGroups.groups[3])
+            data[1] = (long)FlightGlobals.ActiveVessel.speed;
+            data[2] = (long)FlightGlobals.ActiveVessel.altitude;
+        }
+
+        //Only sending one register each update, microcontroller to slow
+        void send()
+        {
+            switch (counter)
             {
-                Debug.Log("True");
+                case 0:
+                    port.sendSpecialData(0, FlightGlobals.ActiveVessel.GetDisplayName());
+                    break;
+                default:        
+                    port.sendData(counter, data[counter]);
+                    break;
+            }
+
+            if (counter >= regize)
+            {
+                counter = 0;
             }
             else
             {
-                Debug.Log("False");
+                counter++;
             }
         }
 
         void onRecv(NarsSerialComOpenNET.message message)
         {
-            Debug.Log(long.Parse(message.data, System.Globalization.NumberStyles.HexNumber));
+            Debug.Log($"Recieved: {message.raw}");
         }
     }
 }

@@ -2,7 +2,7 @@
 #include "Wire.h"
 
 bool NarsSerialCom::connected;
-unsigned long NarsSerialCom::data[512];
+unsigned long NarsSerialCom::data[256];
 
 /// <summary>
 /// Outputs unsinged long from Hex Char array.
@@ -130,7 +130,7 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 		_register = x2i(_registerBuffer);
 		_data = x2i(dataBuffer);
 
-		if (_register <= 512)
+		if (_register <= 256)
 		{
 			data[_register] = _data;
 		}
@@ -156,6 +156,7 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 				specialString += tempChar;
 			}
 		}
+		specialString.remove(specialString.length() - 1);
 		special(_register, specialString);
 	}
 
