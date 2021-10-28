@@ -206,7 +206,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = ".NET Framework48 Library Tests";
+            this.Text = ".NET Framework 4.8 Library Tests";
             this.ResumeLayout(false);
             this.PerformLayout();
 
