@@ -28,6 +28,40 @@ unsigned long x2i(char* s)
 	return x;
 }
 
+/// <summary>
+/// Cast long to ulong with correct signage
+/// </summary>
+/// <param name="in"></param>
+/// <returns>value</returns>
+long bitCast(unsigned long in)
+{
+	return (in - LONG_MAX);
+}
+
+/// <summary>
+/// Cast long to ulong with correct signage
+/// </summary>
+/// <param name="in"></param>
+/// <returns>value</returns>
+unsigned long bitCast(long in)
+{
+	return (in + LONG_MAX);
+}
+
+/// <summary>
+/// Map values double
+/// </summary>
+/// <param name="x">Value to map</param>
+/// <param name="in_min">Input min</param>
+/// <param name="in_max">Input max</param>
+/// <param name="out_min">Output min</param>
+/// <param name="out_max">Output max</param>
+/// <returns>mapped values</returns>
+double mapValue(double x, double in_min, double in_max, double out_min, double out_max) 
+{
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 NarsSerial::NarsSerial()
 {
 	this->state = NarsSerial::STATES::DISCONNECTED;

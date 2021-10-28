@@ -7,6 +7,8 @@
 	#include "WProgram.h"
 #endif
 
+#define LONG_MAX 2,147,483,647
+
 unsigned long x2i(char* s);
 
 String toHex(unsigned long input, byte stringLength);
@@ -14,6 +16,12 @@ String toHex(unsigned long input, byte stringLength);
 int octalToDecimal(int n);
 
 String wireSearch();
+
+long bitCast(unsigned long in);
+
+unsigned long bitCast(long in);
+
+double mapValue(double x, double in_min, double in_max, double out_min, double out_max);
 
 struct DevicePropertiesTemplateSlave
 {

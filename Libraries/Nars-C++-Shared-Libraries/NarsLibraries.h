@@ -6,6 +6,12 @@
 
 unsigned long x2i(char* s);
 
+long bitCast(unsigned long in);
+
+unsigned long bitCast(long in);
+
+double mapValue(double x, double in_min, double in_max, double out_min, double out_max);
+
 struct RESULT
 {
 public:
