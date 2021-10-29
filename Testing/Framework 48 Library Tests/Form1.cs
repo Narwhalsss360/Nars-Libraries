@@ -385,7 +385,6 @@ namespace Framework48_NarsSerialCom_Test
                                         printOut($"Argument 1: {arg1}");
                                     }
                                     break;
-                                    break;
                                 }
                             default:
                                 break;

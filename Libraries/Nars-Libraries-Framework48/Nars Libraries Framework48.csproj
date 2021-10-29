@@ -7,8 +7,8 @@
     <ProjectGuid>{88BCD96E-3167-4015-8764-F296C8076EE0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nars_Cs_Libraries</RootNamespace>
-    <AssemblyName>Nars-Framework24-Libraries</AssemblyName>
+    <RootNamespace>Nars_Libraries_Framework48</RootNamespace>
+    <AssemblyName>Nars-Framework48-Libraries</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

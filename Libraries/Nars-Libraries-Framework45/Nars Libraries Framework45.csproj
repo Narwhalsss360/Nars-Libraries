@@ -7,7 +7,7 @@
     <ProjectGuid>{E893402D-B556-4488-85B4-6237EE8ADF61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nars_Cs_Libraries_Framework45</RootNamespace>
+    <RootNamespace>Nars_Libraries_Framework45</RootNamespace>
     <AssemblyName>Nars-Framework45-Libraries</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
