@@ -1,5 +1,4 @@
 #include "NarsLibraries.h"
-#include <iostream>
 
 /// <summary>
 /// Outputs unsinged long from Hex Char array.
@@ -26,6 +25,43 @@ unsigned long x2i(char* s)
 		s++;
 	}
 	return x;
+}
+
+/// <summary>
+/// Outputs string from unsigned long input.
+/// </summary>
+/// <param name="input">: Long number</param>
+/// <returns>End string result</returns>
+std::string toHex(unsigned long input)
+{
+	std::stringstream stream;
+	stream << std::hex << input;
+	std::string output(stream.str());
+	std::transform(output.begin(), output.end(), output.begin(), [](unsigned char c) { return std::toupper(c); });
+	return output;
+}
+
+/// <summary>
+/// Outputs string from unsigned long input and string length, replaces empty spots with 0's.
+/// </summary>
+/// <param name="input">: Long number</param>
+/// <param name="stringLength">: End Length</param>
+/// <returns>End string result</returns>
+std::string toHex(unsigned long input, byte length)
+{
+	std::string output = toHex(input);
+	if (output.length() != length)
+	{
+		byte originalLength = output.length();
+		std::string original = output;
+		output = "";
+		for (int i = 0; i < length - originalLength; i++)
+		{
+			output += "0";
+		}
+		output += original;
+	}
+	return output;
 }
 
 /// <summary>
@@ -131,24 +167,72 @@ RESULT NarsSerial::check()
 	}
 }
 
-MESSAGE NarsSerial::getData()
-{
-	MESSAGE message;
-
-	return message;
-}
-
 RESULT NarsSerial::sendData(unsigned int _register, unsigned long data)
 {
 	RESULT result;
-
+	if (this->state == NarsSerial::STATES::CONNECTED)
+	{
+		if (_register <= 65535)
+		{
+			if (data <= 4294967295)
+			{
+				std::string completeString = "*D";
+				std::string registerString = toHex(_register, 4);
+				std::string dataString = toHex(data, 8);
+				completeString += registerString + dataString + '-';
+				if (writeToPort(completeString))
+				{
+					result.state = RESULT::STATES::SENT;
+					result.message = completeString;
+				}
+				else
+				{
+					result.state = RESULT::STATES::LOST;
+					result.message = "Unknown rrror sending.";
+				}
+			}
+			else
+			{
+				result.state = RESULT::STATES::OUT_OF_RANGE;
+				result.message = "Data input greater than 4294967295.";
+			}
+		}
+		else
+		{
+			result.state = RESULT::STATES::OUT_OF_RANGE;
+			result.message = "Register input greater than 65535.";
+		}
+	}
+	else
+	{
+		result.state == RESULT::STATES::DISCONNECTED;
+		result.message = "Cannot send data if not connected.";
+	}
 	return result;
 }
 
 RESULT NarsSerial::sendSpecial(unsigned int _register, const char* data)
 {
 	RESULT result;
-
+	if (this->state == STATES::CONNECTED)
+	{
+		std::string completeString = "*S";
+		if (_register <= 65535)
+		{
+			std::string registerString = toHex(_register, 4);
+			completeString += registerString + data + '-';
+			if (writeToPort(completeString))
+			{
+				result.state = RESULT::STATES::SENT;
+				result.message = completeString;
+			}
+			else
+			{
+				result.state = RESULT::STATES::LOST;
+				result.message = "Unknown rrror sending.";
+			}
+		}
+	}
 	return result;
 }
 
@@ -210,6 +294,20 @@ void NarsSerial::readLine()
 	}
 }
 
+int NarsSerial::writeToPort(std::string outputString)
+{
+	outputString.insert(0, " ");
+	char outputChar[128];
+	strcpy_s(outputChar, outputString.c_str());
+
+	int handleResult;
+	DWORD bytesSent;
+	LPDWORD lpErrors = 0;
+	LPCOMSTAT lpstat = 0;
+	
+	return WriteFile(port, outputChar, outputString.length(), &bytesSent, NULL);
+}
+
 void NarsSerial::parseData()
 {
 	if (sizeof(currentMessage) >= 7)
@@ -227,7 +325,7 @@ void NarsSerial::parseData()
 
 				char registerBuffer[5];
 				strcpy_s(registerBuffer, 5, registerString.c_str());
-				message._resgister = x2i(registerBuffer);
+				message._resgister = x2i((char *)&registerBuffer);
 
 				message.dataType = MESSAGE::DATATYPES::ULONG;
 				std::string dataString = temp.substr(6, 8);
@@ -253,19 +351,21 @@ void NarsSerial::parseData()
 			strcpy_s(registerBuffer, 5, registerString.c_str());
 			message._resgister = x2i(registerBuffer);
 
+			message.message = temp;
+
 			message.dataType = MESSAGE::DATATYPES::STRING;
 			std::string dataString = "";
 			temp.erase(0, 6);
-			for (int i = 0; i < temp.length() - 1; i++)
+
+			for (int i = 0; i < temp.length() ; i++)
 			{
 				char tempChar = (char)temp[i];
 				if (tempChar != '-')
 				{
-					message.data += tempChar;
+					message.special += tempChar;
 				}
 			}
 
-			message.message = temp;
 			message.state = RESULT::STATES::PARSED;
 
 			if (this->userOnRecvHandler != NULL)

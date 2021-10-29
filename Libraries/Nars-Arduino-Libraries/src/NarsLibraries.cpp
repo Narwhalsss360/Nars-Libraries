@@ -40,6 +40,7 @@ unsigned long x2i(char* s)
 String toHex(unsigned long input, byte stringLength) 
 {
 	String output = String(input, HEX);
+	output.toUpperCase();
 	if (output.length() != stringLength)
 	{
 		byte outLength = output.length();
@@ -144,6 +145,7 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 	}
 
 	command = completeString.substring(0, 2);
+
 	if (command == "*B")
 	{
 		connected = true;
@@ -229,7 +231,7 @@ void NarsSerialCom::sendSpecial(unsigned int _register, String data)
 {
 	if (connected)
 	{
-		String completeString = "*D";
+		String completeString = "*S";
 		if (_register <= 65535)
 		{
 			String registerString = toHex(_register, 4);

@@ -1,7 +1,9 @@
 // C++ Library Tests.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include <sstream>
 #include <iostream>
+#include <algorithm>
 #include "NarsLibraries.h"
 
 NarsSerial ns = NarsSerial();
@@ -48,7 +50,14 @@ std::string getResultString(RESULT::STATES state)
 
 void onRecv(MESSAGE message)
 {
-	std::cout << "Message: " << message.message << " Register: " << message._resgister << " Data: " << message.data << " Length: " << message.message.length() << " State: " << getResultString(message.state) << std::endl;
+	if (message.dataType == MESSAGE::DATATYPES::ULONG)
+	{
+		std::cout << "Message: " << message.message << " Register: " << message._resgister << " Data: " << message.data << " Length: " << message.message.length() << " State: " << getResultString(message.state) << std::endl;
+	}
+	else
+	{
+		std::cout << "Message: " << message.message << " Register: " << message._resgister << " Data: " << message.special << " Length: " << message.message.length() << " State: " << getResultString(message.state) << std::endl;
+	}	
 }
 
 int main()
@@ -56,8 +65,5 @@ int main()
 	RESULT connectResult = ns.connect("\\\\.\\COM28");
 	std::cout << getResultString(connectResult.state) << std::endl;
 	ns.addOnReceiveHandler(&onRecv);
-	while (true)
-	{
-		RESULT checkResult = ns.check();
-	}
+	ns.sendSpecial(12, "My Special");
 }

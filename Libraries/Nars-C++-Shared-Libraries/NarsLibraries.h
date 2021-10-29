@@ -3,8 +3,15 @@
 #include <iostream>
 #include <Windows.h>
 #include <string>
+#include <iostream>
+#include <algorithm>
+#include <sstream>
 
 unsigned long x2i(char* s);
+
+std::string toHex(unsigned long input);
+
+std::string toHex(unsigned long input, byte length);
 
 long bitCast(unsigned long in);
 
@@ -45,6 +52,7 @@ public:
 	DATATYPES dataType;
 	DWORD _resgister;
 	DWORD data;
+	std::string special;
 };
 
 class NarsSerial
@@ -59,12 +67,10 @@ public:
 	};
 
 	STATES state;
-	DWORD data[65535];
 	std::string selectedPort;
 
 	RESULT connect(const char* selectedPort);
 	RESULT check();
-	MESSAGE getData();
 	RESULT sendData(unsigned int _register, unsigned long data);
 	RESULT sendSpecial(unsigned int _register, const char* data);
 	void addOnReceiveHandler(void (*onRecv) (MESSAGE));
@@ -82,5 +88,6 @@ private:
 	bool openPort();
 	void readLine();
 	void parseData();
+	int writeToPort(std::string outputString);
 	bool first;
 };
