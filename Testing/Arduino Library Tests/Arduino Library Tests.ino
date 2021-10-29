@@ -2,8 +2,7 @@
 #include <LiquidCrystal_I2C.h>
 #include "NarsLibraries.h"
 
-#define NETFRAMEWORK 1000000
-#define MSVC 115200
+#define BAUD 1000000
 #define SLOW 1000
 
 LiquidCrystal_I2C LCD = LiquidCrystal_I2C(0x27, 16, 2);
@@ -19,7 +18,7 @@ unsigned int registerCounter = 0;
 
 void setup() 
 {
-	Serial.begin(NETFRAMEWORK);
+	Serial.begin(BAUD);
 	LCD.init();
 	LCD.setBacklight(255);
 	SerialCom.connected = true;
@@ -57,8 +56,8 @@ void loop()
 
 void serialEvent()
 {
-	//SerialCom.onSerialEvent(&done, &special);
-	String completeString;
+	SerialCom.onSerialEvent(&done, &special);
+	/*String completeString;
 	while (Serial.available())
 	{
 		char inChar = (char)Serial.read();
@@ -66,7 +65,7 @@ void serialEvent()
 	}
 
 	LCD.clear();
-	LCD.print(completeString);
+	LCD.print(completeString);*/
 }
 
 void done(unsigned int _register, unsigned long data)
@@ -100,7 +99,7 @@ void special(unsigned int _register, String data)
 		LCD.clear();
 
 		LCD.setCursor(0, 0);
-		LCD.print((String)_register);
+		LCD.print("R " + (String)_register);
 
 		LCD.setCursor(0, 1);
 		LCD.print("D " + (String)data);
