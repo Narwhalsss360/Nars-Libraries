@@ -65,5 +65,5 @@ int main()
 	RESULT connectResult = ns.connect("\\\\.\\COM28");
 	std::cout << getResultString(connectResult.state) << std::endl;
 	ns.addOnReceiveHandler(&onRecv);
-	ns.sendData(12, 12);
+	ns.sendData(3, 12);
 }

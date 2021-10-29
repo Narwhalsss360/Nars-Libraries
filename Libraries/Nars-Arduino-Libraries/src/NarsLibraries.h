@@ -1,13 +1,19 @@
 #ifndef NarsLibraries
 #define NarsLibraries
 
+#if __has_include ("Wire.h")
+#include "Wire.h"
+#endif // __has_include ("Wire.h")
+
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
 #else
 	#include "WProgram.h"
 #endif
 
-#define LONG_MAX 2,147,483,647
+#define LONG_MAX 2147483647
+
+#define BCD2DEC(num) HornerScheme(num, 0x10, 10)
 
 unsigned long x2i(char* s);
 
@@ -15,14 +21,29 @@ String toHex(unsigned long input, byte stringLength);
 
 int octalToDecimal(int n);
 
-String wireSearch();
-
 long bitCast(unsigned long in);
 
 unsigned long bitCast(long in);
 
 double mapValue(double x, double in_min, double in_max, double out_min, double out_max);
 
+unsigned long HornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor);
+
+double INT2FREQ(unsigned long input);
+
+class NarsSerialCom
+{
+public:
+	static unsigned long data[256];
+	static bool connected;
+	static void onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int registerrr, String data));
+	static void send(unsigned int _register, unsigned long data);
+	static void sendSpecial(unsigned int _register, String data);
+};
+
+String wireSearch();
+
+#if defined(TwoWire_h)
 struct DevicePropertiesTemplateSlave
 {
 	byte id;
@@ -45,16 +66,6 @@ struct DevicePropertiesTemplateMaster
 	byte address;
 	byte data[256];
 	int state;
-};
-
-class NarsSerialCom
-{
-public:
-	static unsigned long data[256];
-	static bool connected;
-	static void onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int registerrr, String data));
-	static void send(unsigned int _register, unsigned long data);
-	static void sendSpecial(unsigned int _register, String data);
 };
 
 class WireHost
@@ -80,6 +91,8 @@ private:
 	bool recv;
 	byte recvData;
 };
+
+#endif // TwoWire_h
 
 extern NarsSerialCom SerialCom;
 #endif

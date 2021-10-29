@@ -1,5 +1,4 @@
 #include "NarsLibraries.h"
-#include "Wire.h"
 
 bool NarsSerialCom::connected;
 unsigned long NarsSerialCom::data[256];
@@ -110,22 +109,32 @@ double mapValue(double x, double in_min, double in_max, double out_min, double o
 }
 
 /// <summary>
-/// Search for wire devices.
+/// The Horner Scheme
 /// </summary>
-/// <returns>Device Addresses</returns>
-String wireSearch()
+/// <param name="Num"></param>
+/// <param name="Divider"></param>
+/// <param name="Factor"></param>
+/// <returns></returns>
+unsigned long HornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor)
 {
-	String addresses;
-	for (byte i = 1; i < 127; i++)
-	{
-		Wire.beginTransmission(i);
-		byte status = Wire.endTransmission();
-		if (status == 0)
-		{
-			addresses += (String)i;
-			addresses += ",";
-		}
-	}
+	unsigned long Remainder = 0, Quotient = 0, Result = 0;
+	Remainder = Num % Divider;
+	Quotient = Num / Divider;
+	if (!(Quotient == 0 && Remainder == 0))
+		Result += HornerScheme(Quotient, Divider, Factor) * Factor + Remainder;
+	return Result;
+}
+
+/// <summary>
+/// 4-Digit to xxx.xxx
+/// </summary>
+/// <param name="input"></param>
+/// <returns></returns>
+double INT2FREQ(unsigned long input)
+{
+	input += 10000;
+	input /= 100;
+	return input;
 }
 
 /// <summary>
@@ -237,6 +246,26 @@ void NarsSerialCom::sendSpecial(unsigned int _register, String data)
 			String registerString = toHex(_register, 4);
 			completeString += registerString + data + '-';
 			Serial.println(completeString);
+		}
+	}
+}
+
+#ifdef TwoWire_h
+/// <summary>
+/// Search for wire devices.
+/// </summary>
+/// <returns>Device Addresses</returns>
+String wireSearch()
+{
+	String addresses;
+	for (byte i = 1; i < 127; i++)
+	{
+		Wire.beginTransmission(i);
+		byte status = Wire.endTransmission();
+		if (status == 0)
+		{
+			addresses += (String)i;
+			addresses += ",";
 		}
 	}
 }
@@ -360,3 +389,4 @@ void WireClient::onRequest()
 		Wire.write(this->deviceProperties.data[this->registerSelect]);
 	}
 }
+#endif // TwoWire_h
