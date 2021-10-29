@@ -33,7 +33,8 @@ public:
 		LOST,
 		SENT,
 		RECEIVED,
-		PARSED
+		PARSED,
+		COM_ERROR
 	};
 
 	STATES state = STATES::NONE;

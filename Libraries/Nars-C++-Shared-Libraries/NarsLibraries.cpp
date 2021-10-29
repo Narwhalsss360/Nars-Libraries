@@ -129,6 +129,13 @@ RESULT NarsSerial::connect(const char* selectedPort)
 			result.message = "Connect to port " + (std::string)selectedPort + ".";
 			this->state = STATES::CONNECTED;
 		}
+		else
+		{
+			std::ostringstream stream;
+			stream << GetLastError();
+			result.message = stream.str();
+			result.state = RESULT::STATES::COM_ERROR;
+		}
 	}
 	else
 	{
@@ -257,7 +264,6 @@ bool NarsSerial::openPort()
 	if (port != INVALID_HANDLE_VALUE)
 	{
 		return true;
-		
 	}
 	else
 	{
