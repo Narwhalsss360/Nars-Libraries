@@ -109,7 +109,7 @@ void NarsSerial::setParamerters()
 {
 	memset(&this->dcb, 0, sizeof(this->dcb));
 	this->dcb.DCBlength = sizeof(this->dcb);
-	dcb.BaudRate = CBR_115200;
+	dcb.BaudRate = 1000000;
 	dcb.ByteSize = 8;
 	dcb.Parity = 0;
 	dcb.StopBits = ONESTOPBIT;
@@ -122,9 +122,9 @@ RESULT NarsSerial::connect(const char* selectedPort)
 	this->selectedPort = selectedPort;
 	if (this->state == STATES::DISCONNECTED)
 	{
-		this->setParamerters();
 		if (this->openPort())
 		{
+			this->setParamerters();
 			result.state = RESULT::STATES::CONNECTED;
 			result.message = "Connect to port " + (std::string)selectedPort + ".";
 			this->state = STATES::CONNECTED;
@@ -296,7 +296,7 @@ void NarsSerial::readLine()
 
 int NarsSerial::writeToPort(std::string outputString)
 {
-	outputString.insert(0, " ");
+	//outputString.insert(0, " ");
 	char outputChar[128];
 	strcpy_s(outputChar, outputString.c_str());
 

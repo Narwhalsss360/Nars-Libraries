@@ -19,7 +19,7 @@ unsigned int registerCounter = 0;
 
 void setup() 
 {
-	Serial.begin(MSVC);
+	Serial.begin(NETFRAMEWORK);
 	LCD.init();
 	LCD.setBacklight(255);
 	SerialCom.connected = true;
