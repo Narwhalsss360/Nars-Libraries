@@ -2,6 +2,7 @@
 
 bool NarsSerialCom::connected;
 unsigned long NarsSerialCom::data[256];
+bool NarsSerialCom::ready;
 
 /// <summary>
 /// Outputs unsinged long from Hex Char array.
@@ -130,7 +131,7 @@ unsigned long HornerScheme(unsigned long Num, unsigned long Divider, unsigned lo
 /// </summary>
 /// <param name="input"></param>
 /// <returns></returns>
-double INT2FREQ(unsigned long input)
+double INT2FREQ(double input)
 {
 	input += 10000;
 	input /= 100;
@@ -144,6 +145,8 @@ double INT2FREQ(unsigned long input)
 /// <param name="special">Special function pointer</param>
 void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int _register, String data))
 {
+	unsetReady();
+	unsetReady();
 	String completeString;
 	String command;
 
@@ -162,6 +165,8 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 
 	if (command == "*D")
 	{
+		unsetReady();
+		unsetReady();
 		String registerString = completeString.substring(2, 6);;
 		String dataString = completeString.substring(6, 14);;
 		unsigned int _register;
@@ -184,6 +189,8 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 
 	if (command == "*S")
 	{
+		unsetReady();
+		unsetReady();
 		String registerString = completeString.substring(2, 6);
 		unsigned int _register;
 		char _registerBuffer[4];
@@ -209,6 +216,7 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 	{
 		connected = false;
 	}
+
 }			
 
 /// <summary>
@@ -248,6 +256,18 @@ void NarsSerialCom::sendSpecial(unsigned int _register, String data)
 			Serial.println(completeString);
 		}
 	}
+}
+
+void NarsSerialCom::setReady()
+{
+	ready = true;
+	send(0, 1);
+}
+
+void NarsSerialCom::unsetReady()
+{
+	ready = false;
+	send(0, 0);
 }
 
 #ifdef TwoWire_h

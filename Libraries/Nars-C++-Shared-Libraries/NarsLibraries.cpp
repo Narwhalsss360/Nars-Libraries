@@ -183,19 +183,28 @@ RESULT NarsSerial::sendData(unsigned int _register, unsigned long data)
 		{
 			if (data <= 4294967295)
 			{
-				std::string completeString = "*D";
-				std::string registerString = toHex(_register, 4);
-				std::string dataString = toHex(data, 8);
-				completeString += registerString + dataString + '-';
-				if (writeToPort(completeString))
+				if (this->ready)
 				{
-					result.state = RESULT::STATES::SENT;
-					result.message = completeString;
+					std::string completeString = "*D";
+					std::string registerString = toHex(_register, 4);
+					std::string dataString = toHex(data, 8);
+					completeString += registerString + dataString + '-';
+					if (writeToPort(completeString))
+					{
+						result.state = RESULT::STATES::SENT;
+						result.message = completeString;
+						this->ready = false;
+					}
+					else
+					{
+						result.state = RESULT::STATES::LOST;
+						result.message = "Unknown rrror sending.";
+					}
 				}
 				else
 				{
-					result.state = RESULT::STATES::LOST;
-					result.message = "Unknown rrror sending.";
+					result.state = RESULT::STATES::NOT_READY;
+					result.message = "Client not ready";
 				}
 			}
 			else
@@ -226,17 +235,26 @@ RESULT NarsSerial::sendSpecial(unsigned int _register, const char* data)
 		std::string completeString = "*S";
 		if (_register <= 65535)
 		{
-			std::string registerString = toHex(_register, 4);
-			completeString += registerString + data + '-';
-			if (writeToPort(completeString))
+			if (this->ready)
 			{
-				result.state = RESULT::STATES::SENT;
-				result.message = completeString;
+				std::string registerString = toHex(_register, 4);
+				completeString += registerString + data + '-';
+				if (writeToPort(completeString))
+				{
+					result.state = RESULT::STATES::SENT;
+					result.message = completeString;
+					this->ready = false;
+				}
+				else
+				{
+					result.state = RESULT::STATES::LOST;
+					result.message = "Unknown rrror sending.";
+				}
 			}
 			else
 			{
-				result.state = RESULT::STATES::LOST;
-				result.message = "Unknown rrror sending.";
+				result.state = RESULT::STATES::NOT_READY;
+				result.message = "Client not ready";
 			}
 		}
 	}
@@ -280,7 +298,10 @@ void NarsSerial::readLine()
 	bool done = false;
 	while (!done)
 	{
-		if (ReadFile(port, temp, 1, &readBytes, NULL))
+		
+		int result = ReadFile(this->port, temp, 1, &readBytes, NULL);
+
+		if (result)
 		{
 			if ((readBytes > 0) && (temp[0] != '\n') && (temp[0] != '\r'))
 			{
@@ -296,6 +317,7 @@ void NarsSerial::readLine()
 		else
 		{
 			printf("Error");
+			done = true;
 		}
 	}
 }
@@ -341,6 +363,18 @@ void NarsSerial::parseData()
 				message.message = temp;
 				message.state = RESULT::STATES::PARSED;
 
+				if (message._resgister == 0)
+				{
+					if (message.data)
+					{
+						this->ready = true;
+					}
+					else
+					{
+						this->ready = false;
+					}
+				}
+
 				if (this->userOnRecvHandler != NULL)
 				{
 					this->userOnRecvHandler(message);
@@ -380,4 +414,9 @@ void NarsSerial::parseData()
 			}
 		}
 	}
+}
+
+bool NarsSerial::getReady()
+{
+	return this->ready;
 }

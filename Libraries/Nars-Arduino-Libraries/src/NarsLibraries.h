@@ -29,7 +29,7 @@ double mapValue(double x, double in_min, double in_max, double out_min, double o
 
 unsigned long HornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor);
 
-double INT2FREQ(unsigned long input);
+double INT2FREQ(double input);
 
 class NarsSerialCom
 {
@@ -39,6 +39,10 @@ public:
 	static void onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int registerrr, String data));
 	static void send(unsigned int _register, unsigned long data);
 	static void sendSpecial(unsigned int _register, String data);
+	static void setReady();
+	static void unsetReady();
+private:
+	static bool ready;
 };
 
 String wireSearch();
@@ -96,4 +100,3 @@ private:
 
 extern NarsSerialCom SerialCom;
 #endif
-

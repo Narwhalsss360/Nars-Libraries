@@ -65,5 +65,20 @@ int main()
 	RESULT connectResult = ns.connect("\\\\.\\COM28");
 	std::cout << getResultString(connectResult.state) << std::endl;
 	ns.addOnReceiveHandler(&onRecv);
-	ns.sendData(3, 12);
+	ns.check();
+	for (int i = 1; i < 50; i++)
+	{
+		std::cout << "\n";
+		std::cout << "Iteration " << i << std::endl;
+		while (!ns.getReady())
+		{
+			ns.check();
+		}
+		while (ns.getReady())
+		{
+			std::cout << "Was Ready " << ns.getReady() << std::endl;
+			RESULT sendResult = ns.sendData(i, i);
+			std::cout << "STATE: " << getResultString(sendResult.state) << " MESSAGE: " << sendResult.message << std::endl;
+		}
+	}
 }

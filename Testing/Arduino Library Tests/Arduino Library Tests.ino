@@ -16,6 +16,8 @@ bool slow = false;
 unsigned long dataCounter = 0;
 unsigned int registerCounter = 0;
 
+bool allDone = false;
+
 void setup() 
 {
 	Serial.begin(BAUD);
@@ -23,6 +25,8 @@ void setup()
 	LCD.setBacklight(255);
 	SerialCom.connected = true;
 	LCD.print("INIT");
+	pinMode(3, INPUT_PULLUP);
+	pinMode(4, INPUT_PULLUP);
 }
 
 void loop() 
@@ -52,43 +56,50 @@ void loop()
 		SerialCom.sendSpecial(registerCounter, "My Special String");
 		//SerialCom.send(registerCounter, dataCounter);
 	}
+	if (SerialCom.data[49])
+	{
+		allDone = true;
+	}
+	SerialCom.setReady();
+	while (allDone)
+	{
+		SerialCom.unsetReady();
+		for (int i = 0; i < 49; i++)
+		{
+			delay(350);
+			LCD.clear();
+			LCD.setCursor(0, 0);
+			LCD.print("R " + (String)i);
+			LCD.setCursor(0, 1);
+			LCD.print("D " + (String)SerialCom.data[i]);
+		}
+	}
 }
 
 void serialEvent()
 {
 	SerialCom.onSerialEvent(&done, &special);
-	/*String completeString;
-	while (Serial.available())
-	{
-		char inChar = (char)Serial.read();
-		completeString += inChar;
-	}
-
-	LCD.clear();
-	LCD.print(completeString);*/
 }
 
 void done(unsigned int _register, unsigned long data)
 {
 	if (debug)
 	{
-		LCD.clear();
+		if (_register == 2)
+		{
+			LCD.print((String)data);
+		}
+		/*LCD.clear();
 
 		LCD.setCursor(0, 0);
 		LCD.print("R " + (String)_register);
 
 		LCD.setCursor(0, 1);
-		LCD.print("D " + (String)data);
+		LCD.print("D " + (String)data);*/
 	}
 	else
 	{
-		LCD.clear();
-
-		LCD.setCursor(0, 0);
-		LCD.print((String)SerialCom.data[1] + " SURF");
-
-		LCD.setCursor(0, 1);
-		LCD.print((String)SerialCom.data[2] + " MSL");
+		
 	}
 }
 

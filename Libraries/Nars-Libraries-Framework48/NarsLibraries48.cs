@@ -24,7 +24,8 @@
                 NONE,
                 OUT_OF_RANGE,
                 NOT_CONNECTED,
-                ALREADY_CONNECTED
+                ALREADY_CONNECTED,
+                NOT_READY
             }
 
             /// <summary>
@@ -59,6 +60,7 @@
             }
 
             public System.IO.Ports.SerialPort serialPort = new System.IO.Ports.SerialPort();
+            
             /// <summary>
             /// Data storage array for all recieved data. Array index is register.
             /// </summary>
@@ -67,6 +69,11 @@
             /// State of connection.
             /// </summary>
             public States state = States.DISCONNECTED;
+
+            /// <summary>
+            /// Is client ready to receive
+            /// </summary>
+            bool ready = false;
 
             /// <summary>
             /// Pointer for data recieve handler
@@ -131,34 +138,40 @@
 
                 if (state == States.CONNECTED)
                 {
-                    string completeString = "*D";
-                    if (register <= 65535)
+                    if (ready)
                     {
-                        if (data <= 4294967295)
+                        string completeString = "*D";
+                        if (register <= 65535)
                         {
-                            string registerString = Usefuls.NarsMethods.fixedLengthHex(register, 4);
-                            string dataString = Usefuls.NarsMethods.fixedLengthHex(data, 8);
-                            completeString += registerString + dataString + "-";
-                            serialPort.WriteLine(completeString);
-                            newMessage.complete = true;
-                            newMessage.message = completeString;
-                            newMessage.error = Errors.NONE;
-                            return newMessage;
+                            if (data <= 4294967295)
+                            {
+                                string registerString = Usefuls.NarsMethods.fixedLengthHex(register, 4);
+                                string dataString = Usefuls.NarsMethods.fixedLengthHex(data, 8);
+                                completeString += registerString + dataString + "-";
+                                serialPort.WriteLine(completeString);
+                                newMessage.complete = true;
+                                newMessage.message = completeString;
+                                newMessage.error = Errors.NONE;
+                            }
+                            else
+                            {
+                                newMessage.complete = false;
+                                newMessage.message = "Error";
+                                newMessage.error = Errors.OUT_OF_RANGE;
+                            }
                         }
                         else
                         {
                             newMessage.complete = false;
-                            newMessage.message = "Error";
+                            newMessage.message = "";
                             newMessage.error = Errors.OUT_OF_RANGE;
-                            return newMessage;
                         }
                     }
                     else
                     {
                         newMessage.complete = false;
-                        newMessage.message = "";
-                        newMessage.error = Errors.OUT_OF_RANGE;
-                        return newMessage;
+                        newMessage.message = "Client not ready";
+                        newMessage.error = Errors.NOT_READY;
                     }
                 }
                 else
@@ -166,8 +179,9 @@
                     newMessage.complete = false;
                     newMessage.message = "Error";
                     newMessage.error = Errors.NOT_CONNECTED;
-                    return newMessage;
                 }
+                ready = false;
+                return newMessage;
             }
 
             /// <summary>
@@ -183,22 +197,29 @@
                 if (state == States.CONNECTED)
                 {
                     string completeString = "*S";
-                    if (register <= 65535)
+                    if (ready)
                     {
-                        string registerString = Usefuls.NarsMethods.fixedLengthHex(register, 4);
-                        completeString += registerString + data + "-";
-                        serialPort.WriteLine(completeString);
-                        newMessage.complete = true;
-                        newMessage.message = completeString;
-                        newMessage.error = Errors.NONE;
-                        return newMessage;
+                        if (register <= 65535)
+                        {
+                            string registerString = Usefuls.NarsMethods.fixedLengthHex(register, 4);
+                            completeString += registerString + data + "-";
+                            serialPort.WriteLine(completeString);
+                            newMessage.complete = true;
+                            newMessage.message = completeString;
+                            newMessage.error = Errors.NONE;
+                        }
+                        else
+                        {
+                            newMessage.complete = false;
+                            newMessage.message = "Error";
+                            newMessage.error = Errors.OUT_OF_RANGE;
+                        }
                     }
                     else
                     {
                         newMessage.complete = false;
-                        newMessage.message = "Error";
-                        newMessage.error = Errors.OUT_OF_RANGE;
-                        return newMessage;
+                        newMessage.message = "Client not ready";
+                        newMessage.error = Errors.NOT_READY;
                     }
                 }
                 else
@@ -206,8 +227,9 @@
                     newMessage.complete = false;
                     newMessage.message = "Error";
                     newMessage.error = Errors.NOT_CONNECTED;
-                    return newMessage;
                 }
+                ready = false;
+                return newMessage;
             }
 
             /// <summary>
@@ -224,7 +246,10 @@
                     serialPort.PortName = port;
                     serialPort.Open();
                     state = States.CONNECTED;
-                    serialPort.WriteLine("*B-");
+                    for (int i = 0; i < 15; i++)
+                    {
+                        serialPort.WriteLine("*B-");
+                    }
                     return result;
                 }
                 else
@@ -280,6 +305,21 @@
                         newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
                         newMessage.data = line.Substring(6, 8);
                         receivedData[newMessage.register] = newMessage.data;
+                        if (newMessage.register == 0)
+                        {
+                            dataResult data = getData(0);
+                            if (!data.isString)
+                            {
+                                if (data.dataLong >= 1)
+                                {
+                                    ready = true;
+                                }
+                                else
+                                {
+                                    ready = false;
+                                }
+                            }
+                        }
                         if (onReceiveHandler != null)
                         {
                             onReceiveHandler(newMessage);

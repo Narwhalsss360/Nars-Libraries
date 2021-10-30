@@ -34,7 +34,8 @@ public:
 		SENT,
 		RECEIVED,
 		PARSED,
-		COM_ERROR
+		COM_ERROR,
+		NOT_READY
 	};
 
 	STATES state = STATES::NONE;
@@ -76,10 +77,12 @@ public:
 	RESULT sendSpecial(unsigned int _register, const char* data);
 	void addOnReceiveHandler(void (*onRecv) (MESSAGE));
 	RESULT disconnect();
+	bool getReady();
 private:
 	HANDLE port;
 	DCB dcb;
 
+	bool ready;
 	bool errorReading;
 	void (*userOnRecvHandler)(MESSAGE);
 	unsigned int currentRegister;
