@@ -15,8 +15,7 @@ bool sendDebug = false;
 bool slow = false;
 unsigned long dataCounter = 0;
 unsigned int registerCounter = 0;
-
-bool allDone = false;
+unsigned long counter;
 
 void setup() 
 {
@@ -56,24 +55,9 @@ void loop()
 		SerialCom.sendSpecial(registerCounter, "My Special String");
 		//SerialCom.send(registerCounter, dataCounter);
 	}
-	if (SerialCom.data[49])
-	{
-		allDone = true;
-	}
+	SerialCom.send(counter, counter);
+	counter++;
 	SerialCom.setReady();
-	while (allDone)
-	{
-		SerialCom.unsetReady();
-		for (int i = 0; i < 49; i++)
-		{
-			delay(350);
-			LCD.clear();
-			LCD.setCursor(0, 0);
-			LCD.print("R " + (String)i);
-			LCD.setCursor(0, 1);
-			LCD.print("D " + (String)SerialCom.data[i]);
-		}
-	}
 }
 
 void serialEvent()
@@ -85,17 +69,13 @@ void done(unsigned int _register, unsigned long data)
 {
 	if (debug)
 	{
-		if (_register == 2)
-		{
-			LCD.print((String)data);
-		}
-		/*LCD.clear();
+		LCD.clear();
 
 		LCD.setCursor(0, 0);
 		LCD.print("R " + (String)_register);
 
 		LCD.setCursor(0, 1);
-		LCD.print("D " + (String)data);*/
+		LCD.print("D " + (String)data);
 	}
 	else
 	{

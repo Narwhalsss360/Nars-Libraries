@@ -103,10 +103,11 @@
             // outputTextBox
             // 
             this.outputTextBox.Enabled = false;
+            this.outputTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.outputTextBox.Location = new System.Drawing.Point(12, 98);
             this.outputTextBox.Multiline = true;
             this.outputTextBox.Name = "outputTextBox";
-            this.outputTextBox.Size = new System.Drawing.Size(327, 294);
+            this.outputTextBox.Size = new System.Drawing.Size(816, 294);
             this.outputTextBox.TabIndex = 6;
             // 
             // portComboBox
@@ -174,7 +175,7 @@
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(320, 98);
+            this.clearButton.Location = new System.Drawing.Point(345, 72);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(19, 20);
             this.clearButton.TabIndex = 13;
@@ -186,7 +187,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(351, 406);
+            this.ClientSize = new System.Drawing.Size(840, 406);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.hexCheckBox);
             this.Controls.Add(this.dataLabel);

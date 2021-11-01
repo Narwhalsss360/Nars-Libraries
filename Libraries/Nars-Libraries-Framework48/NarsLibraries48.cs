@@ -16,16 +16,16 @@
     {
         public enum State
         {
-            DISCONNECTED,
-            CONNECTED,
-            LOST
+            Disconnected,
+            Connected,
+            Lost
         }
 
         public class Receive : Result
         {
-            readonly bool special;
-            readonly ushort register;
-            readonly object data;
+            readonly public bool special;
+            readonly public ushort register;
+            readonly public object data;
 
             public Receive(bool _success, string _message, bool _special, ushort _register, object _data):base(_success, _message)
             {
@@ -42,13 +42,13 @@
         {
             public object[] receivedData = new object[65535];
 
-            public State state = State.DISCONNECTED;
+            public State state = State.Disconnected;
 
             public System.Collections.Generic.Queue<string> sendQueue = new System.Collections.Generic.Queue<string>();
 
             private System.Action<Receive> onReceiveHandler = null;
 
-            private bool ready = false;
+            public bool ready = false;
 
             private System.Timers.Timer timer = new System.Timers.Timer();
 
@@ -63,6 +63,8 @@
             public int timeout = 700;
 
             private bool timedOut = false;
+
+            public byte queueSize = 10;
 
             public NarsSerialCom()
             {
@@ -86,12 +88,12 @@
 
             public Result connect(string port)
             {
-                if (this.state == State.DISCONNECTED)
+                if (this.state == State.Disconnected)
                 {
                     this.serialPort.PortName = port;
                     this.serialPort.Open();
                     this.timer.Start();
-                    while (!this.ready)
+                    /*while (!this.ready)
                     {
                         if (this.timedOut)
                         {
@@ -100,14 +102,16 @@
                             this.timer.Stop();
                             return this.lastResult;
                         }
-                    }
+                    }*/
                     if (ready)
                     {
                         this.serialPort.WriteLine("*B-");
                         this.lastResult = new Result(true, "Connected");
                         this.timer.Stop();
                         this.timedOut = false;
+                        this.state = State.Connected;
                     }
+                    this.state = State.Connected;
                 }
                 else
                 {
@@ -129,7 +133,7 @@
                     }
                     else
                     {
-                        this.lastResult = new Result(false, "Not ready");
+                        this.lastResult = new Result(false, "Not ready, Next: " + this.sendQueue.Peek());
                     }
                 }
                 return this.lastResult;
@@ -139,7 +143,7 @@
             {
                 if (register <= 65535)
                 {
-                    if (data.Equals(typeof(int)))
+                    if (data is int)
                     {
                         if ((int)data >= 0)
                         {
@@ -151,20 +155,29 @@
                             }
                             else
                             {
-                                this.sendQueue.Enqueue(sent);
-                                this.lastResult = new Result(true, "Queued: " + sent);
+                                if (this.sendQueue.Count <= queueSize)
+                                {
+                                    this.sendQueue.Enqueue(sent);
+                                    this.lastResult = new Result(true, "Queued: " + sent);
+                                }
+                                else
+                                {
+                                    this.lastResult = new Result(false, "Max queue size limit reached");
+                                }
                             }
+                            this.ready = false;
+                            return this.lastResult;
                         }
                         else
                         {
                             this.lastResult = new Result(false, "Out of range");
                         }
                     } 
-                    else if (data.Equals(typeof(uint)))
+                    else if (data is uint)
                     {
                         if ((uint)data <= 4294967295)
                         {
-                            string sent = "*D" + register.ToString() + data.ToString() + "-";
+                            string sent = "*D" + Usefuls.NarsMethods.fixedLengthHex(register, 4) + Usefuls.NarsMethods.fixedLengthHex((uint)data, 8) + "-";
                             if (this.ready)
                             {
                                 this.serialPort.WriteLine(sent);
@@ -172,16 +185,26 @@
                             }
                             else
                             {
-                                this.sendQueue.Enqueue(sent);
-                                this.lastResult = new Result(true, "Queued: " + sent);
+                                if (this.sendQueue.Count <= queueSize)
+                                {
+                                    this.sendQueue.Enqueue(sent);
+                                    this.lastResult = new Result(true, "Queued: " + sent);
+                                }
+                                else
+                                {
+                                    this.lastResult = new Result(false, "Max queue size limit reached");
+                                }
                             }
+                            this.ready = false;
+                            return this.lastResult;
                         }
                         else
                         {
                             this.lastResult = new Result(false, "Out of range");
+                            return this.lastResult;
                         }
                     }
-                    else if (data.Equals(typeof(string)))
+                    else if (data is string)
                     {
                         string sent = "*D" + register.ToString() + data + "-";
                         if (this.ready)
@@ -191,51 +214,42 @@
                         }
                         else
                         {
-                            this.sendQueue.Enqueue(sent);
-                            this.lastResult = new Result(true, "Queued: " + sent);
+                            if (this.sendQueue.Count <= queueSize)
+                            {
+                                this.sendQueue.Enqueue(sent);
+                                this.lastResult = new Result(true, "Queued: " + sent);
+                            }
+                            else
+                            {
+                                this.lastResult = new Result(false, "Max queue size limit reached");
+                            }
                         }
+                        this.ready = false;
+                        return this.lastResult;
                     }
-                    else
-                    {
-                        this.lastResult = new Result(false, "Invalid type");
-                    }
+                    this.lastResult = new Result(false, "False type: " + data.GetType().ToString() );
+                    return this.lastResult;
                 }
                 else
                 {
                     this.lastResult = new Result(false, "Out of range");
+                    return this.lastResult;
                 }
-                return this.lastResult;
             }
 
             public Result disconnect()
             {
-                if (this.state == State.CONNECTED)
+                if (this.state == State.Connected)
                 {
-                    this.timer.Start();
-                    while(!this.ready)
-                    {
-                        if (this.timedOut)
-                        {
-                            this.timedOut = false;
-                            this.serialPort.WriteLine("*E-");
-                            this.lastResult = new Result(false, "Timed out, Disconnected");
-                            this.timer.Stop();
-                            return this.lastResult;
-                        }
-                    }
-                    if (this.ready)
-                    {
-                        this.serialPort.WriteLine("*E-");
-                        this.lastResult = new Result(true, "Disconnected");
-                        this.timer.Stop();
-                        this.timedOut = false;
-                    }
+                    this.state = State.Disconnected;
+                    this.serialPort.WriteLine("*E-");
+                    this.serialPort.Close();
+                    return lastResult = new Result(true, "Disconnected");
                 }
                 else
                 {
-                    lastResult = new Result(false, "Already Disconnected");
+                    return this.lastResult = new Result(false, "Already Disconnected");
                 }
-                return lastResult;
             }
 
             public bool checkIfSpecial(ushort register)
@@ -254,53 +268,54 @@
             {
                 this.tempPort = (System.IO.Ports.SerialPort)sender;
                 string line = this.tempPort.ReadLine();
-                
-                if (line.Substring(0, 2) == "*D")
+
+                if (line.Length >= 6)
                 {
-                    if (line.Length == 16)
+                    string command = line.Substring(0, 2);
+                    if (line.Substring(0, 2) == "*D")
                     {
-                        ushort tempRegister = ushort.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
-                        uint tempData = uint.Parse(line.Substring(6, 8), System.Globalization.NumberStyles.HexNumber);
-                        this.receivedData[tempRegister] = tempData;
-                        if (tempRegister == 0)
+                        if (line.Length == 16)
                         {
-                            this.ready = System.Convert.ToBoolean(tempData);
-                            lastRecieve = new Receive(true, "READT MESSAGE: Received: " + line, false, tempRegister, tempData);
+                            ushort tempRegister = ushort.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
+                            uint tempData = uint.Parse(line.Substring(6, 8), System.Globalization.NumberStyles.HexNumber);
+                            this.receivedData[tempRegister] = tempData;
+                            if (tempRegister == 0)
+                            {
+                                this.ready = System.Convert.ToBoolean(tempData);
+                                lastRecieve = new Receive(true, "Received: " + line, false, tempRegister, tempData);
+                            }
+                            else
+                            {
+                                lastRecieve = new Receive(true, "Received: " + line, false, tempRegister, tempData);
+                            }
                         }
                         else
                         {
-                            lastRecieve = new Receive(true, "Received: " + line, false, tempRegister, tempData);
+                            this.lastRecieve = new Receive(false, "Data Loss, DCommand.Length", false, 0, 0);
                         }
                     }
                     else
                     {
-                        this.lastRecieve = new Receive(false, "Data Loss, DCommand.Length", false, 0, 0);
+                        this.lastRecieve = new Receive(false, "Data Loss, DCommand", false, 0, 0);
                     }
-                }
-                else
-                {
-                    this.lastRecieve = new Receive(false, "Data Loss, DCommand", false, 0, 0);
-                }
 
-                if (line.Substring(0, 2) == "*S")
-                {
-                    if (line.Length <= 6)
+                    if (line.Substring(0, 2) == "*S")
                     {
                         ushort tempRegister = ushort.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
                         string tempData = line.Substring(6, line.Length - 8);
                         this.receivedData[tempRegister] = tempData;
                         lastRecieve = new Receive(true, "Received: " + line, true, tempRegister, tempData);
                     }
-                    else
+                    else if(!lastRecieve.success)
                     {
-                        this.lastRecieve = new Receive(false, "Data Loss, SCommand.Length", true, 0, 0);
+                        this.lastRecieve = new Receive(false, "Data Loss, SCommand ", true, 0, 0);
                     }
                 }
                 else
                 {
-                    this.lastRecieve = new Receive(false, "Data Loss, SCommand", true, 0, 0);
+                    this.lastRecieve = new Receive(false, "Possible Data Loss Line: " + line, false, 0, 0);
                 }
-
+                
                 if (onReceiveHandler != null)
                 {
                     onReceiveHandler(this.lastRecieve);
@@ -318,289 +333,240 @@
         /// </summary>
         public class NarsSerialComOpenNET
         {
-            /// <summary>
-            /// States for connected enumerator.
-            /// </summary>
-            public enum States
-            {
-                DISCONNECTED,
-                CONNECTED,
-            }
 
-            /// <summary>
-            /// Error type
-            /// </summary>
-            public enum Errors
-            {
-                NONE,
-                OUT_OF_RANGE,
-                NOT_CONNECTED,
-                ALREADY_CONNECTED
-            }
+            public object[] receivedData = new object[65535];
 
-            /// <summary>
-            /// message type for receiving
-            /// </summary>
-            public struct message
-            {
-                public bool special;
-                public int register;
-                public string data;
-                public string raw;
-            }
+            public State state = State.Disconnected;
 
-            /// <summary>
-            /// result type for method returns
-            /// </summary>
-            public struct result
-            {
-                public bool complete;
-                public string message;
-                public Errors error;
-            }
+            public System.Collections.Generic.Queue<string> sendQueue = new System.Collections.Generic.Queue<string>();
 
-            /// <summary>
-            /// dataResult type for getter method
-            /// </summary>
-            public struct dataResult
-            {
-                public bool isString;
-                public string dataString;
-                public long dataLong;
-            }
+            private System.Action<Receive> onReceiveHandler = null;
 
-            /// <summary>
-            /// Data storage array for all recieved data. Array index is register.
-            /// </summary>
-            public string[] receivedData = new string[65535];
+            public bool ready = false;
 
-            /// <summary>
-            /// State of connection.
-            /// </summary>
-            public States state = States.DISCONNECTED;
-
-            /// <summary>
-            /// Pointer for data recieve handler
-            /// </summary>
-            private System.Action<message> onReceiveHandler = null;
+            private System.Timers.Timer timer = new System.Timers.Timer();
 
             public OpenNETCF.IO.Ports.SerialPort serialPort = new OpenNETCF.IO.Ports.SerialPort();
 
-            /// <summary>
-            /// Constructor
-            /// </summary>
+            public OpenNETCF.IO.Ports.SerialPort tempPort = new OpenNETCF.IO.Ports.SerialPort();
+
+            public Receive lastRecieve;
+
+            public Result lastResult;
+
+            public int timeout = 700;
+
+            private bool timedOut = false;
+
+            public byte queueSize = 10;
+
             public NarsSerialComOpenNET()
             {
-                serialPort.BaudRate = 1000000;
-                serialPort.DataBits = 8;
-                serialPort.Parity = OpenNETCF.IO.Ports.Parity.None;
-                serialPort.StopBits = OpenNETCF.IO.Ports.StopBits.One;
-                serialPort.ReceivedEvent += DataRecievedHandler;
+                this.serialPort.BaudRate = 1000000;
+                this.serialPort.DataBits = 8;
+                this.serialPort.Parity = OpenNETCF.IO.Ports.Parity.None;
+                this.serialPort.StopBits = OpenNETCF.IO.Ports.StopBits.One;
+                this.serialPort.ReceivedEvent += DataRecievedHandler;
+                this.timer = new System.Timers.Timer();
+                this.timer.AutoReset = false;
+                this.timer.Enabled = true;
+                this.timer.Elapsed += onTimeOut;
+                this.lastResult = new Result(true, "Instantiated");
             }
 
-            /// <summary>
-            /// Disonnect from arduino. Sends disconnect message.
-            /// </summary>
-            public result disconnect()
+            public void addOnReceiveHandler(System.Action<Receive> _onReceiveHandler)
             {
-                result result;
-                if (state == States.CONNECTED)
+                this.onReceiveHandler = _onReceiveHandler;
+            }
+
+            public Result connect(string port)
+            {
+                if (this.state == State.Disconnected)
                 {
-                    result.complete = true;
-                    result.message = "Disconnected";
-                    result.error = Errors.NONE;
-                    serialPort.WriteLine("*E-");
-                    serialPort.Close();
-                    state = States.DISCONNECTED;
-                    return result;
+                    this.serialPort.PortName = port;
+                    this.serialPort.Open();
+                    this.state = State.Connected;
+                    return lastResult = new Result(true, "Connected");
                 }
                 else
                 {
-                    result.complete = false;
-                    result.message = "Error";
-                    result.error = Errors.NOT_CONNECTED;
-                    return result;
+                    return lastResult = new Result(false, "Already connected");
                 }
             }
 
-            public result connect(string port)
+            public Result checkQueue()
             {
-                result result;
-                if (state == States.DISCONNECTED)
+                if (this.sendQueue.Count > 0)
                 {
-                    result.complete = true;
-                    result.message = "Connected";
-                    result.error = Errors.NONE;
-                    serialPort.PortName = port;
-                    serialPort.Open();
-                    state = States.CONNECTED;
-                    serialPort.WriteLine("*B-");
-                    return result;
-                }
-                else
-                {
-                    result.complete = false;
-                    result.message = "Error";
-                    result.error = Errors.ALREADY_CONNECTED;
-                    return result;
-                }
-            }
-
-            /// <summary>
-            /// Get data from a register.
-            /// </summary>
-            /// <param name="register"></param>
-            /// <returns>dataResult type</returns>
-            public dataResult getData(int register)
-            {
-                dataResult data;
-                long val;
-                if (long.TryParse(receivedData[register], System.Globalization.NumberStyles.HexNumber, null, out val))
-                {
-                    data.dataLong = val;
-                    data.isString = false;
-                    data.dataString = "";
-                    return data;
-                }
-                else
-                {
-                    data.dataLong = 0;
-                    data.isString = true;
-                    data.dataString = receivedData[register];
-                    return data;
-                }
-            }
-
-            /// <summary>
-            /// Sends data to arduino using Nars Protocol. Returns message Data-Type
-            /// </summary>
-            /// <param name="register">Data register</param>
-            /// <param name="data">Data</param>
-            /// <returns>Message Data-Type</returns>
-            public result sendData(int register, long data)
-            {
-                result newMessage;
-
-                if (state == States.CONNECTED)
-                {
-                    string completeString = "*D";
-                    if (register <= 65535)
+                    if (this.ready)
                     {
-                        if (data <= 4294967295)
+                        string sent = sendQueue.Dequeue();
+                        this.serialPort.WriteLine(sent);
+                        return this.lastResult = new Result(true, $"Sent: {sent}");
+                    }
+                    else
+                    {
+                        return this.lastResult = new Result(false, "Not Ready");
+                    }
+                }
+                else
+                {
+                    return this.lastResult = new Result(false, "Queue Empty");
+                }
+            }
+
+            public Result send(ushort register, object data)
+            {
+                if (register <= 65535)
+                {
+                    if (data is int)
+                    {
+                        if ((int)data >= 0)
                         {
-                            string registerString = Usefuls.NarsMethods.fixedLengthHex(register, 4);
-                            string dataString = Usefuls.NarsMethods.fixedLengthHex(data, 8);
-                            completeString += registerString + dataString + "-";
-                            serialPort.WriteLine(completeString);
-                            newMessage.complete = true;
-                            newMessage.message = completeString;
-                            newMessage.error = Errors.NONE;
-                            return newMessage;
+                            string sent = "*D" + Usefuls.NarsMethods.fixedLengthHex(register, 4) + Usefuls.NarsMethods.fixedLengthHex((long)data, 8) + "-";
+                            if (this.ready)
+                            {
+                                this.serialPort.WriteLine(sent);
+                                return this.lastResult = new Result(true, $"Sent: {sent}");
+                            }
+                            else
+                            {
+                                if (sendQueue.Count <= queueSize)
+                                {
+                                    this.sendQueue.Enqueue(sent);
+                                    return this.lastResult = new Result(true, $"Queued: {sent}");
+                                }
+                                else
+                                {
+                                    return this.lastResult = new Result(false, "Max queue size limit reached");
+                                }
+                            }
                         }
                         else
                         {
-                            newMessage.complete = false;
-                            newMessage.message = "Error";
-                            newMessage.error = Errors.OUT_OF_RANGE;
-                            return newMessage;
+                            return this.lastResult = new Result(false, "Out of range");
+                        }
+                    } 
+                    else if(data is uint)
+                    {
+                        string sent = "*D" + Usefuls.NarsMethods.fixedLengthHex(register, 4) + Usefuls.NarsMethods.fixedLengthHex((uint)data, 8) + "-";
+                        if (this.ready)
+                        {
+                            this.serialPort.WriteLine(sent);
+                            return this.lastResult = new Result(true, $"Sent: {sent}");
+                        }
+                        else
+                        {
+                            if (sendQueue.Count <= queueSize)
+                            {
+                                this.sendQueue.Enqueue(sent);
+                                return this.lastResult = new Result(true, $"Queued: {sent}");
+                            }
+                            else
+                            {
+                                return this.lastResult = new Result(false, "Max queue size limit reached");
+                            }
+                        }
+                    }
+                    else if (data is string)
+                    {
+                        string sent = "*D" + Usefuls.NarsMethods.fixedLengthHex(register, 4) + (string)data + "-";
+                        if (this.ready)
+                        {
+                            this.serialPort.WriteLine(sent);
+                            return this.lastResult = new Result(true, $"Sent: {sent}");
+                        }
+                        else
+                        {
+                            if (sendQueue.Count <= queueSize)
+                            {
+                                this.sendQueue.Enqueue(sent);
+                                return this.lastResult = new Result(true, $"Queued: {sent}");
+                            }
+                            else
+                            {
+                                return this.lastResult = new Result(false, "Max queue size limit reached");
+                            }
                         }
                     }
                     else
                     {
-                        newMessage.complete = false;
-                        newMessage.message = "";
-                        newMessage.error = Errors.OUT_OF_RANGE;
-                        return newMessage;
+                        return this.lastResult = new Result(false, $"Invalid type: {data.GetType().ToString()}");
                     }
                 }
                 else
                 {
-                    newMessage.complete = false;
-                    newMessage.message = "Error";
-                    newMessage.error = Errors.NOT_CONNECTED;
-                    return newMessage;
+                    return this.lastResult = new Result(false, "Out of range");
                 }
             }
 
-            /// <summary>
-            /// Sends data as string to arduino using Nars Protocol. Returns message Data-Type
-            /// </summary>
-            /// <param name="register">Data register</param>
-            /// <param name="data">Data string</param>
-            /// <returns></returns>
-            public result sendSpecialData(int register, string data)
+            public Result disconnect()
             {
-                result newMessage;
-
-                if (state == States.CONNECTED)
+                if (this.state == State.Connected)
                 {
-                    string completeString = "*S";
-                    if (register <= 65535)
-                    {
-                        string registerString = Usefuls.NarsMethods.fixedLengthHex(register, 4);
-                        completeString += registerString + data + "-";
-                        serialPort.WriteLine(completeString);
-                        newMessage.complete = true;
-                        newMessage.message = completeString;
-                        newMessage.error = Errors.NONE;
-                        return newMessage;
-                    }
-                    else
-                    {
-                        newMessage.complete = false;
-                        newMessage.message = "Error";
-                        newMessage.error = Errors.OUT_OF_RANGE;
-                        return newMessage;
-                    }
+                    serialPort.WriteLine("*E-");
+                    serialPort.Close();
+                    return this.lastResult = new Result(true, "Disconneced");
                 }
                 else
                 {
-                    newMessage.complete = false;
-                    newMessage.message = "Error";
-                    newMessage.error = Errors.NOT_CONNECTED;
-                    return newMessage;
+                    return this.lastResult = new Result(false, "Already disconnected");
                 }
             }
 
-            /// <summary>
-            /// Add handler that invokes after recieving data.
-            /// </summary>
-            /// <param name="onReceivePointer">System.Action pointer</param>
-            public void addOnReceiveHandler(System.Action<message> onReceivePointer)
+            private void onTimeOut(object source, System.Timers.ElapsedEventArgs e)
             {
-                onReceiveHandler = onReceivePointer;
+                this.timedOut = true;
             }
 
             private void DataRecievedHandler(object sender, OpenNETCF.IO.Ports.SerialReceivedEventArgs e)
             {
-                OpenNETCF.IO.Ports.SerialPort temp = (OpenNETCF.IO.Ports.SerialPort)sender;
-                string line = temp.ReadExisting();
-                message newMessage;
-                if (line.Length >= 6)
+                tempPort = (OpenNETCF.IO.Ports.SerialPort)sender;
+                string temp = tempPort.ReadExisting();
+
+                foreach (string line in temp.Split('\n'))
                 {
-                    if (line.Substring(0, 2) == "*D")
+                    if (line.Length >= 6)
                     {
-                        if (line.Length == 17)
+                        if (line.Substring(0, 2) == "*D")
                         {
-                            newMessage.raw = line;
-                            newMessage.special = false;
-                            newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
-                            newMessage.data = line.Substring(6, 8);
-                            receivedData[newMessage.register] = newMessage.data;
-                            onReceiveHandler(newMessage);
+                            if (line.Length == 16)
+                            {
+                                
+                                ushort tempRegister = ushort.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
+                                uint tempData = uint.Parse(line.Substring(6, 8), System.Globalization.NumberStyles.HexNumber);
+                                this.receivedData[tempRegister] = tempData;
+                                if (tempRegister == 0)
+                                {
+                                    this.ready = System.Convert.ToBoolean(tempData);
+                                    this.lastRecieve = new Receive(true, "Ready set: " + line, false, 0, tempData);
+                                    if (this.onReceiveHandler != null) onReceiveHandler(lastRecieve);
+                                }
+                                else
+                                {
+                                    this.lastRecieve = new Receive(true, "Received: " + line, false, tempRegister, tempData);
+                                    if (this.onReceiveHandler != null) onReceiveHandler(lastRecieve);
+                                }
+                            }
+                        }
+                        
+
+                        if (line.Substring(0, 2) == "*S")
+                        {
+                            ushort tempRegister = ushort.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
+                            string tempData = line.Substring(6, line.Length - 8);
+                            this.receivedData[tempRegister] = tempData;
+                            this.lastRecieve = new Receive(true, "Received: " + line, true, tempRegister, tempData);
+                            if (this.onReceiveHandler != null) onReceiveHandler(lastRecieve);
                         }
                     }
-                    else if (line.Substring(0, 2) == "*S")
+                    else
                     {
-                        newMessage.raw = line;
-                        newMessage.special = true;
-                        newMessage.register = int.Parse(line.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);
-                        newMessage.data = line.Substring(6, line.Length - 8);
-                        receivedData[newMessage.register] = newMessage.data;
-                        onReceiveHandler(newMessage);
+                        this.lastRecieve = new Receive(false, "Possible Data Loss Line (less than 6): " + line, false, 0, 0);
+                        if (this.onReceiveHandler != null) onReceiveHandler(lastRecieve);
                     }
                 }
-            }
+            }    
         }
     }
 
@@ -617,6 +583,28 @@
             /// <param name="input">Number</param>
             /// <param name="length">Length</param>
             public static string fixedLengthHex(long input, byte length)
+            {
+                string output = input.ToString("X");
+                if (output.Length != length)
+                {
+                    string original = output;
+                    int originalLength = output.Length;
+                    output = "";
+                    for (int i = 0; i < length - originalLength; i++)
+                    {
+                        output += "0";
+                    }
+                    output += original;
+                }
+                return output;
+            }
+
+            /// <summary>
+            /// Returns fixed length hex string from number.
+            /// </summary>
+            /// <param name="input">Number</param>
+            /// <param name="length">Length</param>
+            public static string fixedLengthHex(uint input, byte length)
             {
                 string output = input.ToString("X");
                 if (output.Length != length)
