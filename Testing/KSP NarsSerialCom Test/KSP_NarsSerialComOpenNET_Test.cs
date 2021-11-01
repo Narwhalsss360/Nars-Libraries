@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Nars_Libraries_Framework45.Serial;
+using Nars_Libraries_Framework45;
 
 namespace KSP_NarsSerialComOpenNET_Test
 {
@@ -11,20 +12,24 @@ namespace KSP_NarsSerialComOpenNET_Test
         NarsSerialComOpenNET port = new NarsSerialComOpenNET();
         long[] data = new long[regize];
         int counter = 0;
+        System.Timers.Timer timer = new System.Timers.Timer();
 
         public void Start()
         {
-            if (port.state == NarsSerialComOpenNET.States.DISCONNECTED)
+            if (port.state == State.Connected)
             {
                 port.connect("\\\\.\\COM28");
             }
             port.addOnReceiveHandler(onRecv);
+            timer.Enabled = true;
+            timer.AutoReset = true;
+            timer.Interval = 30;
+            timer.Elapsed += send;
         }
 
         public void FixedUpdate()
         {
             getVars();
-            send();
         }
 
         void getVars()
@@ -34,31 +39,25 @@ namespace KSP_NarsSerialComOpenNET_Test
         }
 
         //Only sending one register each update, microcontroller to slow
-        void send()
+        void send(object sender, System.Timers.ElapsedEventArgs e)
         {
-            switch (counter)
+            Result result;
+            try
             {
-                case 0:
-                    port.sendSpecialData(0, FlightGlobals.ActiveVessel.GetDisplayName());
-                    break;
-                default:        
-                    port.sendData(counter, (uint)data[counter]);
-                    break;
+                result = port.send(1, 5);
+            }
+            catch (Exception er)
+            {
+                Debug.Log(er.StackTrace);
+                throw;
             }
 
-            if (counter >= regize)
-            {
-                counter = 0;
-            }
-            else
-            {
-                counter++;
-            }
+            Debug.Log(result.message);
         }
 
-        void onRecv(NarsSerialComOpenNET.message message)
+        void onRecv(Receive message)
         {
-            Debug.Log($"Recieved: {message.raw}");
+            //Debug.Log($"Message: {message.message} Success: {message.success}");
         }
     }
 }

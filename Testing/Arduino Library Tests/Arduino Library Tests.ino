@@ -10,7 +10,7 @@ LiquidCrystal_I2C LCD = LiquidCrystal_I2C(0x27, 16, 2);
 unsigned long uptime;
 unsigned long prev;
 
-bool debug = true;
+bool debug = false;
 bool sendDebug = false;
 bool slow = false;
 unsigned long dataCounter = 0;
@@ -55,8 +55,8 @@ void loop()
 		SerialCom.sendSpecial(registerCounter, "My Special String");
 		//SerialCom.send(registerCounter, dataCounter);
 	}
-	SerialCom.send(counter, counter);
-	counter++;
+	LCD.setCursor(0, 0);
+	LCD.print("S " + (String)SerialCom.data[1]);
 	SerialCom.setReady();
 }
 
