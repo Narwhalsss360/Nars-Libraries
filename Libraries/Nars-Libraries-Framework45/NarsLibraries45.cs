@@ -293,6 +293,7 @@
                         {
                             this.lastRecieve = new Receive(false, "Data Loss, DCommand.Length", false, 0, 0);
                         }
+
                     }
                     else
                     {
@@ -523,6 +524,7 @@
             {
                 tempPort = (OpenNETCF.IO.Ports.SerialPort)sender;
                 string temp = tempPort.ReadExisting();
+                bool done;
 
                 foreach (string line in temp.Split('\n'))
                 {
@@ -538,7 +540,14 @@
                                 this.receivedData[tempRegister] = tempData;
                                 if (tempRegister == 0)
                                 {
-                                    this.ready = System.Convert.ToBoolean(tempData);
+                                    if (tempData == 1)
+                                    {
+                                        this.ready = true;
+                                    }
+                                    else if (tempData == 0)
+                                    {
+                                        this.ready = false;
+                                    }
                                     this.lastRecieve = new Receive(true, "Ready set: " + line, false, 0, tempData);
                                     if (this.onReceiveHandler != null) onReceiveHandler(lastRecieve);
                                 }
