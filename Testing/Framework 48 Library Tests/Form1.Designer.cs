@@ -43,6 +43,10 @@
             this.dataLabel = new System.Windows.Forms.Label();
             this.hexCheckBox = new System.Windows.Forms.CheckBox();
             this.clearButton = new System.Windows.Forms.Button();
+            this.readyLabel = new System.Windows.Forms.Label();
+            this.queueSizeLabel = new System.Windows.Forms.Label();
+            this.lastSentLabel = new System.Windows.Forms.Label();
+            this.lastReceiveLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // refreshButton
@@ -103,11 +107,11 @@
             // outputTextBox
             // 
             this.outputTextBox.Enabled = false;
-            this.outputTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.outputTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.outputTextBox.Location = new System.Drawing.Point(12, 98);
             this.outputTextBox.Multiline = true;
             this.outputTextBox.Name = "outputTextBox";
-            this.outputTextBox.Size = new System.Drawing.Size(816, 294);
+            this.outputTextBox.Size = new System.Drawing.Size(498, 294);
             this.outputTextBox.TabIndex = 6;
             // 
             // portComboBox
@@ -175,7 +179,7 @@
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(345, 72);
+            this.clearButton.Location = new System.Drawing.Point(491, 98);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(19, 20);
             this.clearButton.TabIndex = 13;
@@ -183,11 +187,51 @@
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
+            // readyLabel
+            // 
+            this.readyLabel.AutoSize = true;
+            this.readyLabel.Location = new System.Drawing.Point(345, 15);
+            this.readyLabel.Name = "readyLabel";
+            this.readyLabel.Size = new System.Drawing.Size(58, 13);
+            this.readyLabel.TabIndex = 14;
+            this.readyLabel.Text = "Not Ready";
+            // 
+            // queueSizeLabel
+            // 
+            this.queueSizeLabel.AutoSize = true;
+            this.queueSizeLabel.Location = new System.Drawing.Point(409, 15);
+            this.queueSizeLabel.Name = "queueSizeLabel";
+            this.queueSizeLabel.Size = new System.Drawing.Size(13, 13);
+            this.queueSizeLabel.TabIndex = 15;
+            this.queueSizeLabel.Text = "0";
+            // 
+            // lastSentLabel
+            // 
+            this.lastSentLabel.AutoSize = true;
+            this.lastSentLabel.Location = new System.Drawing.Point(345, 42);
+            this.lastSentLabel.Name = "lastSentLabel";
+            this.lastSentLabel.Size = new System.Drawing.Size(24, 13);
+            this.lastSentLabel.TabIndex = 16;
+            this.lastSentLabel.Text = "n/a";
+            // 
+            // lastReceiveLabel
+            // 
+            this.lastReceiveLabel.AutoSize = true;
+            this.lastReceiveLabel.Location = new System.Drawing.Point(345, 72);
+            this.lastReceiveLabel.Name = "lastReceiveLabel";
+            this.lastReceiveLabel.Size = new System.Drawing.Size(24, 13);
+            this.lastReceiveLabel.TabIndex = 17;
+            this.lastReceiveLabel.Text = "n/a";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 406);
+            this.ClientSize = new System.Drawing.Size(520, 406);
+            this.Controls.Add(this.lastReceiveLabel);
+            this.Controls.Add(this.lastSentLabel);
+            this.Controls.Add(this.queueSizeLabel);
+            this.Controls.Add(this.readyLabel);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.hexCheckBox);
             this.Controls.Add(this.dataLabel);
@@ -229,6 +273,10 @@
         private System.Windows.Forms.Label dataLabel;
         private System.Windows.Forms.CheckBox hexCheckBox;
         private System.Windows.Forms.Button clearButton;
+        private System.Windows.Forms.Label readyLabel;
+        private System.Windows.Forms.Label queueSizeLabel;
+        private System.Windows.Forms.Label lastSentLabel;
+        private System.Windows.Forms.Label lastReceiveLabel;
     }
 }
 

@@ -145,8 +145,6 @@ double INT2FREQ(double input)
 /// <param name="special">Special function pointer</param>
 void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int _register, String data))
 {
-	unsetReady();
-	unsetReady();
 	String completeString;
 	String command;
 
@@ -165,7 +163,6 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 
 	if (command == "*D")
 	{
-		unsetReady();
 		unsetReady();
 		String registerString = completeString.substring(2, 6);;
 		String dataString = completeString.substring(6, 14);;
@@ -189,7 +186,6 @@ void NarsSerialCom::onSerialEvent(void (*done) (unsigned int _register, unsigned
 
 	if (command == "*S")
 	{
-		unsetReady();
 		unsetReady();
 		String registerString = completeString.substring(2, 6);
 		unsigned int _register;
@@ -258,12 +254,31 @@ void NarsSerialCom::sendSpecial(unsigned int _register, String data)
 	}
 }
 
+/// <summary>
+/// Send range of data
+/// </summary>
+/// <param name="start"></param>
+/// <param name="end"></param>
+void NarsSerialCom::sendDataRange(uint8_t start, uint8_t end)
+{
+	for (uint8_t i = start; i <= end; i++)
+	{
+		send(i, data[i]);
+	}
+}
+
+/// <summary>
+/// Set Ready
+/// </summary>
 void NarsSerialCom::setReady()
 {
 	ready = true;
 	send(0, 1);
 }
 
+/// <summary>
+/// Unset Ready
+/// </summary>
 void NarsSerialCom::unsetReady()
 {
 	ready = false;

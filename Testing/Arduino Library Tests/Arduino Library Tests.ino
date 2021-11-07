@@ -10,12 +10,12 @@ LiquidCrystal_I2C LCD = LiquidCrystal_I2C(0x27, 16, 2);
 unsigned long uptime;
 unsigned long prev;
 
-bool debug = false;
+bool debug = true;
 bool sendDebug = false;
 bool slow = false;
-unsigned long dataCounter = 0;
-unsigned int registerCounter = 0;
-unsigned long counter;
+
+unsigned long registerg;
+unsigned long datag;
 
 void setup() 
 {
@@ -23,40 +23,20 @@ void setup()
 	LCD.init();
 	LCD.setBacklight(255);
 	SerialCom.connected = true;
-	LCD.print("INIT");
+	LCD.clear();
 	pinMode(3, INPUT_PULLUP);
 	pinMode(4, INPUT_PULLUP);
+	pinMode(5, INPUT_PULLUP);
+	pinMode(6, INPUT_PULLUP);
 }
 
 void loop() 
 {
-	if (slow && sendDebug)
-	{
-		delay(SLOW);
-	}
-	if (sendDebug)
-	{
-		if (dataCounter >= 4294967295)
-		{
-			dataCounter = 0;
-		}
-		else
-		{
-			dataCounter++;
-		}
-		if (registerCounter >= 65535)
-		{
-			registerCounter = 0;
-		}
-		else
-		{
-			registerCounter++;
-		}
-		SerialCom.sendSpecial(registerCounter, "My Special String");
-		//SerialCom.send(registerCounter, dataCounter);
-	}
-	LCD.setCursor(0, 0);
-	LCD.print("S " + (String)SerialCom.data[1]);
+	SerialCom.data[1] = !digitalRead(3);
+	SerialCom.data[2] = !digitalRead(4);
+	SerialCom.data[3] = !digitalRead(5);
+	SerialCom.data[4] = !digitalRead(6);
+	SerialCom.sendDataRange(1, 4);
 	SerialCom.setReady();
 }
 
@@ -67,20 +47,8 @@ void serialEvent()
 
 void done(unsigned int _register, unsigned long data)
 {
-	if (debug)
-	{
-		LCD.clear();
-
-		LCD.setCursor(0, 0);
-		LCD.print("R " + (String)_register);
-
-		LCD.setCursor(0, 1);
-		LCD.print("D " + (String)data);
-	}
-	else
-	{
-		
-	}
+	registerg = _register;
+	datag = data;
 }
 
 void special(unsigned int _register, String data)

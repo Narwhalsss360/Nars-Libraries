@@ -25,7 +25,9 @@ namespace Framework48_NarsSerialCom_Test
         object arg2 = null;
         bool randomSends = false;
         Timer timer = new Timer();
+        Timer qTimer = new Timer();
         string last;
+        bool broke = false;
 
         enum Sources
         {
@@ -46,6 +48,9 @@ namespace Framework48_NarsSerialCom_Test
             comOpenNET.addOnReceiveHandler(onOpenRecv);
             this.FormClosing += onExit;
             timer.Tick += sendRandom;
+            comSystem.queueSize = 75;
+            qTimer.Interval = 1;
+            qTimer.Tick += checkLoop;
         }
 
         private void sourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -465,10 +470,18 @@ namespace Framework48_NarsSerialCom_Test
                         {
                             if (!randomSends)
                             {
+                                while (comSystem.sendQueue.Count > 0)
+                                {
+                                    Result checkResult = comSystem.checkQueue();
+                                    printOut(checkResult.message);
+                                    queueSizeLabel.Text = comSystem.sendQueue.Count.ToString();
+                                }
                                 Result sendResult = comSystem.send((ushort)register, (uint)data);
                                 if (sendResult.success)
                                 {
                                     printOut($"Sent: {sendResult.message}");
+                                    lastSentLabel.Text = sendResult.message;
+                                    queueSizeLabel.Text = comSystem.sendQueue.Count.ToString();
                                 }
                                 else
                                 {
@@ -697,20 +710,24 @@ namespace Framework48_NarsSerialCom_Test
                     {
                         if (comSystem.sendQueue.Count > 0)
                         {
-                            while (comSystem.sendQueue.Count > 0)
-                            {
-                                Result checkResult = comSystem.checkQueue();
-                                printOut(checkResult.message);
-                            }
-                        }
-                        Result sendResult = comSystem.send((ushort)register, data);
-                        if (sendResult.success)
-                        {
-                            printOut($"Sent: {sendResult.message}");
+                            qTimer.Enabled = true;  
+                            qTimer.Start();
                         }
                         else
                         {
-                            printOut($"Error: {sendResult.message}");
+                            qTimer.Enabled = false;
+                            qTimer.Stop();
+                            Result sendResult = comSystem.send((ushort)register, data);
+                            if (sendResult.success)
+                            {
+                                printOut($"Sent: {sendResult.message}");
+                                lastSentLabel.Text = sendResult.message;
+                            }
+                            else
+                            {
+                                printOut($"Error: {sendResult.message}");
+                                lastSentLabel.Text = sendResult.message;
+                            }
                         }
                     }
                     break;
@@ -740,35 +757,20 @@ namespace Framework48_NarsSerialCom_Test
             {
                 if (receive.register == 0)
                 {
-                    outputTextBox.Invoke(new MethodInvoker(delegate { printOut($"{receive.message}"); }));
+                    readyLabel.Invoke(new MethodInvoker(delegate { readyLabel.Text = comOpenNET.ready.ToString(); }));
                 }
                 else
                 {
-                    outputTextBox.Invoke(new MethodInvoker(delegate { printOut($"Received: {receive.message}"); }));
+                    readyLabel.Invoke(new MethodInvoker(delegate { readyLabel.Text = comOpenNET.ready.ToString(); }));
                 } 
             }   
         }
 
-        void onSystemRecv(Receive message)
+        void onSystemRecv(Receive receive)
         {
-            if (last == null)
+            if (receive.success)
             {
-                last = message.message;
-            }
-            else
-            {
-                if (last != message.message)
-                {
-                    last = message.message;
-                }
-            }
-            if (message.register == 0)
-            {
-                outputTextBox.Invoke(new MethodInvoker(delegate { printOut($"{comSystem.ready.ToString()}"); }));
-            }
-            else
-            {
-                outputTextBox.Invoke(new MethodInvoker(delegate { printOut($"{message.message}"); }));
+                outputTextBox.Invoke(new MethodInvoker(delegate { printOut(receive.message); }));
             }
         }
 
@@ -802,6 +804,13 @@ namespace Framework48_NarsSerialCom_Test
         private void clearButton_Click(object sender, EventArgs e)
         {
             outputTextBox.Clear();
+        }
+
+        void checkLoop(object sender, EventArgs eventArgs)
+        {
+            Result checkResult = comSystem.checkQueue();
+            printOut(checkResult.message);
+            queueSizeLabel.Text = comSystem.sendQueue.Count.ToString();
         }
 
         void onExit(object sender, FormClosingEventArgs e)

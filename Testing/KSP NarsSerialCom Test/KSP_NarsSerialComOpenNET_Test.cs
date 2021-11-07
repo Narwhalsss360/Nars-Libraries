@@ -56,7 +56,7 @@ namespace KSP_NarsSerialComOpenNET_Test
 
         void send(object sender, System.Timers.ElapsedEventArgs eventArgs)
         {
-            Debug.Log(port.ready.ToString())
+            Debug.Log(port.ready.ToString());
             Debug.Log(port.send(1, data[1]).message);
             port.checkQueue();
         }

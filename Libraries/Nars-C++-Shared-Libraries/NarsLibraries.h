@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
+#include <queue>
 
 unsigned long x2i(char* s);
 
@@ -35,7 +36,9 @@ public:
 		RECEIVED,
 		PARSED,
 		COM_ERROR,
-		NOT_READY
+		NOT_READY,
+		EMPTY,
+		QUEUED
 	};
 
 	STATES state = STATES::NONE;
@@ -68,8 +71,11 @@ public:
 		CONNECTED
 	};
 
+	RESULT lastResult;
+	MESSAGE lastMessage;
 	STATES state;
 	std::string selectedPort;
+	std::queue<std::string> sendQueue;
 
 	RESULT connect(const char* selectedPort);
 	RESULT check();
@@ -78,10 +84,12 @@ public:
 	void addOnReceiveHandler(void (*onRecv) (MESSAGE));
 	RESULT disconnect();
 	bool getReady();
+	RESULT checkQueue();
+	int writeToPort(std::string outputString);
 private:
 	HANDLE port;
 	DCB dcb;
-
+	
 	bool ready;
 	bool errorReading;
 	void (*userOnRecvHandler)(MESSAGE);
@@ -92,6 +100,5 @@ private:
 	bool openPort();
 	void readLine();
 	void parseData();
-	int writeToPort(std::string outputString);
 	bool first;
 };

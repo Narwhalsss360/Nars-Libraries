@@ -88,7 +88,7 @@
 
             public Result connect(string port)
             {
-                if (this.state == State.Disconnected)
+                if (this.state == State.Disconnected) 
                 {
                     this.serialPort.PortName = port;
                     this.serialPort.Open();

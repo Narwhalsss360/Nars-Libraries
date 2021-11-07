@@ -176,89 +176,153 @@ RESULT NarsSerial::check()
 
 RESULT NarsSerial::sendData(unsigned int _register, unsigned long data)
 {
-	RESULT result;
 	if (this->state == NarsSerial::STATES::CONNECTED)
 	{
 		if (_register <= 65535)
 		{
 			if (data <= 4294967295)
 			{
+				std::string completeString = "*D";
+				std::string registerString = toHex(_register, 4);
+				std::string dataString = toHex(data, 8);
+				completeString += registerString + dataString + '-';
 				if (this->ready)
 				{
-					std::string completeString = "*D";
-					std::string registerString = toHex(_register, 4);
-					std::string dataString = toHex(data, 8);
-					completeString += registerString + dataString + '-';
 					if (writeToPort(completeString))
 					{
-						result.state = RESULT::STATES::SENT;
-						result.message = completeString;
+						this->lastResult.state = RESULT::STATES::SENT;
+						this->lastResult.message = completeString;
 						this->ready = false;
+						return this->lastResult;
 					}
 					else
 					{
-						result.state = RESULT::STATES::LOST;
-						result.message = "Unknown rrror sending.";
+						this->lastResult.state = RESULT::STATES::LOST;
+						this->lastResult.message = "Unkown error sending";
+						return this->lastResult;
 					}
 				}
 				else
 				{
-					result.state = RESULT::STATES::NOT_READY;
-					result.message = "Client not ready";
+					this->sendQueue.push(completeString); 
+					this->lastResult.state = RESULT::STATES::QUEUED;
+					this->lastResult.message = "Queued";
+					return this->lastResult;
 				}
 			}
 			else
 			{
-				result.state = RESULT::STATES::OUT_OF_RANGE;
-				result.message = "Data input greater than 4294967295.";
+				this->lastResult.state = RESULT::STATES::OUT_OF_RANGE;
+				this->lastResult.message = "Data out of range";
+				return this->lastResult;
 			}
 		}
 		else
 		{
-			result.state = RESULT::STATES::OUT_OF_RANGE;
-			result.message = "Register input greater than 65535.";
+			this->lastResult.state = RESULT::STATES::OUT_OF_RANGE;
+			this->lastResult.message = "Register out of range";
+			return this->lastResult;
 		}
 	}
 	else
 	{
-		result.state == RESULT::STATES::DISCONNECTED;
-		result.message = "Cannot send data if not connected.";
+		this->lastResult.state = RESULT::STATES::DISCONNECTED;
+		this->lastResult.message = "Not connected";
+		return this->lastResult;
 	}
-	return result;
 }
 
 RESULT NarsSerial::sendSpecial(unsigned int _register, const char* data)
 {
-	RESULT result;
-	if (this->state == STATES::CONNECTED)
+	if (this->state == NarsSerial::STATES::CONNECTED)
 	{
-		std::string completeString = "*S";
-		if (_register <= 65535)
+		if (this->ready)
 		{
-			if (this->ready)
+			if (_register <= 65535)
 			{
+				std::string completeString = "*D";
 				std::string registerString = toHex(_register, 4);
 				completeString += registerString + data + '-';
 				if (writeToPort(completeString))
 				{
-					result.state = RESULT::STATES::SENT;
-					result.message = completeString;
+					this->lastResult.state = RESULT::STATES::SENT;
+					this->lastResult.message = completeString;
+					return this->lastResult;
 					this->ready = false;
 				}
 				else
 				{
-					result.state = RESULT::STATES::LOST;
-					result.message = "Unknown rrror sending.";
+					this->lastResult.state = RESULT::STATES::LOST;
+					this->lastResult.message = "Unkown error sending";
+					return this->lastResult;
 				}
 			}
 			else
 			{
-				result.state = RESULT::STATES::NOT_READY;
-				result.message = "Client not ready";
+				this->lastResult.state = RESULT::STATES::OUT_OF_RANGE;
+				this->lastResult.message = "Register out of range";
+				return this->lastResult;
 			}
 		}
+		else
+		{
+			this->lastResult.state = RESULT::STATES::NOT_READY;
+			this->lastResult.message = "Not ready";
+			return this->lastResult;
+		}
 	}
-	return result;
+	else
+	{
+		this->lastResult.state = RESULT::STATES::DISCONNECTED;
+		this->lastResult.message = "Not connected";
+		return this->lastResult;
+	}
+}
+
+RESULT NarsSerial::checkQueue()
+{
+	if (this->state == NarsSerial::STATES::CONNECTED)
+	{
+		if (this->sendQueue.size() > 0)
+		{
+			if (this->ready)
+			{
+				std::string message = this->sendQueue.front();
+				this->sendQueue.pop();
+				if (writeToPort(message))
+				{
+					this->lastResult.state = RESULT::STATES::SENT;
+					this->lastResult.message = message;
+					return this->lastResult;
+					this->ready = false;
+				}
+				else
+				{
+					this->lastResult.state = RESULT::STATES::LOST;
+					this->lastResult.message = "Unkown error sending";
+					return this->lastResult;
+				}
+			}
+			else
+			{
+				this->lastResult.state = RESULT::STATES::NOT_READY;
+				this->lastResult.message = "Not ready";
+				return this->lastResult;
+			}
+		}
+		else
+		{
+			this->lastResult.state = RESULT::STATES::EMPTY;
+			this->lastResult.message = "Empty Queue";
+			return this->lastResult;
+		}
+	}
+	else
+	{
+		this->lastResult.state = RESULT::STATES::DISCONNECTED;
+		this->lastResult.message = "Not Connected";
+		return this->lastResult;
+	}
 }
 
 void NarsSerial::addOnReceiveHandler(void (*onRecv) (MESSAGE))
@@ -277,8 +341,9 @@ bool NarsSerial::openPort()
 {
 	std::wstring tws = std::wstring(this->selectedPort.begin(), this->selectedPort.end());
 	const wchar_t* sel = tws.c_str();
-	this->port = CreateFile(sel , GENERIC_READ | GENERIC_WRITE, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	this->port = CreateFile((LPCWSTR)sel, GENERIC_READ | GENERIC_WRITE, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	PurgeComm(this->port, PURGE_RXABORT | PURGE_RXCLEAR | PURGE_TXABORT | PURGE_TXCLEAR);
+
 	if (port != INVALID_HANDLE_VALUE)
 	{
 		return true;
@@ -326,7 +391,7 @@ int NarsSerial::writeToPort(std::string outputString)
 {
 	//outputString.insert(0, " ");
 	char outputChar[128];
-	strcpy_s(outputChar, outputString.c_str());
+	//strcpy_s(outputChar, outputString.c_str());
 
 	int handleResult;
 	DWORD bytesSent;

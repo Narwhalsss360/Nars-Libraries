@@ -39,6 +39,7 @@ public:
 	static void onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int registerrr, String data));
 	static void send(unsigned int _register, unsigned long data);
 	static void sendSpecial(unsigned int _register, String data);
+	static void sendDataRange(uint8_t start, uint8_t end);
 	static void setReady();
 	static void unsetReady();
 private:

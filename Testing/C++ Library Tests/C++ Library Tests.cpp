@@ -12,39 +12,19 @@ std::string getResultString(RESULT::STATES state)
 {
 	switch (state)
 	{
-	case RESULT::STATES::NONE:
-		return "NONE";
-		break;
-	case RESULT::STATES::CONNECTED:
-		return "CONNECTED";
-		break;
-	case RESULT::STATES::ALREADY_CONNECTED:
-		return "ALREADY_CONNECTED";
-		break;
-	case RESULT::STATES::DISCONNECTED:
-		return "DISCONNECTED";
-		break;
-	case RESULT::STATES::ALREADY_DISCONNECTED:
-		return "ALREADY_DISCONNECTED";
-		break;
-	case RESULT::STATES::OUT_OF_RANGE:
-		return "OUT_OF_RANGE";
-		break;
-	case RESULT::STATES::LOST:
-		return "LOST";
-		break;
-	case RESULT::STATES::SENT:
-		return "SENT";
-		break;
-	case RESULT::STATES::RECEIVED:
-		return "RECEIVED";
-		break;
-	case RESULT::STATES::PARSED:
-		return "PARSED";
-		break;
-	default:
-		return "n/a";
-		break;
+	case RESULT::STATES::NONE: return "NONE";
+	case RESULT::STATES::CONNECTED: return "CONNECTED";
+	case RESULT::STATES::ALREADY_CONNECTED: return "ALREADY_CONNECTED";
+	case RESULT::STATES::DISCONNECTED: return "DISCONNECTED";
+	case RESULT::STATES::ALREADY_DISCONNECTED: return "ALREADY_DISCONNECTED";
+	case RESULT::STATES::OUT_OF_RANGE: return "OUT_OF_RANGE";
+	case RESULT::STATES::LOST: return "LOST";
+	case RESULT::STATES::SENT: return "SENT";
+	case RESULT::STATES::RECEIVED: return "RECEIVED";
+	case RESULT::STATES::PARSED: return "PARSED";
+	case RESULT::STATES::NOT_READY: return "NOT_READY";
+	case RESULT::STATES::QUEUED: return "QUEUED";
+	default: return "n/a";
 	}
 }
 
@@ -62,23 +42,15 @@ void onRecv(MESSAGE message)
 
 int main()
 {
-	RESULT connectResult = ns.connect("\\\\.\\COM28");
-	std::cout << getResultString(connectResult.state) << std::endl;
 	ns.addOnReceiveHandler(&onRecv);
-	ns.check();
-	for (int i = 1; i < 50; i++)
-	{
-		std::cout << "\n";
-		std::cout << "Iteration " << i << std::endl;
-		while (!ns.getReady())
-		{
-			ns.check();
-		}
-		while (ns.getReady())
-		{
-			std::cout << "Was Ready " << ns.getReady() << std::endl;
-			RESULT sendResult = ns.sendData(i, i);
-			std::cout << "STATE: " << getResultString(sendResult.state) << " MESSAGE: " << sendResult.message << std::endl;
-		}
-	}
+	RESULT result = ns.connect("\\\\.\\COM28");
+	Sleep(1000);
+	std::cout << "Message: " << result.message << getResultString(result.state) << std::endl;
+	result = ns.check();
+	std::cout << "Message: " << result.message << getResultString(result.state) << std::endl;
+	result = ns.checkQueue();
+	std::cout << "Message: " << result.message << getResultString(result.state) << std::endl;
+	result = ns.sendData(978, 980);
+	std::cout << "Message: " << result.message << getResultString(result.state) << std::endl;
+	return 0;
 }
