@@ -53,22 +53,22 @@
             /// Received Data Storage
             /// </summary>
             public object[] receivedData = new object[65535];
-            
+
             /// <summary>
             /// Connection state
             /// </summary>
             public State state = State.Disconnected;
-            
+
             /// <summary>
             /// Send queue
             /// </summary>
             public System.Collections.Generic.Queue<string> sendQueue = new System.Collections.Generic.Queue<string>();
-            
+
             /// <summary>
             /// on Receive user handler
             /// </summary>
             private System.Action<Receive> onReceiveHandler = null;
-            
+
             /// <summary>
             /// Bool property if client device is ready to receive.
             /// </summary>
@@ -78,7 +78,7 @@
             /// SerialPort object
             /// </summary>
             public System.IO.Ports.SerialPort serialPort = new System.IO.Ports.SerialPort();
-            
+
             /// <summary>
             /// Temporary port, for onRecv
             /// </summary>
@@ -98,7 +98,7 @@
             /// Max queue size
             /// </summary>
             public byte queueSize = 10;
-    
+
             /// <summary>
             /// Constructor
             /// </summary>
@@ -229,7 +229,7 @@
                 if (this.receivedData[register] is string)
                 {
                     return this.lastReceive = new Receive(true, "Returned", true, register, this.receivedData[register]);
-                } 
+                }
                 else if (this.receivedData[register] is uint)
                 {
                     return this.lastReceive = new Receive(true, "Returned", false, register, this.receivedData[register]);
@@ -299,7 +299,7 @@
                                 onReceiveHandler(this.lastReceive);
                             }
                         }
-                    } 
+                    }
                     else if (data.Substring(0, 2) == "*S")
                     {
                         ushort tempRegister = ushort.Parse(data.Substring(2, 4), System.Globalization.NumberStyles.HexNumber);

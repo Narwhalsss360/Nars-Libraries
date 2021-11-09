@@ -26,8 +26,6 @@ namespace Framework48_NarsSerialCom_Test
         bool randomSends = false;
         Timer timer = new Timer();
         Timer qTimer = new Timer();
-        string last;
-        bool broke = false;
 
         enum Sources
         {
