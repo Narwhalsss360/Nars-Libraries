@@ -116,13 +116,13 @@ double mapValue(double x, double in_min, double in_max, double out_min, double o
 /// <param name="Divider"></param>
 /// <param name="Factor"></param>
 /// <returns></returns>
-unsigned long HornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor)
+unsigned long hornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor)
 {
 	unsigned long Remainder = 0, Quotient = 0, Result = 0;
 	Remainder = Num % Divider;
 	Quotient = Num / Divider;
 	if (!(Quotient == 0 && Remainder == 0))
-		Result += HornerScheme(Quotient, Divider, Factor) * Factor + Remainder;
+		Result += hornerScheme(Quotient, Divider, Factor) * Factor + Remainder;
 	return Result;
 }
 
@@ -131,7 +131,7 @@ unsigned long HornerScheme(unsigned long Num, unsigned long Divider, unsigned lo
 /// </summary>
 /// <param name="input"></param>
 /// <returns></returns>
-double INT2FREQ(double input)
+double intToFreq(double input)
 {
 	input += 10000;
 	input /= 100;
@@ -283,6 +283,45 @@ void NarsSerialCom::unsetReady()
 {
 	ready = false;
 	send(0, 0);
+}
+
+PushToggle::PushToggle(byte _pin)
+{
+	this->pin = _pin;
+	this->invert = false;
+}
+
+void PushToggle::read()
+{
+	bool tempRead = digitalRead(this->pin);
+	if (invert)
+	{
+		if (!tempRead)
+		{
+			if (this->output)
+			{
+				this->output = false;
+			}
+			else
+			{
+				this->output = true;
+			}
+		}
+	}
+	else
+	{
+		if (tempRead)
+		{
+			if (this->output)
+			{
+				this->output = false;
+			}
+			else
+			{
+				this->output = true;
+			}
+		}
+	}
 }
 
 #ifdef TwoWire_h

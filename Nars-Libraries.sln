@@ -62,6 +62,7 @@ Global
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{9555bd08-d438-46c9-90db-651ca8668d68}*SharedItemsImports = 4
 		E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems*{9555bd08-d438-46c9-90db-651ca8668d68}*SharedItemsImports = 4
 		E:\Users\sandr\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C-1.1.2.vcxitems*{9555bd08-d438-46c9-90db-651ca8668d68}*SharedItemsImports = 4
+		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems*{f44c4bc6-596b-4905-8cfd-9978aa1072a7}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

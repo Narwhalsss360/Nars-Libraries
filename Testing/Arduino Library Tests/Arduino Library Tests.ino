@@ -7,6 +7,8 @@
 
 LiquidCrystal_I2C LCD = LiquidCrystal_I2C(0x27, 16, 2);
 
+PushTogle myButton = new PushToggle(3);
+
 unsigned long uptime;
 unsigned long prev;
 
@@ -28,6 +30,10 @@ void setup()
 	pinMode(4, INPUT_PULLUP);
 	pinMode(5, INPUT_PULLUP);
 	pinMode(6, INPUT_PULLUP);
+
+	pinMode(3, INPUT);
+	pinMode(3, INPUT_PULLUP);
+	myButton.invert = true;
 }
 
 void loop() 
@@ -38,6 +44,12 @@ void loop()
 	SerialCom.data[4] = !digitalRead(6);
 	SerialCom.sendDataRange(1, 4);
 	SerialCom.setReady();
+	myButton.read();
+
+	if (myButton.output)
+	{
+		turnOnLight();
+	}
 }
 
 void serialEvent()

@@ -13,7 +13,7 @@
 
 #define LONG_MAX 2147483647
 
-#define BCD2DEC(num) HornerScheme(num, 0x10, 10)
+#define BCD2DEC(num) hornerScheme(num, 0x10, 10)
 
 unsigned long x2i(char* s);
 
@@ -27,9 +27,9 @@ unsigned long bitCast(long in);
 
 double mapValue(double x, double in_min, double in_max, double out_min, double out_max);
 
-unsigned long HornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor);
+unsigned long hornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor);
 
-double INT2FREQ(double input);
+double intToFreq(double input);
 
 class NarsSerialCom
 {
@@ -44,6 +44,17 @@ public:
 	static void unsetReady();
 private:
 	static bool ready;
+};
+
+class PushToggle
+{
+public:
+	PushToggle(byte _pin);
+	void read();
+	bool output;
+	bool invert;
+private:
+	byte pin;
 };
 
 String wireSearch();
