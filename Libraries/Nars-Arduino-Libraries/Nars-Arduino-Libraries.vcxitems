@@ -17,6 +17,7 @@
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />
     <Text Include="$(MSBuildThisFileDirectory)library.properties" />
+    <Text Include="$(MSBuildThisFileDirectory)src\keywords.txt" />
     <Text Include="$(MSBuildThisFileDirectory)src\NarsLibraries.h" />
   </ItemGroup>
   <ItemGroup>

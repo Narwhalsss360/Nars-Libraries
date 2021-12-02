@@ -21,5 +21,6 @@
     <Text Include="$(MSBuildThisFileDirectory)src\NarsLibraries.h">
       <Filter>Header Files</Filter>
     </Text>
+    <Text Include="$(MSBuildThisFileDirectory)src\keywords.txt" />
   </ItemGroup>
 </Project>
