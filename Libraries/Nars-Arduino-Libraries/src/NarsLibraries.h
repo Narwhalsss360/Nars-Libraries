@@ -49,12 +49,17 @@ private:
 class PushToggle
 {
 public:
-	PushToggle(byte _pin);
+	PushToggle(byte _pin, bool _invert, byte _debounceDelay);
 	void read();
-	bool output;
-	bool invert;
+	bool toggled();
 private:
 	byte pin;
+	bool invertedInput;
+	byte debounceDelay;
+	unsigned long lastDebounceTime;
+	bool lastButtonState;
+	bool endState;
+	bool toggle;
 };
 
 String wireSearch();

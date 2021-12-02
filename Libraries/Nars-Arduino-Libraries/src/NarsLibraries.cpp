@@ -39,20 +39,20 @@ unsigned long x2i(char* s)
 /// <returns>End string result</returns>
 String toHex(unsigned long input, byte stringLength) 
 {
-	String output = String(input, HEX);
-	output.toUpperCase();
-	if (output.length() != stringLength)
+	String toggled = String(input, HEX);
+	toggled.toUpperCase();
+	if (toggled.length() != stringLength)
 	{
-		byte outLength = output.length();
-		String original = output;
-		output = "";
+		byte outLength = toggled.length();
+		String original = toggled;
+		toggled = "";
 		for (int i = 0; i < stringLength - outLength; i++)
 		{
-			output += "0";
+			toggled += "0";
 		}
-		output += original;
+		toggled += original;
 	}
-	return output;
+	return toggled;
 }
 
 /// <summary>
@@ -285,43 +285,63 @@ void NarsSerialCom::unsetReady()
 	send(0, 0);
 }
 
-PushToggle::PushToggle(byte _pin)
+/// <summary>
+/// Push Toggle class
+/// </summary>
+/// <param name="_pin"></param>
+/// <param name="_invert"></param>
+/// <param name="_debounceDelay"></param>
+PushToggle::PushToggle(byte _pin, bool _invert, byte _debounceDelay)
 {
 	this->pin = _pin;
-	this->invert = false;
+	this->invertedInput = _invert;
+	this->debounceDelay = _debounceDelay;
 }
 
+/// <summary>
+/// Check button with debounce and toggle
+/// </summary>
 void PushToggle::read()
 {
-	bool tempRead = digitalRead(this->pin);
-	if (invert)
+	bool pinState;
+
+	if (this->invertedInput)
 	{
-		if (!tempRead)
-		{
-			if (this->output)
-			{
-				this->output = false;
-			}
-			else
-			{
-				this->output = true;
-			}
-		}
+		pinState = !digitalRead(this->pin);
 	}
 	else
 	{
-		if (tempRead)
+		pinState = digitalRead(this->pin);
+	}
+	
+	if (pinState!= this->lastButtonState)
+	{
+		this->lastDebounceTime = millis();
+	}
+
+	if ((millis() - this->lastDebounceTime) > this->debounceDelay)
+	{
+		if (pinState != this->endState)
 		{
-			if (this->output)
+			this->endState = pinState;
+
+			if (endState)
 			{
-				this->output = false;
-			}
-			else
-			{
-				this->output = true;
+				this->toggle = !this->toggle;
 			}
 		}
 	}
+
+	this->lastButtonState = pinState;
+}
+
+/// <summary>
+/// Check of toggled
+/// </summary>
+/// <returns></returns>
+bool PushToggle::toggled()
+{
+	return this->toggle;
 }
 
 #ifdef TwoWire_h

@@ -36,9 +36,9 @@ std::string toHex(unsigned long input)
 {
 	std::stringstream stream;
 	stream << std::hex << input;
-	std::string output(stream.str());
-	std::transform(output.begin(), output.end(), output.begin(), [](unsigned char c) { return std::toupper(c); });
-	return output;
+	std::string toggled(stream.str());
+	std::transform(toggled.begin(), toggled.end(), toggled.begin(), [](unsigned char c) { return std::toupper(c); });
+	return toggled;
 }
 
 /// <summary>
@@ -49,19 +49,19 @@ std::string toHex(unsigned long input)
 /// <returns>End string result</returns>
 std::string toHex(unsigned long input, byte length)
 {
-	std::string output = toHex(input);
-	if (output.length() != length)
+	std::string toggled = toHex(input);
+	if (toggled.length() != length)
 	{
-		byte originalLength = output.length();
-		std::string original = output;
-		output = "";
+		byte originalLength = toggled.length();
+		std::string original = toggled;
+		toggled = "";
 		for (int i = 0; i < length - originalLength; i++)
 		{
-			output += "0";
+			toggled += "0";
 		}
-		output += original;
+		toggled += original;
 	}
-	return output;
+	return toggled;
 }
 
 /// <summary>

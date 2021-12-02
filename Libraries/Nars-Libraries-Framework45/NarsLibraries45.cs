@@ -615,6 +615,20 @@
                 }
                 return output;
             }
+
+            /// <summary>
+            /// Map a value to another
+            /// </summary>
+            /// <param name="x">Value to read</param>
+            /// <param name="in_min">Value to read minimum</param>
+            /// <param name="in_max">Value to read maximum</param>
+            /// <param name="out_min">Out minimum</param>
+            /// <param name="out_max">Out maximum</param>
+            /// <returns>Mapped value</returns>
+            public static double mapValue(double x, double in_min, double in_max, double out_min, double out_max)
+            {
+                return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+            }
         }
 
         /// <summary>
