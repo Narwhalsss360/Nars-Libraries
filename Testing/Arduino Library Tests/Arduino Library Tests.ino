@@ -18,7 +18,7 @@ void setup()
 
 void loop() 
 {
-	
+	boolToString(true);
 	t1.read();
 	digitalWrite(OUT, t1.toggled());
 }
