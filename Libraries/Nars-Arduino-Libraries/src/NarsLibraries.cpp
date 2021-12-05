@@ -139,6 +139,23 @@ double intToFreq(double input)
 }
 
 /// <summary>
+/// Converts bool to string "True"/"False"
+/// </summary>
+/// <param name="input"></param>
+/// <returns></returns>
+String boolToString(bool input)
+{
+	if (input)
+	{
+		return "True";
+	}
+	else
+	{
+		return "False";
+	}
+}
+
+/// <summary>
 /// Invoke method on serialEvent. After parse, done/special method invokes.
 /// </summary>
 /// <param name="done">Done function pointer</param>

@@ -31,6 +31,8 @@ unsigned long hornerScheme(unsigned long Num, unsigned long Divider, unsigned lo
 
 double intToFreq(double input);
 
+String boolToString(bool input);
+
 class NarsSerialCom
 {
 public:
