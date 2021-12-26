@@ -155,6 +155,17 @@ String boolToString(bool input)
 	}
 }
 
+void byteWrite(byte pin, byte byteOut) {
+	for (byte i = 0; i < 8; i++) {
+		digitalWrite(pin, LOW);
+		if (0x80 & byteOut) digitalWrite(pin, HIGH);
+		else digitalWrite(pin, LOW);
+		digitalWrite(pin, HIGH);
+		digitalWrite(pin, LOW);
+		byteOut <<= 1;
+	}
+}
+
 /// <summary>
 /// Invoke method on serialEvent. After parse, done/special method invokes.
 /// </summary>

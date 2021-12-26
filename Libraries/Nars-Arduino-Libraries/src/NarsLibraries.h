@@ -33,6 +33,8 @@ double intToFreq(double input);
 
 String boolToString(bool input);
 
+void byteWrite(byte pin, byte byteOut);
+
 class NarsSerialCom
 {
 public:
