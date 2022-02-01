@@ -35,6 +35,48 @@ String boolToString(bool input);
 
 void byteWrite(byte pin, byte byteOut);
 
+struct UnitConverter
+{
+	enum UNITS
+	{
+		LENGTH,
+		TIME,
+		TEMPERATURE,
+		MASS,
+		LUMOSITY
+	};
+
+	enum class LENGTH
+	{
+		meter
+	};
+
+	enum class TIME
+	{
+		second
+	};
+
+	enum class TEMPERATURE
+	{
+		kelvin
+	};
+
+	enum class MASS
+	{
+		kilogram
+	};
+
+	enum class LUMOSITY
+	{
+		candela
+	};
+
+	double result;
+	double original;
+	
+	double convert();
+};
+
 class NarsSerialCom
 {
 public:
