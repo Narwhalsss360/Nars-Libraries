@@ -48,21 +48,52 @@ struct UnitConverter
 
 	enum class LENGTH
 	{
-		meter
+		picometer,
+		nanometer,
+		micrometer,
+		millimeter,
+		centimeter,
+		decimeter,
+		meter,
+		dekameter,
+		hectometer,
+		kilometer,
+		megameter,
+		gigameter,
+		terameter,
+		petameter
 	};
 
 	enum class TIME
 	{
-		second
+		nanosecond,
+		millisecond,
+		second,
+		minute,
+		hour,
+		day,
+		week,
+		month,
+		year,
+		decade,
+		century
 	};
 
 	enum class TEMPERATURE
 	{
-		kelvin
+		kelvin,
+		Celcius,
+		Fahrenheit
 	};
 
 	enum class MASS
 	{
+		milligram,
+		centigram,
+		decigram,
+		gram,
+		dekagram,
+		hectogram,
 		kilogram
 	};
 
