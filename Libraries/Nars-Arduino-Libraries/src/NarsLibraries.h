@@ -37,9 +37,10 @@ void byteWrite(byte pin, byte byteOut);
 
 struct UnitConverter
 {
-	enum UNITS
+	enum class UNITS
 	{
 		LENGTH,
+		VOLUME,
 		TIME,
 		TEMPERATURE,
 		MASS,
@@ -61,7 +62,33 @@ struct UnitConverter
 		megameter,
 		gigameter,
 		terameter,
-		petameter
+		petameter,
+		inch,
+		foot,
+		yard,
+		mile,
+		lightyear
+	};
+
+	enum class VOLUME
+	{
+		picoliter,
+		nanoliter,
+		microliter,
+		milliliter,
+		centiliter,
+		deciliter,
+		liter,
+		dekaliter,
+		hectoliter,
+		kiloliter,
+		megaliter,
+		gigaliter,
+		teraliter,
+		petaliter,
+		ounce,
+		pint,
+		gallon
 	};
 
 	enum class TIME
@@ -88,24 +115,34 @@ struct UnitConverter
 
 	enum class MASS
 	{
+		picogram,
+		nanogram,
+		microgram,
 		milligram,
 		centigram,
 		decigram,
 		gram,
 		dekagram,
 		hectogram,
-		kilogram
+		kilogram,
+		tonne,
+		ounce,
+		pound,
+		ton
 	};
 
 	enum class LUMOSITY
 	{
-		candela
+		candela,
+		lumens
 	};
 
 	double result;
 	double original;
-	
-	double convert();
+	UNITS originalUnit;
+	UNITS resultUnit;
+
+	double convert(UNITS unitType, double input, const byte inputUnit, const byte outputUnit);
 };
 
 class NarsSerialCom

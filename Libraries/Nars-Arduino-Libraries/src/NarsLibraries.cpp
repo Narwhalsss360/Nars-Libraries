@@ -166,6 +166,211 @@ void byteWrite(byte pin, byte byteOut) {
 	}
 }
 
+double UnitConverter::convert(UNITS unitType, double input, const byte inputUnit, const byte outputUnit)
+{	
+	double result;
+	this->original = input;
+	switch (unitType)
+	{
+
+	case UnitConverter::UNITS::LENGTH:
+	{
+		const LENGTH PinputUnit = (LENGTH)inputUnit;
+		const LENGTH PoutputUnit = (LENGTH)outputUnit;
+		
+		switch (PinputUnit)
+		{
+
+		case UnitConverter::LENGTH::picometer:
+		{	
+
+			switch (PoutputUnit)
+			{
+			case UnitConverter::LENGTH::picometer:
+				result = input;
+				this->result = result;
+				return result;
+				break;
+			case UnitConverter::LENGTH::nanometer:
+				break;
+			case UnitConverter::LENGTH::micrometer:
+				break;
+			case UnitConverter::LENGTH::millimeter:
+				break;
+			case UnitConverter::LENGTH::centimeter:
+				break;
+			case UnitConverter::LENGTH::decimeter:
+				break;
+			case UnitConverter::LENGTH::meter:
+				break;
+			case UnitConverter::LENGTH::dekameter:
+				break;
+			case UnitConverter::LENGTH::hectometer:
+				break;
+			case UnitConverter::LENGTH::kilometer:
+				break;
+			case UnitConverter::LENGTH::megameter:
+				break;
+			case UnitConverter::LENGTH::gigameter:
+				break;
+			case UnitConverter::LENGTH::terameter:
+				break;
+			case UnitConverter::LENGTH::petameter:
+				break;
+			case UnitConverter::LENGTH::inch:
+				break;
+			case UnitConverter::LENGTH::foot:
+				break;
+			case UnitConverter::LENGTH::yard:
+				break;
+			case UnitConverter::LENGTH::mile:
+				break;
+			case UnitConverter::LENGTH::lightyear:
+				break;
+			default:
+				break;
+			}
+
+			break; 
+		}
+
+		case UnitConverter::LENGTH::nanometer:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::micrometer:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::millimeter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::centimeter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::decimeter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::meter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::dekameter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::hectometer:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::kilometer:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::megameter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::gigameter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::terameter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::petameter:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::inch:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::foot:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::yard:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::mile:
+		{
+			break; 
+		}
+
+		case UnitConverter::LENGTH::lightyear:
+		{
+			break; 
+		}
+
+		default:
+			break;
+		}
+
+		break;
+	}
+
+	case UnitConverter::UNITS::VOLUME:
+	{
+		const VOLUME PinputUnit = (VOLUME)inputUnit;
+		const VOLUME PoutputUnit = (VOLUME)outputUnit;
+		break; 
+	}
+
+	case UnitConverter::UNITS::TIME:
+	{
+		const TIME PinputUnit = (TIME)inputUnit;
+		const TIME PoutputUnit = (TIME)outputUnit;
+		break; 
+	}
+
+	case UnitConverter::UNITS::TEMPERATURE:
+	{
+		const TEMPERATURE PinputUnit = (TEMPERATURE)inputUnit;
+		const TEMPERATURE PoutputUnit = (TEMPERATURE)outputUnit;
+		break; 
+	}
+
+	case UnitConverter::UNITS::MASS:
+	{
+		const MASS PinputUnit = (MASS)inputUnit;
+		const MASS PoutputUnit = (MASS)outputUnit;
+		break; 
+	}
+
+	case UnitConverter::UNITS::LUMOSITY:
+	{
+		const LUMOSITY PinputUnit = (LUMOSITY)inputUnit;
+		const LUMOSITY PoutputUnit = (LUMOSITY)outputUnit;
+		break; 
+	}
+
+	default:
+		break;
+	}
+}
+
 /// <summary>
 /// Invoke method on serialEvent. After parse, done/special method invokes.
 /// </summary>
