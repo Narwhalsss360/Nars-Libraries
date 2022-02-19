@@ -66,9 +66,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireHost Test", "Testing\Ar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireClient Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireClient Test\WireClient Test.vcxproj", "{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireHostLite Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireHostLite Test\WireHostLite Test.vcxproj", "{2E28E225-A449-4C48-9FB8-9B357618229D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{09ce6cb0-5e27-47b4-925e-9b7b93668dab}*SharedItemsImports = 9
+		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{2e28e225-a449-4c48-9fb8-9b357618229d}*SharedItemsImports = 4
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{a6276c1a-6cdb-40c2-8449-47a36f9501b0}*SharedItemsImports = 4
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{c6dab17d-5768-4ca8-a2e6-e7bf1c0a13e0}*SharedItemsImports = 4
 		Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems*{f44c4bc6-596b-4905-8cfd-9978aa1072a7}*SharedItemsImports = 9
@@ -184,6 +187,18 @@ Global
 		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|x64.Build.0 = Release|Win32
 		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|x86.ActiveCfg = Release|Win32
 		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|x86.Build.0 = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|Any CPU.Build.0 = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|x64.ActiveCfg = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|x64.Build.0 = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|x86.ActiveCfg = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|x86.Build.0 = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|Any CPU.ActiveCfg = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|Any CPU.Build.0 = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x64.ActiveCfg = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x64.Build.0 = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x86.ActiveCfg = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -208,6 +223,7 @@ Global
 		{DF266890-5D06-46EB-80AB-B4B9E7E924C3} = {8546D18C-95B1-4092-A4E6-E1ECCEEF2DDD}
 		{A6276C1A-6CDB-40C2-8449-47A36F9501B0} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
 		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
+		{2E28E225-A449-4C48-9FB8-9B357618229D} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89CBFD6B-35EB-4C41-8732-75553F226906}

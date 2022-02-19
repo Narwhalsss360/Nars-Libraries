@@ -31,6 +31,8 @@ unsigned long HornerScheme(unsigned long Num, unsigned long Divider, unsigned lo
 
 double INT2FREQ(double input);
 
+String boolToString(int input);
+
 class NarsSerialCom
 {
 public:
@@ -86,6 +88,20 @@ public:
 	void getData();
 	void sendData();
 	void sendData(byte addr);
+private:
+	byte notFoundCounter;
+};
+
+class WireHostLite
+{
+public:
+	bool connected;
+	byte id;
+	byte address;
+	void check();
+	byte getData(byte dataRegister);
+	void sendData(byte dateRegister, byte data);
+	WireHostLite(byte _address);
 private:
 	byte notFoundCounter;
 };

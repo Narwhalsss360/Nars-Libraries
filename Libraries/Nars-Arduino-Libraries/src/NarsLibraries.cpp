@@ -138,6 +138,18 @@ double INT2FREQ(double input)
 	return input;
 }
 
+String boolToString(int input)
+{
+	if (input > 0)
+	{
+		return "True";
+	}
+	else
+	{
+		return "False";
+	}
+}
+
 /// <summary>
 /// Invoke method on serialEvent. After parse, done/special method invokes.
 /// </summary>
@@ -395,6 +407,87 @@ void WireHost::sendData(byte addr)
 }
 
 /// <summary>
+/// Constructor
+/// </summary>
+/// <param name="_address"></param>
+WireHostLite::WireHostLite(byte _address)
+{
+	this->address = _address;
+}
+
+/// <summary>
+/// Check if client is available
+/// </summary>
+void WireHostLite::check()
+{
+	Wire.beginTransmission(this->address);
+	Wire.write(0x00);
+	Wire.endTransmission();
+	Wire.requestFrom(this->address, (byte)1);
+	if (1 <= Wire.available())
+	{
+		notFoundCounter = 0;
+		this->id = (byte)Wire.read();
+		this->connected = true;
+	}
+	else
+	{
+		if (notFoundCounter == 255)
+		{
+			this->connected = false;
+		}
+		else
+		{
+			notFoundCounter++;
+		}
+	}
+}
+
+/// <summary>
+/// Send data to client on a register
+/// </summary>
+/// <param name="dataRegister">register select</param>
+/// <param name="data">data</param>
+void WireHostLite::sendData(byte dataRegister, byte data)
+{
+	if (this->connected)
+	{
+		if (dataRegister >= 65)
+		{
+			Wire.beginTransmission(this->address);
+			Wire.write(dataRegister);
+			Wire.endTransmission();
+			Wire.beginTransmission(this->address);
+			Wire.write(data);
+			Wire.endTransmission();
+		}
+	}
+}
+
+/// <summary>
+/// Get data from a specific register
+/// </summary>
+/// <param name="dataRegister">Register to get data from</param>
+/// <returns>data from selected register</returns>
+byte WireHostLite::getData(byte dataRegister)
+{
+	if (this->connected)
+	{
+		if (dataRegister <= 64)
+		{
+			Wire.beginTransmission(this->address);
+			Wire.write(dataRegister);
+			Wire.endTransmission();
+			Wire.requestFrom(this->address, (byte)1);
+			if (1 <= Wire.available())
+			{
+				return Wire.read();
+			}
+		}
+	}
+}
+
+/// <summary>
 /// Invoke in Wire.OnReceive
 /// </summary>
 /// <param name="bytes">On Receive</param>
@@ -428,6 +521,11 @@ void WireClient::onRequest()
 	}
 }
 
+/// <summary>
+/// Constructor
+/// </summary>
+/// <param name="address"></param>
+/// <param name="id"></param>
 WireClient::WireClient(byte address, byte id)
 {
 	this->deviceProperties.address = address;
