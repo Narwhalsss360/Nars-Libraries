@@ -615,6 +615,43 @@
                 }
                 return output;
             }
+
+            /// <summary>
+            /// Horner Scheme
+            /// </summary>
+            /// <param name="Num"></param>
+            /// <param name="Divider"></param>
+            /// <param name="Factor"></param>
+            /// <returns></returns>
+            public static ulong HornerScheme(ulong Num, ulong Divider, ulong Factor)
+            {
+                ulong Remainder = 0, Quotient = 0, Result = 0;
+                Remainder = Num % Divider;
+                Quotient = Num / Divider;
+                if (!(Quotient == 0 && Remainder == 0))
+                    Result += HornerScheme(Quotient, Divider, Factor) * Factor + Remainder;
+                return Result;
+            }
+
+            /// <summary>
+            /// BCD to Decimal
+            /// </summary>
+            /// <param name="number"></param>
+            /// <returns></returns>
+            public static ulong bcdToDec(ulong number)
+            {
+                return HornerScheme(number, 0x10, 10);
+            }
+
+            /// <summary>
+            /// Decimal to BCD
+            /// </summary>
+            /// <param name="number"></param>
+            /// <returns></returns>
+            public static ulong decToBcd(ulong number)
+            {
+                return HornerScheme(number, 10, 0x10);
+            }
         }
 
         /// <summary>
