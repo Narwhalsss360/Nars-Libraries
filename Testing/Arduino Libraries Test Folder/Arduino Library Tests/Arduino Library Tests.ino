@@ -12,13 +12,10 @@ PushToggle t1(BUTTON_PIN, INVERTED, DEBOUNCE_DELAY);
 
 void setup()
 {
-	pinMode(BUTTON_PIN, INPUT_PULLUP);
-	pinMode(OUT, OUTPUT);
+	
 }
 
 void loop() 
 {
-	boolToString(true);
-	t1.read();
-	digitalWrite(OUT, t1.toggled());
+	
 }
