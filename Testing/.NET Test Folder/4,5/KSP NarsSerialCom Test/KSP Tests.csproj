@@ -63,7 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\Nars-Libraries-Framework45\Nars Libraries Framework45.csproj">
+    <ProjectReference Include="..\..\..\..\Libraries\Nars-Libraries-Framework45\Nars Libraries Framework45.csproj">
       <Project>{e893402d-b556-4488-85b4-6237ee8adf61}</Project>
       <Name>Nars Libraries Framework45</Name>
     </ProjectReference>

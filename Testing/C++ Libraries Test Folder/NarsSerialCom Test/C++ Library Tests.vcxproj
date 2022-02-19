@@ -24,6 +24,7 @@
     <ProjectGuid>{6d2856a6-3678-4327-948d-f170915591df}</ProjectGuid>
     <RootNamespace>CLibraryTests</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>NarsSerialCom Test</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
