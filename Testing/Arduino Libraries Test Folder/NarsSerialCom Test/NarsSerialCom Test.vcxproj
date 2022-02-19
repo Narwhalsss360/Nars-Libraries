@@ -54,8 +54,6 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
     <Import Project="..\..\Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems" Label="Shared" />
-    <Import Project="E:\Users\sandr\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C-1.1.2.vcxitems" Label="Shared" />
-    <Import Project="E:\Program Files %28x86%29\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
