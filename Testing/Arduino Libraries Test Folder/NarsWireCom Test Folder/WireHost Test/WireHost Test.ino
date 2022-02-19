@@ -3,33 +3,24 @@
 #include <Wire.h>
 #include "NarsLibraries.h"
 
+PROGMEM const byte button1Pin = 3;
+PROGMEM const byte button2Pin = 5;
+WireSearch wireSearch;
 WireHost Client1;
 
-byte reg = 70;
-byte dat = 53;
+unsigned long uptime,
+prev;
 
 void setup() 
 {
 	Wire.begin();
 	Client1.deviceProperties.address = 0x01;
-	Client1.check();
 	Serial.begin(1000000);
+	pinMode(button1Pin, INPUT_PULLUP);
+	pinMode(button2Pin, INPUT_PULLUP);
 }
 
 void loop() 
 {
-	Client1.check();
-	if (Client1.deviceProperties.state == Client1.deviceProperties.states.CONNECTED)
-	{
-		Client1.deviceProperties.data[reg] = dat;
-		Client1.sendData();
-		Serial.print("Sent ");
-		Serial.print(dat);
-		Serial.print(" at register ");
-		Serial.println(reg);
-	}
-	else
-	{
-		Serial.println("Not connected");
-	}
+	delay(500);
 }

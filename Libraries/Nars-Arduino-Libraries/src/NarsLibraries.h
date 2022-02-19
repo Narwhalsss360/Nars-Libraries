@@ -46,13 +46,18 @@ private:
 	static bool ready;
 };
 
-String wireSearch();
-
 #if defined(TwoWire_h)
+
+struct WireSearch
+{
+	bool availableWireAddresses[127];
+	void search();
+};
+
 struct DevicePropertiesTemplateSlave
 {
 	byte id;
-	byte adress;
+	byte address;
 	byte data[256];
 };
 
@@ -92,9 +97,10 @@ public:
 	void onReceive(int bytes);
 	void onRequest();
 	byte registerSelect;
+	WireClient(byte address, byte id);
 private:
 	bool recv;
-	byte recvData;
+	int recvData;
 };
 
 #endif // TwoWire_h

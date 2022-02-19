@@ -290,17 +290,20 @@ void NarsSerialCom::unsetReady()
 /// Search for wire devices.
 /// </summary>
 /// <returns>Device Addresses</returns>
-String wireSearch()
+void WireSearch::search()
 {
-	String addresses;
-	for (byte i = 1; i < 127; i++)
+	for (byte address = 0; address < 127; address++)
 	{
-		Wire.beginTransmission(i);
+		this->availableWireAddresses[address] = 0;
+	}
+
+	for (byte address = 1; address < 127; address++)
+	{
+		Wire.beginTransmission(address); 
 		byte status = Wire.endTransmission();
 		if (status == 0)
 		{
-			addresses += (String)i;
-			addresses += ",";
+			this->availableWireAddresses[address] = true;
 		}
 	}
 }
@@ -313,10 +316,12 @@ void WireHost::check()
 	Wire.beginTransmission(this->deviceProperties.address);
 	Wire.write(0x00);
 	Wire.endTransmission();
-	if (Wire.available())
+	Wire.requestFrom(this->deviceProperties.address, (byte)1);
+	if (1 <= Wire.available())
 	{
 		notFoundCounter = 0;
-		this->deviceProperties.id = Wire.read();
+		this->deviceProperties.id = (byte)Wire.read();
+		this->deviceProperties.data[0] = this->deviceProperties.id;
 		this->deviceProperties.state = this->deviceProperties.states.CONNECTED;
 	}
 	else
@@ -396,22 +401,20 @@ void WireHost::sendData(byte addr)
 void WireClient::onReceive(int bytes)
 {
 	this->recvData = Wire.read();
-	if (this->recvData >= 65)
-	{
-		if (this->recv = false)
-		{
-			this->recv = true;
-		}
-		this->registerSelect = this->recvData;
-	}
+
 	if (recv)
 	{
-		this->deviceProperties.data[this->registerSelect] = recvData;
+		this->deviceProperties.data[this->registerSelect] = recvData; 
+		this->recv = false;
 	}
 	else
 	{
 		this->registerSelect = this->recvData;
-	}
+		if (this->recvData >= 65)
+		{
+			this->recv = true;
+		}
+	}	
 }
 
 /// <summary>
@@ -423,5 +426,12 @@ void WireClient::onRequest()
 	{
 		Wire.write(this->deviceProperties.data[this->registerSelect]);
 	}
+}
+
+WireClient::WireClient(byte address, byte id)
+{
+	this->deviceProperties.address = address;
+	this->deviceProperties.id = id;
+	this->deviceProperties.data[0] = this->deviceProperties.id;
 }
 #endif // TwoWire_h
