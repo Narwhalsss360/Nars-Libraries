@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Arduino Library Tests.ino" />
+    <None Include="NarsSerialCom Test.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Arduino Library Tests.vsarduino.h">

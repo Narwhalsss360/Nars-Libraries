@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9555BD08-D438-46C9-90DB-651CA8668D68}</ProjectGuid>
     <RootNamespace>Arduino_Library_Tests</RootNamespace>
-    <ProjectName>NarsSerialCom Test</ProjectName>
+    <ProjectName>Arduino Library Tests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -106,7 +106,7 @@
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="NarsSerialCom Test.ino">
+    <None Include="Arduino Library Tests.ino">
       <FileType>CppCode</FileType>
     </None>
   </ItemGroup>
