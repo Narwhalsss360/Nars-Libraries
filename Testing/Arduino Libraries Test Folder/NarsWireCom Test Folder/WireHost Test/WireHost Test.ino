@@ -23,4 +23,6 @@ void setup()
 void loop() 
 {
 	delay(500);
+	Client1.deviceProperties.data[15] = 123;
+	Client1.sendData();
 }
