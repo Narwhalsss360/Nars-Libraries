@@ -617,17 +617,40 @@
             }
 
             /// <summary>
-            /// Map a value to another
+            /// Horner Scheme
             /// </summary>
-            /// <param name="x">Value to read</param>
-            /// <param name="in_min">Value to read minimum</param>
-            /// <param name="in_max">Value to read maximum</param>
-            /// <param name="out_min">Out minimum</param>
-            /// <param name="out_max">Out maximum</param>
-            /// <returns>Mapped value</returns>
-            public static double mapValue(double x, double in_min, double in_max, double out_min, double out_max)
+            /// <param name="Num"></param>
+            /// <param name="Divider"></param>
+            /// <param name="Factor"></param>
+            /// <returns></returns>
+            public static ulong HornerScheme(ulong Num, ulong Divider, ulong Factor)
             {
-                return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+                ulong Remainder = 0, Quotient = 0, Result = 0;
+                Remainder = Num % Divider;
+                Quotient = Num / Divider;
+                if (!(Quotient == 0 && Remainder == 0))
+                    Result += HornerScheme(Quotient, Divider, Factor) * Factor + Remainder;
+                return Result;
+            }
+
+            /// <summary>
+            /// BCD to Decimal
+            /// </summary>
+            /// <param name="number"></param>
+            /// <returns></returns>
+            public static ulong bcdToDec(ulong number)
+            {
+                return HornerScheme(number, 0x10, 10);
+            }
+
+            /// <summary>
+            /// Decimal to BCD
+            /// </summary>
+            /// <param name="number"></param>
+            /// <returns></returns>
+            public static ulong decToBcd(ulong number)
+            {
+                return HornerScheme(number, 10, 0x10);
             }
         }
 

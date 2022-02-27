@@ -145,6 +145,8 @@ struct UnitConverter
 	double convert(UNITS unitType, double input, const byte inputUnit, const byte outputUnit);
 };
 
+String boolToString(int input);
+
 class NarsSerialCom
 {
 public:
@@ -177,12 +179,18 @@ private:
 };
 
 String wireSearch();
-
 #if defined(TwoWire_h)
+
+struct WireSearch
+{
+	bool availableWireAddresses[127];
+	void search();
+};
+
 struct DevicePropertiesTemplateSlave
 {
 	byte id;
-	byte adress;
+	byte address;
 	byte data[256];
 };
 
@@ -215,6 +223,20 @@ private:
 	byte notFoundCounter;
 };
 
+class WireHostLite
+{
+public:
+	bool connected;
+	byte id;
+	byte address;
+	void check();
+	byte getData(byte dataRegister);
+	void sendData(byte dateRegister, byte data);
+	WireHostLite(byte _address);
+private:
+	byte notFoundCounter;
+};
+
 class WireClient
 {
 public:
@@ -222,9 +244,10 @@ public:
 	void onReceive(int bytes);
 	void onRequest();
 	byte registerSelect;
+	WireClient(byte address, byte id);
 private:
 	bool recv;
-	byte recvData;
+	int recvData;
 };
 
 #endif // TwoWire_h

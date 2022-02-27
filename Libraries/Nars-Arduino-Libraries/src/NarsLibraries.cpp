@@ -138,6 +138,18 @@ double intToFreq(double input)
 	return input;
 }
 
+String boolToString(int input)
+{
+	if (input > 0)
+	{
+		return "True";
+	}
+	else
+	{
+		return "False";
+	}
+}
+
 /// <summary>
 /// Converts bool to string "True"/"False"
 /// </summary>
@@ -582,17 +594,20 @@ bool PushToggle::toggled()
 /// Search for wire devices.
 /// </summary>
 /// <returns>Device Addresses</returns>
-String wireSearch()
+void WireSearch::search()
 {
-	String addresses;
-	for (byte i = 1; i < 127; i++)
+	for (byte address = 0; address < 127; address++)
 	{
-		Wire.beginTransmission(i);
+		this->availableWireAddresses[address] = 0;
+	}
+
+	for (byte address = 1; address < 127; address++)
+	{
+		Wire.beginTransmission(address); 
 		byte status = Wire.endTransmission();
 		if (status == 0)
 		{
-			addresses += (String)i;
-			addresses += ",";
+			this->availableWireAddresses[address] = true;
 		}
 	}
 }
@@ -605,10 +620,12 @@ void WireHost::check()
 	Wire.beginTransmission(this->deviceProperties.address);
 	Wire.write(0x00);
 	Wire.endTransmission();
-	if (Wire.available())
+	Wire.requestFrom(this->deviceProperties.address, (byte)1);
+	if (1 <= Wire.available())
 	{
 		notFoundCounter = 0;
-		this->deviceProperties.id = Wire.read();
+		this->deviceProperties.id = (byte)Wire.read();
+		this->deviceProperties.data[0] = this->deviceProperties.id;
 		this->deviceProperties.state = this->deviceProperties.states.CONNECTED;
 	}
 	else
@@ -682,28 +699,107 @@ void WireHost::sendData(byte addr)
 }
 
 /// <summary>
+/// Constructor
+/// </summary>
+/// <param name="_address"></param>
+WireHostLite::WireHostLite(byte _address)
+{
+	this->address = _address;
+}
+
+/// <summary>
+/// Check if client is available
+/// </summary>
+void WireHostLite::check()
+{
+	Wire.beginTransmission(this->address);
+	Wire.write(0x00);
+	Wire.endTransmission();
+	Wire.requestFrom(this->address, (byte)1);
+	if (1 <= Wire.available())
+	{
+		notFoundCounter = 0;
+		this->id = (byte)Wire.read();
+		this->connected = true;
+	}
+	else
+	{
+		if (notFoundCounter == 255)
+		{
+			this->connected = false;
+		}
+		else
+		{
+			notFoundCounter++;
+		}
+	}
+}
+
+/// <summary>
+/// Send data to client on a register
+/// </summary>
+/// <param name="dataRegister">register select</param>
+/// <param name="data">data</param>
+void WireHostLite::sendData(byte dataRegister, byte data)
+{
+	if (this->connected)
+	{
+		if (dataRegister >= 65)
+		{
+			Wire.beginTransmission(this->address);
+			Wire.write(dataRegister);
+			Wire.endTransmission();
+			Wire.beginTransmission(this->address);
+			Wire.write(data);
+			Wire.endTransmission();
+		}
+	}
+}
+
+/// <summary>
+/// Get data from a specific register
+/// </summary>
+/// <param name="dataRegister">Register to get data from</param>
+/// <returns>data from selected register</returns>
+byte WireHostLite::getData(byte dataRegister)
+{
+	if (this->connected)
+	{
+		if (dataRegister <= 64)
+		{
+			Wire.beginTransmission(this->address);
+			Wire.write(dataRegister);
+			Wire.endTransmission();
+			Wire.requestFrom(this->address, (byte)1);
+			if (1 <= Wire.available())
+			{
+				return Wire.read();
+			}
+		}
+	}
+}
+
+/// <summary>
 /// Invoke in Wire.OnReceive
 /// </summary>
 /// <param name="bytes">On Receive</param>
 void WireClient::onReceive(int bytes)
 {
 	this->recvData = Wire.read();
-	if (this->recvData >= 65)
-	{
-		if (this->recv = false)
-		{
-			this->recv = true;
-		}
-		this->registerSelect = this->recvData;
-	}
+
 	if (recv)
 	{
-		this->deviceProperties.data[this->registerSelect] = recvData;
+		this->deviceProperties.data[this->registerSelect] = recvData; 
+		this->recv = false;
 	}
 	else
 	{
 		this->registerSelect = this->recvData;
-	}
+		if (this->recvData >= 65)
+		{
+			this->recv = true;
+		}
+	}	
 }
 
 /// <summary>
@@ -715,5 +811,17 @@ void WireClient::onRequest()
 	{
 		Wire.write(this->deviceProperties.data[this->registerSelect]);
 	}
+}
+
+/// <summary>
+/// Constructor
+/// </summary>
+/// <param name="address"></param>
+/// <param name="id"></param>
+WireClient::WireClient(byte address, byte id)
+{
+	this->deviceProperties.address = address;
+	this->deviceProperties.id = id;
+	this->deviceProperties.data[0] = this->deviceProperties.id;
 }
 #endif // TwoWire_h

@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9555BD08-D438-46C9-90DB-651CA8668D68}</ProjectGuid>
     <RootNamespace>Arduino_Library_Tests</RootNamespace>
-    <ProjectName>Arduino Library Tests</ProjectName>
+    <ProjectName>NarsSerialCom Test</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -54,9 +54,6 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
     <Import Project="..\..\Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems" Label="Shared" />
-    <Import Project="E:\Users\sandr\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C-1.1.2.vcxitems" Label="Shared" />
-    <Import Project="E:\Program Files %28x86%29\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems" Label="Shared" />
-    <Import Project="E:\Users\sandr\Documents\Arduino\libraries\ButtonDebounce\ButtonDebounce-1.0.1.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -77,8 +74,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Arduino Library Tests;E:\Users\sandr\Documents\Arduino\libraries\ButtonDebounce\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;E:\Users\sandr\Documents\Arduino\libraries\LiquidCrystal_I2C;$(ProjectDir)..\..\Libraries\Nars-Arduino-Libraries\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include-fixed;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include\avr;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>$(ProjectDir)__vm\.Arduino Library Tests.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\NarsSerialCom Test;E:\Users\sandr\Documents\Arduino\libraries\LiquidCrystal_I2C;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;E:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;E:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include-fixed;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include\avr;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.2\include;$(ProjectDir)..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ProjectDir)__vm\.NarsSerialCom Test.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>__AVR_atmega328p__;__AVR_ATmega328P__;__AVR_ATmega328p__;F_CPU=16000000L;ARDUINO=108013;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -113,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Arduino Library Tests.vsarduino.h" />
+    <ClInclude Include="__vm\.NarsSerialCom Test.vsarduino.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

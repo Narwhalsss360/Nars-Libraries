@@ -37,57 +37,43 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Notes.txt = Notes.txt
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Arduino Library Tests", "Testing\Arduino Library Tests\Arduino Library Tests.vcxproj", "{9555BD08-D438-46C9-90DB-651CA8668D68}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LiquidCrystal_I2C-1.1.2", "E:\Users\sandr\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C-1.1.2.vcxitems", "{776A8B83-8421-4B9E-8550-ADF7FAC95749}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wire-1.0", "E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems", "{8A50F6F4-12CB-4520-8591-44974DE484A5}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "C++ Library Tests", "Testing\C++ Library Tests\C++ Library Tests.vcxproj", "{6D2856A6-3678-4327-948D-F170915591DF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework 48 Library Tests", "Testing\Framework 48 Library Tests\Framework 48 Library Tests.csproj", "{426EF248-BFBC-498E-A944-E7660A4C499B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nars C++ Shared Libraries", "Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems", "{F44C4BC6-596B-4905-8CFD-9978AA1072A7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ButtonDebounce-1.0.1", "E:\Users\sandr\Documents\Arduino\libraries\ButtonDebounce\ButtonDebounce-1.0.1.vcxitems", "{0A77EB27-1C8A-4B58-9968-CEA3ACCAAB3C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".NET Libraries Test Folder", ".NET Libraries Test Folder", "{989BF711-A8BA-4424-8057-5B0A2E5963E3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{489EE24B-56B3-4D5D-A65F-3319D0F9E164}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Arduino Libraries Test Folder", "Arduino Libraries Test Folder", "{8546D18C-95B1-4092-A4E6-E1ECCEEF2DDD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Arduino Examples", "Arduino Examples", "{7A4FF9ED-09A3-4064-A162-E2688B7C3359}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C++ Libraries Test Folder", "C++ Libraries Test Folder", "{2CEE5724-51D1-4573-80CB-32C4F70A26C4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PushToggle", "Examples\Arduino Examples\PushToggle\PushToggle.vcxproj", "{193A672E-94EB-4B77-83B7-42D8EA16E853}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python Libraries Test Folder", "Python Libraries Test Folder", "{A562EE39-D881-4F07-818A-89AEDE4F7F50}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nars-Arduino-Libraries-1.0.2", "E:\Users\sandr\Documents\Arduino\libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries-1.0.2.vcxitems", "{811AF10E-17BB-4C85-A86D-1898718DA37F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4,5", "4,5", "{DF5F0993-A48E-4726-BB5B-AD082699CBF5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerialCom", "Examples\Arduino Examples\SerialCom\SerialCom.vcxproj", "{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4,8", "4,8", "{DBDEC1FA-E3A3-4B92-9205-7CF8C5AE683F}"
+	ProjectSection(SolutionItems) = preProject
+		Testing\.NET Test Folder\4,8\Framework 48 Library Tests\Framework 48 Library Tests.csproj = Testing\.NET Test Folder\4,8\Framework 48 Library Tests\Framework 48 Library Tests.csproj
+	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Arduino Libraries Test Folder", "Arduino Libraries Test Folder", "{461E1F64-4B28-40BD-9A8F-2E41DECC2582}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSP Tests", "Testing\.NET Test Folder\4,5\KSP NarsSerialCom Test\KSP Tests.csproj", "{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C++ Libraries Test Folder", "C++ Libraries Test Folder", "{AFC27454-73C4-49CC-8C42-14D90C7705CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NarsSerialCom Test", "Testing\Arduino Libraries Test Folder\NarsSerialCom Test\NarsSerialCom Test.vcxproj", "{9555BD08-D438-46C9-90DB-651CA8668D68}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".NET Libraries Test Folder", ".NET Libraries Test Folder", "{439A4730-B9DD-4D36-90C1-9CB7CE5DE23F}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Python Tests", "Testing\Python Libraries Test Folder\Python Test\Python Tests.pyproj", "{6D6680DE-BB24-4995-98BC-982F22F49AB5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework 4,8", "Framework 4,8", "{F4554A4F-9291-4EB2-A727-EACFA7BF24BC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NarsWireCom Test Folder", "NarsWireCom Test Folder", "{DF266890-5D06-46EB-80AB-B4B9E7E924C3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework 4,5", "Framework 4,5", "{9502D1CC-E1A4-470F-A6A1-BA3EFFA055CB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireHost Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireHost Test\WireHost Test.vcxproj", "{A6276C1A-6CDB-40C2-8449-47A36F9501B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python Libraries Test Folder", "Python Libraries Test Folder", "{9C1520CC-21A0-400A-83FD-0D9940184B84}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireClient Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireClient Test\WireClient Test.vcxproj", "{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireHostLite Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireHostLite Test\WireHostLite Test.vcxproj", "{2E28E225-A449-4C48-9FB8-9B357618229D}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{09ce6cb0-5e27-47b4-925e-9b7b93668dab}*SharedItemsImports = 9
-		E:\Users\sandr\Documents\Arduino\libraries\ButtonDebounce\ButtonDebounce-1.0.1.vcxitems*{0a77eb27-1c8a-4b58-9968-cea3accaab3c}*SharedItemsImports = 9
-		E:\Users\sandr\Documents\Arduino\libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries-1.0.2.vcxitems*{193a672e-94eb-4b77-83b7-42d8ea16e853}*SharedItemsImports = 4
-		Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems*{6d2856a6-3678-4327-948d-f170915591df}*SharedItemsImports = 4
-		E:\Users\sandr\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C-1.1.2.vcxitems*{776a8b83-8421-4b9e-8550-adf7fac95749}*SharedItemsImports = 9
-		E:\Users\sandr\Documents\Arduino\libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries-1.0.2.vcxitems*{811af10e-17bb-4c85-a86d-1898718da37f}*SharedItemsImports = 9
-		E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems*{8a50f6f4-12cb-4520-8591-44974de484a5}*SharedItemsImports = 9
-		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{9555bd08-d438-46c9-90db-651ca8668d68}*SharedItemsImports = 4
-		E:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\Wire-1.0.vcxitems*{9555bd08-d438-46c9-90db-651ca8668d68}*SharedItemsImports = 4
-		E:\Users\sandr\Documents\Arduino\libraries\ButtonDebounce\ButtonDebounce-1.0.1.vcxitems*{9555bd08-d438-46c9-90db-651ca8668d68}*SharedItemsImports = 4
-		E:\Users\sandr\Documents\Arduino\libraries\LiquidCrystal_I2C\LiquidCrystal_I2C-1.1.2.vcxitems*{9555bd08-d438-46c9-90db-651ca8668d68}*SharedItemsImports = 4
-		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		E:\Users\sandr\Documents\Arduino\libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries-1.0.2.vcxitems*{cb9d0aa4-d3f8-4a0c-a9f0-5c09a5407907}*SharedItemsImports = 4
+		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{2e28e225-a449-4c48-9fb8-9b357618229d}*SharedItemsImports = 4
+		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{a6276c1a-6cdb-40c2-8449-47a36f9501b0}*SharedItemsImports = 4
+		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{c6dab17d-5768-4ca8-a2e6-e7bf1c0a13e0}*SharedItemsImports = 4
 		Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems*{f44c4bc6-596b-4905-8cfd-9978aa1072a7}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,60 +133,72 @@ Global
 		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|x64.ActiveCfg = Release|Any CPU
 		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE}.Release|x86.ActiveCfg = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|x64.Build.0 = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Debug|x86.Build.0 = Debug|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|x64.ActiveCfg = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|x64.Build.0 = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|x86.ActiveCfg = Release|Any CPU
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C}.Release|x86.Build.0 = Release|Any CPU
 		{9555BD08-D438-46C9-90DB-651CA8668D68}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{9555BD08-D438-46C9-90DB-651CA8668D68}.Debug|Any CPU.Build.0 = Debug|Win32
 		{9555BD08-D438-46C9-90DB-651CA8668D68}.Debug|x64.ActiveCfg = Debug|Win32
+		{9555BD08-D438-46C9-90DB-651CA8668D68}.Debug|x64.Build.0 = Debug|Win32
 		{9555BD08-D438-46C9-90DB-651CA8668D68}.Debug|x86.ActiveCfg = Debug|Win32
 		{9555BD08-D438-46C9-90DB-651CA8668D68}.Debug|x86.Build.0 = Debug|Win32
 		{9555BD08-D438-46C9-90DB-651CA8668D68}.Release|Any CPU.ActiveCfg = Release|Win32
+		{9555BD08-D438-46C9-90DB-651CA8668D68}.Release|Any CPU.Build.0 = Release|Win32
 		{9555BD08-D438-46C9-90DB-651CA8668D68}.Release|x64.ActiveCfg = Release|Win32
+		{9555BD08-D438-46C9-90DB-651CA8668D68}.Release|x64.Build.0 = Release|Win32
 		{9555BD08-D438-46C9-90DB-651CA8668D68}.Release|x86.ActiveCfg = Release|Win32
 		{9555BD08-D438-46C9-90DB-651CA8668D68}.Release|x86.Build.0 = Release|Win32
-		{6D2856A6-3678-4327-948D-F170915591DF}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{6D2856A6-3678-4327-948D-F170915591DF}.Debug|x64.ActiveCfg = Debug|x64
-		{6D2856A6-3678-4327-948D-F170915591DF}.Debug|x64.Build.0 = Debug|x64
-		{6D2856A6-3678-4327-948D-F170915591DF}.Debug|x86.ActiveCfg = Debug|Win32
-		{6D2856A6-3678-4327-948D-F170915591DF}.Debug|x86.Build.0 = Debug|Win32
-		{6D2856A6-3678-4327-948D-F170915591DF}.Release|Any CPU.ActiveCfg = Release|Win32
-		{6D2856A6-3678-4327-948D-F170915591DF}.Release|x64.ActiveCfg = Release|x64
-		{6D2856A6-3678-4327-948D-F170915591DF}.Release|x64.Build.0 = Release|x64
-		{6D2856A6-3678-4327-948D-F170915591DF}.Release|x86.ActiveCfg = Release|Win32
-		{6D2856A6-3678-4327-948D-F170915591DF}.Release|x86.Build.0 = Release|Win32
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Debug|x64.Build.0 = Debug|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Debug|x86.Build.0 = Debug|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Release|x64.ActiveCfg = Release|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Release|x64.Build.0 = Release|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Release|x86.ActiveCfg = Release|Any CPU
-		{426EF248-BFBC-498E-A944-E7660A4C499B}.Release|x86.Build.0 = Release|Any CPU
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|Any CPU.Build.0 = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|x64.ActiveCfg = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|x64.Build.0 = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|x86.ActiveCfg = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|x86.Build.0 = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|Any CPU.ActiveCfg = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|Any CPU.Build.0 = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|x64.ActiveCfg = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|x64.Build.0 = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|x86.ActiveCfg = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|x86.Build.0 = Release|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Debug|Any CPU.Build.0 = Debug|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Debug|x64.ActiveCfg = Debug|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Debug|x64.Build.0 = Debug|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Debug|x86.ActiveCfg = Debug|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Debug|x86.Build.0 = Debug|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Release|Any CPU.ActiveCfg = Release|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Release|Any CPU.Build.0 = Release|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Release|x64.ActiveCfg = Release|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Release|x64.Build.0 = Release|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Release|x86.ActiveCfg = Release|Win32
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907}.Release|x86.Build.0 = Release|Win32
+		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Release|x64.ActiveCfg = Release|Any CPU
+		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Release|x86.ActiveCfg = Release|Any CPU
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|Any CPU.Build.0 = Debug|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|x64.ActiveCfg = Debug|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|x64.Build.0 = Debug|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|x86.ActiveCfg = Debug|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|x86.Build.0 = Debug|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Release|Any CPU.Build.0 = Release|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Release|x64.ActiveCfg = Release|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Release|x64.Build.0 = Release|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Release|x86.ActiveCfg = Release|Win32
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Release|x86.Build.0 = Release|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Debug|Any CPU.Build.0 = Debug|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Debug|x64.ActiveCfg = Debug|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Debug|x64.Build.0 = Debug|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Debug|x86.ActiveCfg = Debug|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Debug|x86.Build.0 = Debug|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|Any CPU.ActiveCfg = Release|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|Any CPU.Build.0 = Release|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|x64.ActiveCfg = Release|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|x64.Build.0 = Release|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|x86.ActiveCfg = Release|Win32
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}.Release|x86.Build.0 = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|Any CPU.Build.0 = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|x64.ActiveCfg = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|x64.Build.0 = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|x86.ActiveCfg = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Debug|x86.Build.0 = Debug|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|Any CPU.ActiveCfg = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|Any CPU.Build.0 = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x64.ActiveCfg = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x64.Build.0 = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x86.ActiveCfg = Release|Win32
+		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,19 +210,20 @@ Global
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88} = {7EA945F3-D5D6-4996-91D7-FA30C2E4A2FC}
 		{4B504505-4E7A-4B16-AEB8-DDED8D81916B} = {7EA945F3-D5D6-4996-91D7-FA30C2E4A2FC}
 		{0CF8C052-AEE4-4D13-8FDB-BC92A3FA3CDE} = {960AC963-E95D-4FC7-98D2-58093CD260C9}
-		{9555BD08-D438-46C9-90DB-651CA8668D68} = {461E1F64-4B28-40BD-9A8F-2E41DECC2582}
-		{6D2856A6-3678-4327-948D-F170915591DF} = {AFC27454-73C4-49CC-8C42-14D90C7705CE}
-		{426EF248-BFBC-498E-A944-E7660A4C499B} = {F4554A4F-9291-4EB2-A727-EACFA7BF24BC}
 		{F44C4BC6-596B-4905-8CFD-9978AA1072A7} = {960AC963-E95D-4FC7-98D2-58093CD260C9}
-		{7A4FF9ED-09A3-4064-A162-E2688B7C3359} = {489EE24B-56B3-4D5D-A65F-3319D0F9E164}
-		{193A672E-94EB-4B77-83B7-42D8EA16E853} = {7A4FF9ED-09A3-4064-A162-E2688B7C3359}
-		{CB9D0AA4-D3F8-4A0C-A9F0-5C09A5407907} = {7A4FF9ED-09A3-4064-A162-E2688B7C3359}
-		{461E1F64-4B28-40BD-9A8F-2E41DECC2582} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
-		{AFC27454-73C4-49CC-8C42-14D90C7705CE} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
-		{439A4730-B9DD-4D36-90C1-9CB7CE5DE23F} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
-		{F4554A4F-9291-4EB2-A727-EACFA7BF24BC} = {439A4730-B9DD-4D36-90C1-9CB7CE5DE23F}
-		{9502D1CC-E1A4-470F-A6A1-BA3EFFA055CB} = {439A4730-B9DD-4D36-90C1-9CB7CE5DE23F}
-		{9C1520CC-21A0-400A-83FD-0D9940184B84} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
+		{989BF711-A8BA-4424-8057-5B0A2E5963E3} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
+		{8546D18C-95B1-4092-A4E6-E1ECCEEF2DDD} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
+		{2CEE5724-51D1-4573-80CB-32C4F70A26C4} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
+		{A562EE39-D881-4F07-818A-89AEDE4F7F50} = {70736A8E-AC86-44D0-A41C-0E5CAA83908A}
+		{DF5F0993-A48E-4726-BB5B-AD082699CBF5} = {989BF711-A8BA-4424-8057-5B0A2E5963E3}
+		{DBDEC1FA-E3A3-4B92-9205-7CF8C5AE683F} = {989BF711-A8BA-4424-8057-5B0A2E5963E3}
+		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C} = {DF5F0993-A48E-4726-BB5B-AD082699CBF5}
+		{9555BD08-D438-46C9-90DB-651CA8668D68} = {8546D18C-95B1-4092-A4E6-E1ECCEEF2DDD}
+		{6D6680DE-BB24-4995-98BC-982F22F49AB5} = {A562EE39-D881-4F07-818A-89AEDE4F7F50}
+		{DF266890-5D06-46EB-80AB-B4B9E7E924C3} = {8546D18C-95B1-4092-A4E6-E1ECCEEF2DDD}
+		{A6276C1A-6CDB-40C2-8449-47A36F9501B0} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
+		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
+		{2E28E225-A449-4C48-9FB8-9B357618229D} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89CBFD6B-35EB-4C41-8732-75553F226906}
