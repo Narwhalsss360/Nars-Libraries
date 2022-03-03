@@ -34,6 +34,7 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Nars Python Libraries3.9", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F15CC078-B1DA-40FA-B170-F3A8D05A0AA9}"
 	ProjectSection(SolutionItems) = preProject
+		ArduinoRelease.bat = ArduinoRelease.bat
 		Notes.txt = Notes.txt
 	EndProjectSection
 EndProject
@@ -60,13 +61,13 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Python Tests", "Testing\Pyt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NarsWireCom Test Folder", "NarsWireCom Test Folder", "{DF266890-5D06-46EB-80AB-B4B9E7E924C3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireHost Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireHost Test\WireHost Test.vcxproj", "{A6276C1A-6CDB-40C2-8449-47A36F9501B0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NarsSerialCom_Test", "Testing\Arduino Libraries Test Folder\NarsSerialCom_Test\NarsSerialCom_Test.vcxproj", "{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireClient Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireClient Test\WireClient Test.vcxproj", "{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireHost_Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireHost_Test\WireHost_Test.vcxproj", "{A6276C1A-6CDB-40C2-8449-47A36F9501B0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireHostLite Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireHostLite Test\WireHostLite Test.vcxproj", "{2E28E225-A449-4C48-9FB8-9B357618229D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireClient_Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireClient_Test\WireClient_Test.vcxproj", "{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NarsSerialCom Test", "Testing\Arduino Libraries Test Folder\NarsSerialCom Test\NarsSerialCom Test.vcxproj", "{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WireHostLite_Test", "Testing\Arduino Libraries Test Folder\NarsWireCom Test Folder\WireHostLite_Test\WireHostLite_Test.vcxproj", "{2E28E225-A449-4C48-9FB8-9B357618229D}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -153,6 +154,18 @@ Global
 		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Release|x64.ActiveCfg = Release|Any CPU
 		{6D6680DE-BB24-4995-98BC-982F22F49AB5}.Release|x86.ActiveCfg = Release|Any CPU
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|Any CPU.Build.0 = Debug|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|x64.ActiveCfg = Debug|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|x64.Build.0 = Debug|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|x86.ActiveCfg = Debug|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|x86.Build.0 = Debug|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|Any CPU.ActiveCfg = Release|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|Any CPU.Build.0 = Release|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|x64.ActiveCfg = Release|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|x64.Build.0 = Release|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|x86.ActiveCfg = Release|Win32
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|x86.Build.0 = Release|Win32
 		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|Any CPU.Build.0 = Debug|Win32
 		{A6276C1A-6CDB-40C2-8449-47A36F9501B0}.Debug|x64.ActiveCfg = Debug|Win32
@@ -189,18 +202,6 @@ Global
 		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x64.Build.0 = Release|Win32
 		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x86.ActiveCfg = Release|Win32
 		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x86.Build.0 = Release|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|Any CPU.Build.0 = Debug|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|x64.ActiveCfg = Debug|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|x64.Build.0 = Debug|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|x86.ActiveCfg = Debug|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Debug|x86.Build.0 = Debug|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|Any CPU.ActiveCfg = Release|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|Any CPU.Build.0 = Release|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|x64.ActiveCfg = Release|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|x64.Build.0 = Release|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|x86.ActiveCfg = Release|Win32
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -222,10 +223,10 @@ Global
 		{8C0DC543-D98B-4A58-8745-EE14E81A9A5C} = {DF5F0993-A48E-4726-BB5B-AD082699CBF5}
 		{6D6680DE-BB24-4995-98BC-982F22F49AB5} = {A562EE39-D881-4F07-818A-89AEDE4F7F50}
 		{DF266890-5D06-46EB-80AB-B4B9E7E924C3} = {8546D18C-95B1-4092-A4E6-E1ECCEEF2DDD}
+		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F} = {8546D18C-95B1-4092-A4E6-E1ECCEEF2DDD}
 		{A6276C1A-6CDB-40C2-8449-47A36F9501B0} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
 		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
 		{2E28E225-A449-4C48-9FB8-9B357618229D} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
-		{990CBAB7-B2FC-4D57-87A4-6975B4B3747F} = {8546D18C-95B1-4092-A4E6-E1ECCEEF2DDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89CBFD6B-35EB-4C41-8732-75553F226906}

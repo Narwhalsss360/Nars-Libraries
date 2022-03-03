@@ -23,7 +23,4 @@
     </Text>
     <Text Include="$(MSBuildThisFileDirectory)src\keywords.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)release.bat" />
-  </ItemGroup>
 </Project>

@@ -23,7 +23,4 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)src\NarsLibraries.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)release.bat" />
-  </ItemGroup>
 </Project>
