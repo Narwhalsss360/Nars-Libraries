@@ -4,10 +4,8 @@
 
 void setup() 
 {
-
 }
 
 void loop() 
 {
-  
 }

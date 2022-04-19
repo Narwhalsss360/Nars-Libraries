@@ -11,6 +11,12 @@
 	#include "WProgram.h"
 #endif
 
+#define SERIALCOM_BAUD 1000000
+#define ZERO 0
+#define NEWLINE '\n'
+#define NULLTERMINATOR '\0'
+
+#ifdef ARDUINO_ARCH_AVR
 #define ULONG_MAX 4294967295 
 #define LONG_MAX 2147483647
 #define LONG_MIN -2147483648
@@ -18,6 +24,12 @@
 #define UINT_MAX 65535
 #define INT_MAX 32767
 #define INT_MIN -32768
+
+#define BYTE_MAX 255
+
+#define ADCMAX 1023
+#endif // ARDUINO_ARCH_AVR
+
 
 #define BCD2DEC(num) hornerScheme(num, 0x10, 10)
 
@@ -31,7 +43,7 @@ long bitCast(unsigned long in);
 
 unsigned long bitCast(long in);
 
-double mapValue(double x, double in_min, double in_max, double out_min, double out_max);
+double map(double x, double in_min, double in_max, double out_min, double out_max);
 
 unsigned long hornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor);
 
@@ -261,6 +273,6 @@ private:
 
 extern NarsSerialCom SerialCom;
 
-#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter))
+#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter) + sizeof(boolToString))
 
 #endif
