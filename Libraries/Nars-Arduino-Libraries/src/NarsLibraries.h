@@ -38,29 +38,30 @@
 #define ERROR_MSG "ERROR: "
 
 #define addInterrupt(pin, ISR, mode) attachInterrupt(digitalPinToInterrupt(pin), ISR, mode);
+#define removeInterrupt(pin) detachInterrupt(digitalPinToInterrupt(pin));
 #define BCD2DEC(num) hornerScheme(num, 0x10, 10)
 
-unsigned long x2i(char* s);
+unsigned long x2i(char*);
 
-String toHex(unsigned long input, byte stringLength);
+String toHex(unsigned long, byte);
 
-int octalToDecimal(int n);
+int octalToDecimal(int);
 
-long bitCast(unsigned long in);
+long bitCast(unsigned long);
 
-unsigned long bitCast(long in);
+unsigned long bitCast(long);
 
-double map(double x, double in_min, double in_max, double out_min, double out_max);
+double map(double, double, double, double, double);
 
-unsigned long hornerScheme(unsigned long Num, unsigned long Divider, unsigned long Factor);
+unsigned long hornerScheme(unsigned long, unsigned long, unsigned long);
 
-double intToFreq(double input);
+double intToFreq(double);
 
-String boolToString(bool input);
+String boolToString(bool);
 
-void byteWrite(byte pin, byte byteOut);
+void byteWrite(byte, byte);
 
-String boolToString(int input);
+String boolToString(int);
 
 struct UnitConverter
 {
@@ -169,7 +170,7 @@ struct UnitConverter
 	UNITS originalUnit;
 	UNITS resultUnit;
 
-	double convert(UNITS unitType, double input, const byte inputUnit, const byte outputUnit);
+	double convert(UNITS, double, const byte, const byte);
 };
 
 enum class TYPES : byte
@@ -199,10 +200,10 @@ class NarsSerialCom
 public:
 	static unsigned long data[256];
 	static bool connected;
-	static void onSerialEvent(void (*done) (unsigned int _register, unsigned long data), void (*special) (unsigned int registerrr, String data));
-	static void send(unsigned int _register, unsigned long data);
-	static void sendSpecial(unsigned int _register, String data);
-	static void sendDataRange(uint8_t start, uint8_t end);
+	static void onSerialEvent(void (*) (unsigned int, unsigned long), void (*) (unsigned int, String));
+	static void send(unsigned int, unsigned long);
+	static void sendSpecial(unsigned int, String);
+	static void sendDataRange(uint8_t, uint8_t);
 	static void setReady();
 	static void unsetReady();
 private:
@@ -212,10 +213,10 @@ private:
 class PushToggle
 {
 public:
-	PushToggle(byte _pin, bool _invert, byte _debounceDelay);
+	PushToggle(byte, bool, byte);
 	void read();
 	bool toggled();
-	void setCallBack(void (*_callBack) (void));
+	void setCallBack(void (*) (void));
 private:
 	byte pin;
 	bool invertedInput;
@@ -227,59 +228,43 @@ private:
 	void (*callBack) (void);
 };
 
+class Push
+{
+public:
+	Push(byte);
+private:
+	const byte pin;
+};
+
 class Logger
 {
 public:
 	Logger();
-	
 	void verbose(const char* mes);
-
 	void notice(const char* mes);
-
 	void warning(const char* mes);
-
 	void error(const char* mes);
-
 	void verbose(const char* module, const char* mes);
-
 	void notice(const char* module, const char* mes);
-
 	void warning(const char* module, const char* mes);
-
 	void error(const char* module, const char* mes);
-
 	void verbose(String mes);
-
 	void notice(String mes);
-
 	void warning(String mes);
-
 	void error(String mes);
-
 	void verbose(String module, String mes);
-
 	void notice(String module, String mes);
-
 	void warning(String module, String mes);
-
 	void error(String module, String mes);
-
 	void addLocal(void (*_local)(Logger));
-
 	void logAll();
-
-	void directLog(TYPES type, word memAddr, const char* name);
-
-	void addToLogger(TYPES type, word memAddr, const char* name);
-
-	void removeFromLogger(word memAddr);
-
+	void directLog(TYPES, word, const char*);
+	void addToLogger(TYPES, word, const char*);
+	void removeFromLogger(word);
 	void addOutput();
-
-	void enableSerialOutput();
-
-	void disableSerialOutput();
-
+	void enableSerialOutput(bool);
+	void showModule(bool);
+	void showLevel(bool);
 private:
 	void (*local)(Logger) = 0;
 	void (*output)(const char*) = 0 ;
@@ -287,6 +272,8 @@ private:
 	TYPES types[16] = { TYPES::UND };
 	char names[10][16];
 	bool serialOutput = false;
+	bool showModule;
+	bool showLevel;
 };
 
 #if defined(TwoWire_h)
@@ -328,7 +315,7 @@ public:
 	void check();
 	void getData();
 	void sendData();
-	void sendData(byte addr);
+	void sendData(byte);
 private:
 	byte notFoundCounter;
 };
@@ -340,9 +327,9 @@ public:
 	byte id;
 	byte address;
 	void check();
-	byte getData(byte dataRegister);
-	void sendData(byte dateRegister, byte data);
-	WireHostLite(byte _address);
+	byte getData(byte);
+	void sendData(byte, byte);
+	WireHostLite(byte);
 private:
 	byte notFoundCounter;
 };
@@ -351,10 +338,10 @@ class WireClient
 {
 public:
 	DevicePropertiesTemplateSlave deviceProperties;
-	void onReceive(int bytes);
+	void onReceive(int);
 	void onRequest();
 	byte registerSelect;
-	WireClient(byte address, byte id);
+	WireClient(byte, byte);
 private:
 	bool recv;
 	int recvData;
