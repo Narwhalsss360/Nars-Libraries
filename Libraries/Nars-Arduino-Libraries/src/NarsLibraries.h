@@ -28,9 +28,10 @@
 #define BYTE_MAX 255
 
 #define ADCMAX 1023
+#define PWNMAX 255
 #endif // ARDUINO_ARCH_AVR
 
-
+#define addInterrupt(pin, ISR, mode) attachInterrupt(digitalPinToInterrupt(pin), ISR, mode);
 #define BCD2DEC(num) hornerScheme(num, 0x10, 10)
 
 unsigned long x2i(char* s);
@@ -198,6 +199,11 @@ private:
 	void (*callBack) (void);
 };
 
+class Logger
+{
+
+};
+
 #if defined(TwoWire_h)
 
 struct WireSearch
@@ -273,6 +279,6 @@ private:
 
 extern NarsSerialCom SerialCom;
 
-#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter) + sizeof(boolToString))
+#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter))
 
 #endif
