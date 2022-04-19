@@ -11,7 +11,6 @@
 	#include "WProgram.h"
 #endif
 
-#define SERIALCOM_BAUD 1000000
 #define ZERO 0
 #define NEWLINE '\n'
 #define NULLTERMINATOR '\0'
@@ -30,6 +29,13 @@
 #define ADCMAX 1023
 #define PWNMAX 255
 #endif // ARDUINO_ARCH_AVR
+
+#define SERIALCOM_BAUD 1000000
+#define LOG_MSG "LOG: ";
+#define VERBOSE_MSG "VERBOSE: "
+#define NOTICE_MSG "NOTICE: "
+#define WARNING_MSG "WARNING: "
+#define ERROR_MSG "ERROR: "
 
 #define addInterrupt(pin, ISR, mode) attachInterrupt(digitalPinToInterrupt(pin), ISR, mode);
 #define BCD2DEC(num) hornerScheme(num, 0x10, 10)
@@ -166,6 +172,28 @@ struct UnitConverter
 	double convert(UNITS unitType, double input, const byte inputUnit, const byte outputUnit);
 };
 
+enum class TYPES : byte
+{
+	UND,
+	BL,
+	S8,
+	S16,
+	S32,
+	U8,
+	U16,
+	U32,
+	F32,
+	D32
+};
+
+enum class LOGLEVEL
+{
+	VERBOSE,
+	NOTICE,
+	WARNING,
+	ERROR
+};
+
 class NarsSerialCom
 {
 public:
@@ -201,7 +229,64 @@ private:
 
 class Logger
 {
+public:
+	Logger();
+	
+	void verbose(const char* mes);
 
+	void notice(const char* mes);
+
+	void warning(const char* mes);
+
+	void error(const char* mes);
+
+	void verbose(const char* module, const char* mes);
+
+	void notice(const char* module, const char* mes);
+
+	void warning(const char* module, const char* mes);
+
+	void error(const char* module, const char* mes);
+
+	void verbose(String mes);
+
+	void notice(String mes);
+
+	void warning(String mes);
+
+	void error(String mes);
+
+	void verbose(String module, String mes);
+
+	void notice(String module, String mes);
+
+	void warning(String module, String mes);
+
+	void error(String module, String mes);
+
+	void addLocal(void (*_local)(Logger));
+
+	void logAll();
+
+	void directLog(TYPES type, word memAddr, const char* name);
+
+	void addToLogger(TYPES type, word memAddr, const char* name);
+
+	void removeFromLogger(word memAddr);
+
+	void addOutput();
+
+	void enableSerialOutput();
+
+	void disableSerialOutput();
+
+private:
+	void (*local)(Logger) = 0;
+	void (*output)(const char*) = 0 ;
+	word registeredValues[16] = { 0 };
+	TYPES types[16] = { TYPES::UND };
+	char names[10][16];
+	bool serialOutput = false;
 };
 
 #if defined(TwoWire_h)
@@ -279,6 +364,6 @@ private:
 
 extern NarsSerialCom SerialCom;
 
-#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter))
+#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter) + sizeof(Logger))
 
 #endif
