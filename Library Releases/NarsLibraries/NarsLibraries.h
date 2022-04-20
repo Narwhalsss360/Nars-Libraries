@@ -419,10 +419,14 @@ private:
 	int recvData;
 };
 
-#endif // TwoWire_h
-
-extern NarsSerialCom SerialCom;
-
 #define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter) + sizeof(WireSearch) + sizeof(DevicePropertiesTemplateSlave) + sizeof(DevicePropertiesTemplateMaster) + sizeof(WireHost) + sizeof(WireHostLite) + sizeof(WireClient) + sizeof(Logger) + sizeof(RGBA) + sizeof(RGB) + sizeof(HSV) + sizeof(COLOR) + sizeof(TYPES) + sizeof(LOGLEVEL))
 
+#endif // TwoWire_h
+
+#ifndef TwoWire_h
+#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter) + sizeof(Logger) + sizeof(RGBA) + sizeof(RGB) + sizeof(HSV) + sizeof(COLOR) + sizeof(TYPES) + sizeof(LOGLEVEL))
+#endif // !TwoWire_h
+
+
+extern NarsSerialCom SerialCom;
 #endif

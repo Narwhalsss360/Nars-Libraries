@@ -4,6 +4,8 @@
 
 void setup() 
 {
+	Serial.begin(SERIALCOM_BAUD);
+	Serial.println(LIB_SIZE);
 }
 
 void loop() 
