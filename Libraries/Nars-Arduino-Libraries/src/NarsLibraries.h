@@ -51,7 +51,7 @@ long bitCast(unsigned long);
 
 unsigned long bitCast(long);
 
-double map(double, double, double, double, double);
+double mapf(double, double, double, double, double);
 
 unsigned long hornerScheme(unsigned long, unsigned long, unsigned long);
 

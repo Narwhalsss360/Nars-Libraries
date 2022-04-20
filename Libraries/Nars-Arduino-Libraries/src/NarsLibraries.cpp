@@ -104,7 +104,7 @@ unsigned long bitCast(long in)
 /// <param name="out_min">Output min</param>
 /// <param name="out_max">Output max</param>
 /// <returns>mapped values</returns>
-double map(double x, double in_min, double in_max, double out_min, double out_max)
+double mapf(double x, double in_min, double in_max, double out_min, double out_max)
 {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }

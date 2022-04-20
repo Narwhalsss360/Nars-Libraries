@@ -28,6 +28,7 @@ toHex					KEYWORD2
 octalToDecimal			KEYWORD2
 hornerScheme			KEYWORD2
 intToFreq				KEYWORD2
+mapf					KEYWORD2
 
 SerialCom				KEYWORD1
 connected				KEYWORD1
