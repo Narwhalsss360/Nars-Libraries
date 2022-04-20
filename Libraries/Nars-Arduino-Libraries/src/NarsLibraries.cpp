@@ -184,46 +184,56 @@ void byteWrite(byte pin, byte byteOut) {
 	}
 }
 
-double UnitConverter::convert(UNITS unitType, double input, const byte inputUnit, const byte outputUnit)
+double UnitConverter::convert(UOM unitType, double input, const byte inputUnit, const byte outputUnit)
 {	
-	double result;
 	this->original = input;
 	switch (unitType)
 	{
 
-	case UnitConverter::UNITS::LENGTH:
+	case UnitConverter::UOM::LENGTH:
 	{
-		const LENGTH PinputUnit = (LENGTH)inputUnit;
-		const LENGTH PoutputUnit = (LENGTH)outputUnit;
 		
-		switch (PinputUnit)
+		switch ((LENGTH)inputUnit)
 		{
 
 		case UnitConverter::LENGTH::picometer:
 		{	
 
-			switch (PoutputUnit)
+			switch ((LENGTH)outputUnit)
 			{
 			case UnitConverter::LENGTH::picometer:
-				result = input;
 				this->result = result;
-				return result;
+				return this->result;
 				break;
 			case UnitConverter::LENGTH::nanometer:
+				this->result = input * 1000;
+				return this->result;
 				break;
 			case UnitConverter::LENGTH::micrometer:
+				this->result = input * 1000000;
+				return this->result;
 				break;
 			case UnitConverter::LENGTH::millimeter:
+				this->result = input * 1000000000;
 				break;
 			case UnitConverter::LENGTH::centimeter:
+				this->result = input * 10000000000;
+				return this->result;
 				break;
 			case UnitConverter::LENGTH::decimeter:
+				this->result = input * 100000000000;
+				return this->result;
 				break;
 			case UnitConverter::LENGTH::meter:
+				this->result = input * 1000000000000;
+				return this->result;
 				break;
 			case UnitConverter::LENGTH::dekameter:
+				this->result = input * 10000000000000;
+				return this->result;
 				break;
 			case UnitConverter::LENGTH::hectometer:
+				this->result = input * 
 				break;
 			case UnitConverter::LENGTH::kilometer:
 				break;
@@ -349,35 +359,35 @@ double UnitConverter::convert(UNITS unitType, double input, const byte inputUnit
 		break;
 	}
 
-	case UnitConverter::UNITS::VOLUME:
+	case UnitConverter::UOM::VOLUME:
 	{
 		const VOLUME PinputUnit = (VOLUME)inputUnit;
 		const VOLUME PoutputUnit = (VOLUME)outputUnit;
 		break; 
 	}
 
-	case UnitConverter::UNITS::TIME:
+	case UnitConverter::UOM::TIME:
 	{
 		const TIME PinputUnit = (TIME)inputUnit;
 		const TIME PoutputUnit = (TIME)outputUnit;
 		break; 
 	}
 
-	case UnitConverter::UNITS::TEMPERATURE:
+	case UnitConverter::UOM::TEMPERATURE:
 	{
 		const TEMPERATURE PinputUnit = (TEMPERATURE)inputUnit;
 		const TEMPERATURE PoutputUnit = (TEMPERATURE)outputUnit;
 		break; 
 	}
 
-	case UnitConverter::UNITS::MASS:
+	case UnitConverter::UOM::MASS:
 	{
 		const MASS PinputUnit = (MASS)inputUnit;
 		const MASS PoutputUnit = (MASS)outputUnit;
 		break; 
 	}
 
-	case UnitConverter::UNITS::LUMOSITY:
+	case UnitConverter::UOM::LUMOSITY:
 	{
 		const LUMOSITY PinputUnit = (LUMOSITY)inputUnit;
 		const LUMOSITY PoutputUnit = (LUMOSITY)outputUnit;

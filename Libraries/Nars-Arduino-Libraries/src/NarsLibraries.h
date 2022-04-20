@@ -65,7 +65,7 @@ String boolToString(int);
 
 struct UnitConverter
 {
-	enum class UNITS : byte
+	enum class UOM : byte
 	{
 		LENGTH,
 		VOLUME,
@@ -167,10 +167,10 @@ struct UnitConverter
 
 	double result;
 	double original;
-	UNITS originalUnit;
-	UNITS resultUnit;
+	UOM originalUnit;
+	UOM resultUnit;
 
-	double convert(UNITS, double, const byte, const byte);
+	double convert(UOM, double, const byte, const byte);
 };
 
 enum class TYPES : byte
