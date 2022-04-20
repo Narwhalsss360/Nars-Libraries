@@ -26,8 +26,8 @@
 
 #define BYTE_MAX 255
 
-#define ADCMAX 1023
-#define PWNMAX 255
+#define ADC_MAX 1023
+#define PWN_MAX 255
 #endif // ARDUINO_ARCH_AVR
 
 #define SERIALCOM_BAUD 1000000
