@@ -28,6 +28,7 @@ toHex					KEYWORD2
 octalToDecimal			KEYWORD2
 hornerScheme			KEYWORD2
 intToFreq				KEYWORD2
+mapf					KEYWORD2
 
 SerialCom				KEYWORD1
 connected				KEYWORD1
@@ -39,6 +40,27 @@ setReady				KEYWORD2
 unsetReady				KEYWORD2
 toggled					KEYWORD2
 ready					KEYWORD1
+
+RGBA					KEYWORD1
+red						KEYWORD2
+green					KEYWORD2
+blue					KEYWORD2
+alpha					KEYWORD2
+
+RGB						KEYWORD1
+
+HSV						KEYWORD1
+hue						KEYWORD2
+saturation				KEYWORD2
+value					KEYWORD2
+
+UnitConverter			KEYWORD1
+convert					KEYWORD2
+
+COLOR					KEYWORD1
+rgb						KEYWORD2
+hsv						KEYWORD2
+hexCode					KEYWORD2
 
 Push					KEYWORD1
 update					KEYWORD2

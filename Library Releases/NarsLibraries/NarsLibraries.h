@@ -51,7 +51,7 @@ long bitCast(unsigned long);
 
 unsigned long bitCast(long);
 
-double map(double, double, double, double, double);
+double mapf(double, double, double, double, double);
 
 unsigned long hornerScheme(unsigned long, unsigned long, unsigned long);
 
@@ -62,6 +62,34 @@ String boolToString(bool);
 void byteWrite(byte, byte);
 
 String boolToString(int);
+
+struct RGBA
+{
+	byte red,
+		green,
+		blue,
+		alpha;
+	RGBA();
+	RGBA(byte, byte, byte, byte);
+};
+
+struct RGB
+{
+	byte red,
+		green,
+		blue;
+	RGB();
+	RGB(byte, byte, byte);
+};
+
+struct HSV
+{
+	float hue,
+		saturation,
+		value;
+	HSV();
+	HSV(float, float, float);
+};
 
 struct UnitConverter
 {
@@ -173,6 +201,24 @@ struct UnitConverter
 	double convert(UOM, double, const byte, const byte);
 };
 
+struct COLOR
+{
+public:
+	RGB rgb;
+	HSV hsv;
+	unsigned long hexCode;
+private:
+	void convertHexToRGB();
+	void convertHSVToRGB();
+	void convertRGBToHex();
+	void convertRGBToHSV();
+public:
+	COLOR();
+	COLOR(unsigned long);
+	COLOR(HSV);
+	COLOR(RGB);
+};
+
 enum class TYPES : byte
 {
 	UND,
@@ -187,7 +233,7 @@ enum class TYPES : byte
 	D32
 };
 
-enum class LOGLEVEL
+enum class LOGLEVEL : byte
 {
 	VERBOSE,
 	NOTICE,
@@ -231,13 +277,6 @@ private:
 class Push
 {
 public:
-	enum BUTTONSTATESINDEX
-	{
-		CURRENT,
-		PRESS,
-		RELEASE,
-		PREVIOUS
-	};
 	Push(byte, bool, int);
 	void update();
 	bool current();
@@ -247,6 +286,13 @@ public:
 	void (*onRelease) (unsigned int);
 	void (*onPress) (void);
 private:
+	enum BUTTONSTATESINDEX
+	{
+		CURRENT,
+		PRESS,
+		RELEASE,
+		PREVIOUS
+	};
 	enum member
 	{
 		PRESSEDMEMBER,
@@ -377,6 +423,6 @@ private:
 
 extern NarsSerialCom SerialCom;
 
-#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter) + sizeof(Logger))
+#define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter) + sizeof(WireSearch) + sizeof(DevicePropertiesTemplateSlave) + sizeof(DevicePropertiesTemplateMaster) + sizeof(WireHost) + sizeof(WireHostLite) + sizeof(WireClient) + sizeof(Logger) + sizeof(RGBA) + sizeof(RGB) + sizeof(HSV) + sizeof(COLOR) + sizeof(TYPES) + sizeof(LOGLEVEL))
 
 #endif

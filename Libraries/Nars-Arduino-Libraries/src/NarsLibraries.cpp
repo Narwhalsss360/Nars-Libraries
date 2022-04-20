@@ -1,7 +1,18 @@
 #include "NarsLibraries.h"
 
+/// <summary>
+/// Connect to serialCom Protocol.
+/// </summary>
 bool NarsSerialCom::connected;
+
+/// <summary>
+/// SerialCom data
+/// </summary>
 unsigned long NarsSerialCom::data[256];
+
+/// <summary>
+/// Set if ready to recieve.
+/// </summary>
 bool NarsSerialCom::ready;
 
 /// <summary>
@@ -182,6 +193,73 @@ void byteWrite(byte pin, byte byteOut) {
 		digitalWrite(pin, LOW);
 		byteOut <<= 1;
 	}
+}
+
+/// <summary>
+/// Default Constructor
+/// </summary>
+RGBA::RGBA()
+	:red(0), green(0), blue(0), alpha(0)
+{
+
+}
+
+/// <summary>
+/// RGBA input constructor
+/// </summary>
+/// <param name="_red">Red</param>
+/// <param name="_green">Green</param>
+/// <param name="_blue">Blue</param>
+/// <param name="_alpha">Alpha</param>
+RGBA::RGBA(byte _red, byte _green, byte _blue, byte _alpha)
+	:red(_red), green(_green), blue(_blue), alpha(_alpha)
+{
+
+}
+
+
+/// <summary>
+/// Default Constructor
+/// </summary>
+RGB::RGB()
+	:red(0), green(0), blue(0)
+{
+
+}
+
+
+/// <summary>
+/// Input Constructor
+/// </summary>
+/// <param name="_red">Red</param>
+/// <param name="_green">Green</param>
+/// <param name="_blue">Blue</param>
+RGB::RGB(byte _red, byte _green, byte _blue)
+	:red(_red), green(_green), blue(_blue)
+{
+
+}
+
+/// <summary>
+/// Default Constructor
+/// </summary>
+HSV::HSV()
+	:hue(0), saturation(0), value(0)
+{
+
+}
+
+/// <summary>
+/// Input Constructor
+/// </summary>
+/// <param name="h">Hue</param>
+/// <param name="s">Saturation</param>
+/// <param name="v">Value</param>
+HSV::HSV(float h, float s, float v)
+{
+	this->hue = (0 <= h && h <= 360) ? h : 0;
+	this->saturation = (0 <= s && s <= 100) ? s : 0;
+	this->value = (0 <= v && v <= 100) ? v : 0;
 }
 
 double UnitConverter::convert(UOM unitType, double input, const byte inputUnit, const byte outputUnit)
@@ -395,6 +473,130 @@ double UnitConverter::convert(UOM unitType, double input, const byte inputUnit, 
 
 	default:
 		break;
+	}
+}
+
+/// <summary>
+/// Default constructor.
+/// </summary>
+COLOR::COLOR()
+	:hexCode(0), rgb(), hsv()
+{
+
+}
+
+/// <summary>
+/// Hex input constructor.
+/// </summary>
+/// <param name="_hexCode">Hex code</param>
+COLOR::COLOR(unsigned long _hexCode)
+	:hexCode(_hexCode), rgb(), hsv()
+{
+	this->convertHexToRGB();
+	this->convertRGBToHSV();
+}
+
+/// <summary>
+/// HSV Constructor
+/// </summary>
+/// <param name="_hsv">HSV input</param>
+COLOR::COLOR(HSV _hsv)
+	:hexCode(0), rgb(), hsv()
+{
+	this->convertHSVToRGB();
+	this->convertRGBToHex();
+}
+
+/// <summary>
+/// RGB Constructor
+/// </summary>
+/// <param name="_rgb">RGB input</param>
+COLOR::COLOR(RGB _rgb)
+	:hexCode(0), rgb(_rgb), hsv()
+{
+	this->convertRGBToHSV();
+	this->convertRGBToHex();
+}
+
+void COLOR::convertHexToRGB()
+{
+	this->rgb.red = this->hexCode >> 16;
+	this->rgb.green = (this->hexCode & 0x00ff00) >> 8;
+	this->rgb.blue = (this->hexCode & 0x0000ff);
+}
+
+void COLOR::convertHSVToRGB()
+{
+	float s = this->hsv.saturation / 100;
+	float v = this->hsv.value / 100;
+	float C = s * v;
+	float X = C * (1 - abs(fmod(this->hsv.hue / 60.0, 2) - 1));
+	float m = v - C;
+	float r, g, b;
+	if (this->hsv.hue >= 0 && this->hsv.hue < 60) {
+		r = C, g = X, b = 0;
+	}
+	else if (this->hsv.hue >= 60 && this->hsv.hue < 120) {
+		r = X, g = C, b = 0;
+	}
+	else if (this->hsv.hue >= 120 && this->hsv.hue < 180) {
+		r = 0, g = C, b = X;
+	}
+	else if (this->hsv.hue >= 180 && this->hsv.hue < 240) {
+		r = 0, g = X, b = C;
+	}
+	else if (this->hsv.hue >= 240 && this->hsv.hue < 300) {
+		r = X, g = 0, b = C;
+	}
+	else {
+		r = C, g = 0, b = X;
+	}
+	this->rgb.red = (r + m) * 255;
+	this->rgb.green = (g + m) * 255;
+	this->rgb.blue = (b + m) * 255;
+}
+
+void COLOR::convertRGBToHex()
+{
+	this->hexCode |= this->rgb.red << 16;
+	this->hexCode |= this->rgb.blue << 8;
+	this->hexCode |= this->rgb.green;
+}
+
+void COLOR::convertRGBToHSV()
+{
+	float fCMax = max(max(this->rgb.red, this->rgb.green), this->rgb.blue);
+	float fCMin = min(min(this->rgb.red, this->rgb.green), this->rgb.blue);
+	float fDelta = fCMax - fCMin;
+
+	if (fDelta > 0) {
+		if (fCMax == this->rgb.red) {
+			this->hsv.hue = 60 * (fmod(((this->rgb.green - this->rgb.blue) / fDelta), 6));
+		}
+		else if (fCMax == this->rgb.green) {
+			this->hsv.hue = 60 * (((this->rgb.blue - this->rgb.red) / fDelta) + 2);
+		}
+		else if (fCMax == this->rgb.blue) {
+			this->hsv.hue = 60 * (((this->rgb.red - this->rgb.green) / fDelta) + 4);
+		}
+
+		if (fCMax > 0) {
+			this->hsv.saturation = fDelta / fCMax;
+		}
+		else {
+			this->hsv.saturation = 0;
+		}
+
+		this->hsv.value = fCMax;
+	}
+	else {
+		this->hsv.hue = 0;
+		this->hsv.saturation = 0;
+		this->hsv.value = fCMax;
+	}
+
+	if (this->hsv.hue < 0) {
+		this->hsv.hue = 360 + this->hsv.hue;
 	}
 }
 
