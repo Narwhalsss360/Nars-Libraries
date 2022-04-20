@@ -231,9 +231,35 @@ private:
 class Push
 {
 public:
-	Push(byte);
+	enum BUTTONSTATESINDEX
+	{
+		CURRENT,
+		PRESS,
+		RELEASE,
+		PREVIOUS
+	};
+	Push(byte, bool, int);
+	void update();
+	bool current();
+	bool pressed();
+	bool released();
+	unsigned int getHoldTime();
+	void (*onRelease) (unsigned int);
+	void (*onPress) (void);
 private:
+	enum member
+	{
+		PRESSEDMEMBER,
+		RELEASEDMEMBER
+	};
 	const byte pin;
+	const bool inverted;
+	const unsigned short debounceDelay;
+	bool state[4];
+	unsigned long onPressTime;
+	unsigned long lastDebounceTime;
+	unsigned int holdTime;
+	bool called[2];
 };
 
 class Logger
@@ -263,8 +289,8 @@ public:
 	void removeFromLogger(word);
 	void addOutput();
 	void enableSerialOutput(bool);
-	void showModule(bool);
-	void showLevel(bool);
+	void setShowModule(bool);
+	void setShowLevel(bool);
 private:
 	void (*local)(Logger) = 0;
 	void (*output)(const char*) = 0 ;

@@ -550,7 +550,7 @@ void PushToggle::setCallBack(void (*_callBack) (void))
 
 /// <summary>
 /// Check button with debounce and toggle
-/// </summary>
+/// </summary>.
 void PushToggle::read()
 {
 	bool pinState;
@@ -594,6 +594,85 @@ void PushToggle::read()
 bool PushToggle::toggled()
 {
 	return this->toggle;
+}
+
+Push::Push(byte _pin, bool _inverted, int _debounceDelay)
+	:pin(_pin), inverted(_inverted), debounceDelay(_debounceDelay), onRelease(NULL), onPress(NULL), onPressTime(0), holdTime(0), lastDebounceTime(0)
+{
+	pinMode(_pin, (inverted) ? INPUT_PULLUP : INPUT);
+}
+
+void Push::update()
+{
+	if (millis() - this->lastDebounceTime >= this->debounceDelay)
+	{
+		this->called[PRESSEDMEMBER] = false;
+		this->called[RELEASEDMEMBER] = false;
+		this->lastDebounceTime = millis();
+		this->state[CURRENT] = (inverted) ? !(bool)digitalRead(this->pin) : digitalRead(this->pin);
+
+		if (!this->state[CURRENT] && this->state[PREVIOUS])
+		{
+			this->state[RELEASE] = true;
+			this->state[PREVIOUS] = false;
+			this->state[PRESS] = false;
+			this->holdTime = millis() - this->onPressTime;
+			if (this->onRelease != NULL) this->onRelease(this->holdTime);
+		}
+		else
+		{
+			this->state[RELEASE] = false;
+		}
+
+		if (this->state[CURRENT] && !this->state[PREVIOUS])
+		{
+			this->state[PREVIOUS] = true;
+			this->state[PRESS] = true;
+			this->holdTime = 0;
+			this->onPressTime = millis();
+			if (this->onPress != NULL) this->onPress();
+		}
+		else
+		{
+			this->state[PRESS] = false;
+		}
+	}
+}
+
+bool Push::current()
+{
+	return this->state[CURRENT];
+}
+
+bool Push::pressed()
+{
+	if (this->called[PRESSEDMEMBER])
+	{
+		return false;
+	}
+	else
+	{
+		this->called[PRESSEDMEMBER] = true;
+		return this->state[PRESS];
+	}
+}
+
+bool Push::released()
+{
+	if (this->called[RELEASEDMEMBER])
+	{
+		return false;
+	}
+	else
+	{
+		this->called[RELEASEDMEMBER] = true;
+		return this->state[RELEASE];
+	}
+}
+
+unsigned int Push::getHoldTime()
+{
+	return this->holdTime;
 }
 
 #ifdef TwoWire_h
