@@ -1,0 +1,73 @@
+ULONG_MAX				LITERAL1
+LONG_MAX				LITERAL1
+LONG_MIN				LITERAL1
+
+ZERO					LITERAL1
+NEWLINE					LITERAL1
+NULLTERMINATOR			LITERAL1
+
+ULONG_MAX				LITERAL1
+LONG_MAX				LITERAL1
+LONG_MIN				LITERAL1
+UINT_MAX				LITERAL1
+INT_MAX					LITERAL1
+INT_MIN					LITERAL1
+BYTE_MAX				LITERAL1
+
+ADC_MAX					LITERAL1
+PWM_MAX					LITERAL1
+
+SERIALCOM_BAUD			LITERAL1
+
+BCD2DEC					LITERAL1
+addInterrupt			KEYWORD2
+removeInterrupt			KEYWORD2
+BCD2DEC					KEYWORD2
+x2i						KEYWORD2
+toHex					KEYWORD2
+octalToDecimal			KEYWORD2
+hornerScheme			KEYWORD2
+intToFreq				KEYWORD2
+
+SerialCom				KEYWORD1
+connected				KEYWORD1
+onSerialEvent			KEYWORD2
+send					KEYWORD2
+sendSpecial				KEYWORD2
+sendDataRange			KEYWORD2
+setReady				KEYWORD2
+unsetReady				KEYWORD2
+toggled					KEYWORD2
+ready					KEYWORD1
+
+Push					KEYWORD1
+update					KEYWORD2
+current					KEYWORD2
+pressed					KEYWORD2
+released				KEYWORD2
+onRelease				KEYWORD2
+onPress					KEYWORD2
+
+PushToggle				KEYWORD1
+read					KEYWORD2
+setCallBack				KEYWORD2
+
+WireSearch				KEYWORD1
+availableWireAddresses	KEYWORD1
+search					KEYWORD2
+
+WireHost				KEYWORD1
+check					KEYWORD2
+getData					KEYWORD2
+sendData				KEYWORD2
+
+WireHostLite			KEYWORD1
+id						KEYWORD1
+address					KEYWORD1
+
+WireClient				KEYWORD1
+onReceive				KEYWORD2
+onRequest				KEYWORD2
+registerSelect			KEYWORD1
+
+LIB_SIZE				LITERAL1

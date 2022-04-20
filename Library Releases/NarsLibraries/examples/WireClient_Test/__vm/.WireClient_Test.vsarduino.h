@@ -88,6 +88,6 @@ typedef void *__builtin_va_list;
 #define pgm_read_float(address_short) float()
 #define pgm_read_ptr(address_short)   short()
 
-#include "NarsSerialCom_Test.ino"
+#include "WireClient_Test.ino"
 #endif
 #endif
