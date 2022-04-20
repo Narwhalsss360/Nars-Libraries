@@ -73,14 +73,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Arduino", "Arduino", "{C09AC3BF-1001-4628-9E08-8BDEB00D00AF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PushToggle", "Examples\Arduino Examples\PushToggle\PushToggle.vcxproj", "{193A672E-94EB-4B77-83B7-42D8EA16E853}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Push", "Examples\Arduino Examples\Push\Push.vcxproj", "{F7791ED2-BDE0-4AB3-BB74-924058683BE8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NarsLibraries-1.3.0", "E:\Users\sandr\Documents\Arduino\libraries\NarsLibraries\NarsLibraries-1.3.0.vcxitems", "{9644C7D8-83F3-4838-9043-856A9F04C4B2}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{09ce6cb0-5e27-47b4-925e-9b7b93668dab}*SharedItemsImports = 9
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{2e28e225-a449-4c48-9fb8-9b357618229d}*SharedItemsImports = 4
+		E:\Users\sandr\Documents\Arduino\libraries\NarsLibraries\NarsLibraries-1.3.0.vcxitems*{9644c7d8-83f3-4838-9043-856a9f04c4b2}*SharedItemsImports = 9
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{990cbab7-b2fc-4d57-87a4-6975b4b3747f}*SharedItemsImports = 4
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{a6276c1a-6cdb-40c2-8449-47a36f9501b0}*SharedItemsImports = 4
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
@@ -210,18 +211,6 @@ Global
 		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x64.Build.0 = Release|Win32
 		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x86.ActiveCfg = Release|Win32
 		{2E28E225-A449-4C48-9FB8-9B357618229D}.Release|x86.Build.0 = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|Any CPU.Build.0 = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|x64.ActiveCfg = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|x64.Build.0 = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|x86.ActiveCfg = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Debug|x86.Build.0 = Debug|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|Any CPU.ActiveCfg = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|Any CPU.Build.0 = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|x64.ActiveCfg = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|x64.Build.0 = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|x86.ActiveCfg = Release|Win32
-		{193A672E-94EB-4B77-83B7-42D8EA16E853}.Release|x86.Build.0 = Release|Win32
 		{F7791ED2-BDE0-4AB3-BB74-924058683BE8}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{F7791ED2-BDE0-4AB3-BB74-924058683BE8}.Debug|Any CPU.Build.0 = Debug|Win32
 		{F7791ED2-BDE0-4AB3-BB74-924058683BE8}.Debug|x64.ActiveCfg = Debug|Win32
@@ -260,7 +249,6 @@ Global
 		{C6DAB17D-5768-4CA8-A2E6-E7BF1C0A13E0} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
 		{2E28E225-A449-4C48-9FB8-9B357618229D} = {DF266890-5D06-46EB-80AB-B4B9E7E924C3}
 		{C09AC3BF-1001-4628-9E08-8BDEB00D00AF} = {1CAE6000-4E70-4278-A58A-F2F21BB9E450}
-		{193A672E-94EB-4B77-83B7-42D8EA16E853} = {C09AC3BF-1001-4628-9E08-8BDEB00D00AF}
 		{F7791ED2-BDE0-4AB3-BB74-924058683BE8} = {C09AC3BF-1001-4628-9E08-8BDEB00D00AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
