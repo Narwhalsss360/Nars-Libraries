@@ -138,6 +138,11 @@ double intToFreq(double input)
 	return input;
 }
 
+/// <summary>
+/// Converts bool to string "True"/"False"
+/// </summary>
+/// <param name="input">true/false input</param>
+/// <returns>true/false string</returns>
 String boolToString(int input)
 {
 	if (input > 0)
@@ -153,8 +158,8 @@ String boolToString(int input)
 /// <summary>
 /// Converts bool to string "True"/"False"
 /// </summary>
-/// <param name="input"></param>
-/// <returns></returns>
+/// <param name="input">true/false input</param>
+/// <returns>true/false string</returns>
 String boolToString(bool input)
 {
 	if (input)
@@ -168,7 +173,8 @@ String boolToString(bool input)
 }
 
 void byteWrite(byte pin, byte byteOut) {
-	for (byte i = 0; i < 8; i++) {
+	for (byte i = 0; i < 8; i++) 
+	{
 		digitalWrite(pin, LOW);
 		if (0x80 & byteOut) digitalWrite(pin, HIGH);
 		else digitalWrite(pin, LOW);
@@ -543,6 +549,10 @@ PushToggle::PushToggle(byte _pin, bool _invert, byte _debounceDelay)
 	this->debounceDelay = _debounceDelay;
 }
 
+/// <summary>
+/// Set a callback to run when pin state changes.
+/// </summary>
+/// <param name="_callBack">function pointer</param>
 void PushToggle::setCallBack(void (*_callBack) (void))
 {
 	this->callBack = _callBack;
@@ -596,12 +606,21 @@ bool PushToggle::toggled()
 	return this->toggle;
 }
 
+/// <summary>
+/// Push Class.
+/// </summary>
+/// <param name="_pin">Button pin.</param>
+/// <param name="_inverted">invert the input.</param>
+/// <param name="_debounceDelay">refresh time for debouncing.</param>
 Push::Push(byte _pin, bool _inverted, int _debounceDelay)
 	:pin(_pin), inverted(_inverted), debounceDelay(_debounceDelay), onRelease(NULL), onPress(NULL), onPressTime(0), holdTime(0), lastDebounceTime(0)
 {
 	pinMode(_pin, (inverted) ? INPUT_PULLUP : INPUT);
 }
 
+/// <summary>
+/// Get state, and check for if currently pressing, pressed, or released.
+/// </summary>
 void Push::update()
 {
 	if (millis() - this->lastDebounceTime >= this->debounceDelay)
@@ -639,11 +658,19 @@ void Push::update()
 	}
 }
 
+/// <summary>
+/// Check the current state of the button.
+/// </summary>
+/// <returns>Current button state</returns>
 bool Push::current()
 {
 	return this->state[CURRENT];
 }
 
+/// <summary>
+/// Check if the button was just pressed(not the current state).
+/// </summary>
+/// <returns>Pressed bool</returns>
 bool Push::pressed()
 {
 	if (this->called[PRESSEDMEMBER])
@@ -657,6 +684,10 @@ bool Push::pressed()
 	}
 }
 
+/// <summary>
+/// Check if the button was released.
+/// </summary>
+/// <returns>Released bool</returns>
 bool Push::released()
 {
 	if (this->called[RELEASEDMEMBER])
@@ -670,6 +701,10 @@ bool Push::released()
 	}
 }
 
+/// <summary>
+/// If just released, get the time the button was held for.
+/// </summary>
+/// <returns>Hold time</returns>
 unsigned int Push::getHoldTime()
 {
 	return this->holdTime;
