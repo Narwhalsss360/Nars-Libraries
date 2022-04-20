@@ -233,7 +233,6 @@ double UnitConverter::convert(UOM unitType, double input, const byte inputUnit, 
 				return this->result;
 				break;
 			case UnitConverter::LENGTH::hectometer:
-				this->result = input * 
 				break;
 			case UnitConverter::LENGTH::kilometer:
 				break;

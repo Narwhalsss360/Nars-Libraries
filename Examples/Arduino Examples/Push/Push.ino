@@ -13,6 +13,8 @@ Push button(buttonPin, INPUT_PULLUP, debounceDelay);
 
 void setup()
 {
+	Serial.begin(BAUD);
+
 	//pinMode is already done at constructor.
 
 	//Your onPress function will run when the button is pressed in.
@@ -41,7 +43,7 @@ void loop()
 		//getHoldTime will return how long the button was held for. must be called after using button.released() and before next time you call button.update() or else will return 0.
 		unsigned int holdTime = button.getHoldTime();
 		Serial.print("Released button, held for: ");
-		Serial.print(holdTime);
+		Serial.println(holdTime);
 	}
 
 	//Returns the current state of the button.

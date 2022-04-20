@@ -47,6 +47,7 @@ pressed					KEYWORD2
 released				KEYWORD2
 onRelease				KEYWORD2
 onPress					KEYWORD2
+getHoldTime				KEYWORD2
 
 PushToggle				KEYWORD1
 read					KEYWORD2
