@@ -8,8 +8,18 @@
 
 enum class NSRETURNS
 {
-	
-}
+	SUCCESS,
+	E_INVALID_HANDLE_VALUE,
+	E_GETCOMMSTATE,
+	E_SETCOMMSTATE,
+	W_NOTCONNECTED,
+	E_WRITE,
+	E_READ,
+	E_READLINE,
+	E_SMALLBUFFER,
+	W_NONL,
+	INDEX_OUT_OF_RANGE
+};
 
 struct _NSDATA
 {
@@ -22,7 +32,8 @@ typedef _NSDATA NSDATA, *PNSDATA;
 class NarsSerial : NarsEasySerial
 {
 public:
-	NarsSerial(DWORD);
+	NarsSerial();
+	NarsSerial(const unsigned short);
 	~NarsSerial();
 	bool checkQueue();
 	NSDATA getData(const unsigned short);
@@ -32,5 +43,6 @@ public:
 private:
 	std::queue<NSDATA> queue;
 	DWORD maxQueueSize;
+	const DWORD dataSize;
 	bool ready;
 };

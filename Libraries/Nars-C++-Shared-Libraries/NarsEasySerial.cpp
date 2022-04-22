@@ -86,7 +86,7 @@ NESRETURNS NarsEasySerial::write(LPCVOID buf, DWORD szBuf, pIORET ret)
 
 	if (!status)
 	{
-		ClearCommError(this->h_Port, errors, comStat)
+		ClearCommError(this->h_Port, errors, comStat);
 		this->connected = false;
 		this->disconnect();
 		return this->lastError = NESRETURNS::E_WRITE;
@@ -226,7 +226,7 @@ NESRETURNS NarsEasySerial::disconnect(BOOL* closeRet)
 	}
 }
 
-bool status()
+bool NarsEasySerial::status()
 {
 	return this->connected;
 }
