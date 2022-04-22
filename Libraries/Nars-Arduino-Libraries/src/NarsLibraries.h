@@ -13,6 +13,7 @@
 
 #define ZERO 0
 #define NEWLINE '\n'
+#define CARRIAGERETURN '\r'
 #define NULLTERMINATOR '\0'
 
 #ifdef ARDUINO_ARCH_AVR

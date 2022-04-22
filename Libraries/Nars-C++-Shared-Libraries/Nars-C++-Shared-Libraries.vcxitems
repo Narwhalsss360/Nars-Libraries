@@ -15,9 +15,11 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)NarsLibraries.cpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NarsArduinoSerial.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NarsUsefuls.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NarsLibraries.h" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NarsArduinoSerial.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NarsUsefuls.c" />
   </ItemGroup>
 </Project>
