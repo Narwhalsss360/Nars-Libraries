@@ -48,6 +48,7 @@ public:
 	NESRETURNS disconnect(BOOL*);
 	void selectPort(DWORD);
 	void setBaudRate(DWORD);
+	bool status();
 	HANDLE* getHandle();
 private:
 	void convertPort();
@@ -58,4 +59,5 @@ private:
 	char port[10];
 	NESRETURNS lastError;
 	DWORD bRate;
+	bool connected;
 };

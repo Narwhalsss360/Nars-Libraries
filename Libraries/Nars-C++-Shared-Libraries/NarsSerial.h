@@ -2,6 +2,15 @@
 #include "NarsEasySerial.h"
 #include <queue>
 
+#define NarsSerial_h
+#define DEFAULT_DATA_SIZE 65535
+#define MAX_DATA_SIZE 65535
+
+enum class NSRETURNS
+{
+	
+}
+
 struct _NSDATA
 {
 	DWORD DATA;
@@ -16,13 +25,12 @@ public:
 	NarsSerial(DWORD);
 	~NarsSerial();
 	bool checkQueue();
-	NSDATA getData(unsigned short);
+	NSDATA getData(const unsigned short);
 	bool send(unsigned short);
 	bool send(unsigned short, DWORD);
 	PNSDATA pData;
 private:
-	std::queue<DWORD> queue;
+	std::queue<NSDATA> queue;
+	DWORD maxQueueSize;
 	bool ready;
 };
-
-#define NarsSerial_h

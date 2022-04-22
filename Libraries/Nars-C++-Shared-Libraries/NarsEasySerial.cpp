@@ -1,7 +1,7 @@
 #include "NarsEasySerial.h"
 
 NarsEasySerial::NarsEasySerial()
-	:h_Port(NULL), dcb(), selectedPort(ZERO), lastError(NESRETURNS::SUCCESS), bRate(DEFAULT_BAUD), port()
+	:h_Port(NULL), dcb(), selectedPort(ZERO), lastError(NESRETURNS::SUCCESS), bRate(DEFAULT_BAUD), port(), connected(false)
 {
 }
 
@@ -33,7 +33,7 @@ NESRETURNS NarsEasySerial::connect()
 
 	if (this->h_Port == INVALID_HANDLE_VALUE)
 	{
-		CloseHandle(this->h_Port);
+		this->disconnect();
 		return this->lastError = NESRETURNS::E_INVALID_HANDLE_VALUE;
 	}
 
@@ -56,7 +56,7 @@ NESRETURNS NarsEasySerial::connect()
 		CloseHandle(this->h_Port);
 		return this->lastError = NESRETURNS::E_SETCOMMSTATE;
 	}
-
+	this->connected = true;
 	return this->lastError = NESRETURNS::SUCCESS;
 }
 
@@ -86,7 +86,9 @@ NESRETURNS NarsEasySerial::write(LPCVOID buf, DWORD szBuf, pIORET ret)
 
 	if (!status)
 	{
-		ClearCommError(this->h_Port, errors, comStat);
+		ClearCommError(this->h_Port, errors, comStat)
+		this->connected = false;
+		this->disconnect();
 		return this->lastError = NESRETURNS::E_WRITE;
 	}
 	else
@@ -112,6 +114,8 @@ NESRETURNS NarsEasySerial::read(LPVOID buf, DWORD szBuf, pIORET ret)
 	if (!status)
 	{
 		ClearCommError(h_Port, errors, comStat);
+		this->connected = false;
+		this->disconnect();
 		return this->lastError = NESRETURNS::E_READ;
 	}
 	else
@@ -198,6 +202,7 @@ NESRETURNS NarsEasySerial::disconnect()
 	{
 		CloseHandle(this->h_Port);
 		this->h_Port = NULL;
+		this->connected = false;
 		return this->lastError = NESRETURNS::SUCCESS;
 	}
 	else
@@ -212,12 +217,18 @@ NESRETURNS NarsEasySerial::disconnect(BOOL* closeRet)
 	{
 		*closeRet = CloseHandle(this->h_Port);
 		this->h_Port = NULL;
+		this->connected = false;
 		return this->lastError = NESRETURNS::SUCCESS;
 	}
 	else
 	{
 		return this->lastError = NESRETURNS::W_NOTCONNECTED;
 	}
+}
+
+bool status()
+{
+	return this->connected;
 }
 
 NarsEasySerial::~NarsEasySerial()
