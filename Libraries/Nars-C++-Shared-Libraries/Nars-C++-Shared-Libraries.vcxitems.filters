@@ -12,7 +12,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NarsUsefuls.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NarsArduinoSerial.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)NarsEasySerial.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NarsSerial.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -20,7 +23,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NarsUsefuls.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)NarsArduinoSerial.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)NarsEasySerial.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)NarsSerial.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
