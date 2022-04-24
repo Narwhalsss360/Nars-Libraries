@@ -218,6 +218,16 @@ void byteWrite(byte pin, byte byteOut) {
 }
 #pragma endregion
 
+#pragma region fromLeft
+#ifdef LiquidCrystal_I2C_h
+void fromLeft(LiquidCrystal_I2C* ptr, String str, byte row, byte cols)
+{
+	ptr->setCursor(cols - str.length(), row);
+	ptr->print(str);
+}
+#endif // LiquidCrystal_I2C_h
+#pragma endregion
+
 #pragma region RGBA
 /// <summary>
 /// Default Constructor
