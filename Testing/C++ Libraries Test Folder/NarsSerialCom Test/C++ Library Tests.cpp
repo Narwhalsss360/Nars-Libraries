@@ -46,7 +46,7 @@ int main()
 	RESULT result = ns.connect("\\\\.\\COM28");
 	Sleep(1000);
 	std::cout << "Message: " << result.message << getResultString(result.state) << std::endl;
-	result = ns.check();
+	result = ns.serviceRoutine();
 	std::cout << "Message: " << result.message << getResultString(result.state) << std::endl;
 	result = ns.checkQueue();
 	std::cout << "Message: " << result.message << getResultString(result.state) << std::endl;

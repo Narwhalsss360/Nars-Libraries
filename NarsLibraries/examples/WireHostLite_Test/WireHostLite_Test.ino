@@ -39,7 +39,7 @@ void loop()
 	}
 
 	//Always checks if client device is available, will only automatically connect if this function runs.
-	client.serviceRoutine();
+	client.check();
 	Serial.print ("Checking if client is available...	");
 	
 	delay(500);

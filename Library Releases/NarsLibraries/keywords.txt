@@ -23,6 +23,7 @@ BCD2DEC					LITERAL1
 addInterrupt			KEYWORD2
 removeInterrupt			KEYWORD2
 BCD2DEC					KEYWORD2
+
 x2i						KEYWORD2
 toHex					KEYWORD2
 octalToDecimal			KEYWORD2
@@ -70,6 +71,12 @@ released				KEYWORD2
 onRelease				KEYWORD2
 onPress					KEYWORD2
 getHoldTime				KEYWORD2
+
+Rotary					KEYWORD1
+serviceRoutine			KEYWORD2
+getState				KEYWORD2
+getSwitch				KEYWORD2
+mode					KEYWORD2
 
 PushToggle				KEYWORD1
 read					KEYWORD2

@@ -15,6 +15,8 @@ unsigned long NarsSerialCom::data[256];
 /// </summary>
 bool NarsSerialCom::ready;
 
+#pragma region x2i
+
 /// <summary>
 /// Outputs unsinged long from Hex Char array.
 /// </summary>
@@ -23,15 +25,15 @@ bool NarsSerialCom::ready;
 unsigned long x2i(char* s)
 {
 	unsigned long x = 0;
-	for (;;) 
+	for (;;)
 	{
 		char c = *s;
-		if (c >= '0' && c <= '9') 
+		if (c >= '0' && c <= '9')
 		{
 			x *= 16;
 			x += c - '0';
 		}
-		else if (c >= 'A' && c <= 'F') 
+		else if (c >= 'A' && c <= 'F')
 		{
 			x *= 16;
 			x += (c - 'A') + 10;
@@ -41,14 +43,16 @@ unsigned long x2i(char* s)
 	}
 	return x;
 }
+#pragma endregion
 
+#pragma region toHex
 /// <summary>
 /// Outputs string from unsigned long input and string length, replaces empty spots with 0's.
 /// </summary>
 /// <param name="input">: Long number</param>
 /// <param name="stringLength">: End Length</param>
 /// <returns>End string result</returns>
-String toHex(unsigned long input, byte stringLength) 
+String toHex(unsigned long input, byte stringLength)
 {
 	String toggled = String(input, HEX);
 	toggled.toUpperCase();
@@ -65,7 +69,9 @@ String toHex(unsigned long input, byte stringLength)
 	}
 	return toggled;
 }
+#pragma endregion
 
+#pragma region octalToDecimal
 /// <summary>
 /// Returns base-10 from octal input.
 /// </summary>
@@ -85,7 +91,9 @@ static int octalToDecimal(int n)
 	}
 	return dec_value;
 }
+#pragma endregion
 
+#pragma region bitCast
 /// <summary>
 /// Cast ulong to long with correct signage
 /// </summary>
@@ -95,7 +103,9 @@ long bitCast(unsigned long in)
 {
 	return (in - LONG_MAX);
 }
+#pragma endregion
 
+#pragma region bitCast
 /// <summary>
 /// Cast long to ulong with correct signage
 /// </summary>
@@ -105,7 +115,9 @@ unsigned long bitCast(long in)
 {
 	return (in + LONG_MAX);
 }
+#pragma endregion
 
+#pragma region mapf
 /// <summary>
 /// Map values double
 /// </summary>
@@ -119,7 +131,9 @@ double mapf(double x, double in_min, double in_max, double out_min, double out_m
 {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
+#pragma endregion
 
+#pragma region HornerScheme
 /// <summary>
 /// The Horner Scheme
 /// </summary>
@@ -136,7 +150,9 @@ unsigned long hornerScheme(unsigned long Num, unsigned long Divider, unsigned lo
 		Result += hornerScheme(Quotient, Divider, Factor) * Factor + Remainder;
 	return Result;
 }
+#pragma endregion
 
+#pragma region intToFreq
 /// <summary>
 /// 4-Digit to xxx.xxx
 /// </summary>
@@ -148,7 +164,9 @@ double intToFreq(double input)
 	input /= 100;
 	return input;
 }
+#pragma endregion
 
+#pragma region boolToString
 /// <summary>
 /// Converts bool to string "True"/"False"
 /// </summary>
@@ -165,7 +183,9 @@ String boolToString(int input)
 		return "False";
 	}
 }
+#pragma endregion
 
+#pragma region boolToString
 /// <summary>
 /// Converts bool to string "True"/"False"
 /// </summary>
@@ -182,7 +202,9 @@ String boolToString(bool input)
 		return "False";
 	}
 }
+#pragma endregion
 
+#pragma region byteWrite
 void byteWrite(byte pin, byte byteOut) {
 	for (byte i = 0; i < 8; i++) 
 	{
@@ -194,7 +216,9 @@ void byteWrite(byte pin, byte byteOut) {
 		byteOut <<= 1;
 	}
 }
+#pragma endregion
 
+#pragma region RGBA
 /// <summary>
 /// Default Constructor
 /// </summary>
@@ -216,8 +240,9 @@ RGBA::RGBA(byte _red, byte _green, byte _blue, byte _alpha)
 {
 
 }
+#pragma endregion
 
-
+#pragma region RGB
 /// <summary>
 /// Default Constructor
 /// </summary>
@@ -226,7 +251,6 @@ RGB::RGB()
 {
 
 }
-
 
 /// <summary>
 /// Input Constructor
@@ -239,7 +263,9 @@ RGB::RGB(byte _red, byte _green, byte _blue)
 {
 
 }
+#pragma endregion
 
+#pragma region HSV
 /// <summary>
 /// Default Constructor
 /// </summary>
@@ -261,7 +287,9 @@ HSV::HSV(float h, float s, float v)
 	this->saturation = (0 <= s && s <= 100) ? s : 0;
 	this->value = (0 <= v && v <= 100) ? v : 0;
 }
+#pragma endregion
 
+#pragma region UnitConverter
 double UnitConverter::convert(UOM unitType, double input, const byte inputUnit, const byte outputUnit)
 {	
 	this->original = input;
@@ -475,7 +503,9 @@ double UnitConverter::convert(UOM unitType, double input, const byte inputUnit, 
 		break;
 	}
 }
+#pragma endregion
 
+#pragma region COLOR
 /// <summary>
 /// Default constructor.
 /// </summary>
@@ -600,6 +630,9 @@ void COLOR::convertRGBToHSV()
 	}
 }
 
+#pragma endregion
+
+#pragma region NarsSerialCom
 /// <summary>
 /// Invoke method on serialEvent. After parse, done/special method invokes.
 /// </summary>
@@ -746,7 +779,9 @@ void NarsSerialCom::unsetReady()
 	ready = false;
 	send(0, 0);
 }
+#pragma endregion
 
+#pragma region PushToggle
 /// <summary>
 /// Push Toggle class
 /// </summary>
@@ -816,7 +851,9 @@ bool PushToggle::toggled()
 {
 	return this->toggle;
 }
+#pragma endregion
 
+#pragma region Push
 /// <summary>
 /// Push Class.
 /// </summary>
@@ -915,13 +952,116 @@ bool Push::released()
 /// <summary>
 /// If just released, get the time the button was held for.
 /// </summary>
-/// <returns>Hold time</returns>
 unsigned int Push::getHoldTime()
 {
 	return this->holdTime;
 }
+#pragma endregion
+
+#pragma region Rotary
+Rotary::Rotary()
+	:pinA(NULL), pinB(NULL), pinS(NULL), inverted(NULL), useInterrupt(NULL)
+{
+
+}
+
+/// <summary>
+/// Rotary Class.
+/// </summary>
+/// <param name="_pinA">Rotary pin A</param>
+/// <param name="_pinB">Rotary pin B</param>
+Rotary::Rotary(bool useI, bool _inverted, byte _pinA, byte _pinB)
+	:pinA(_pinA), pinB(_pinB), pinS(NULL), inverted(_inverted), useInterrupt(useI)
+{
+	this->init();
+}
+
+/// <summary>
+/// Rotary Class
+/// </summary>
+/// <param name="_pinA">Rotary pin A</param>
+/// <param name="_pinB">Rotary pin B</param>
+/// <param name="_pinS">Rotary pin Switch</param>
+Rotary::Rotary(bool useI, bool _inverted, byte _pinA, byte _pinB, byte _pinS)
+	:pinA(_pinA), pinB(_pinB), pinS(_pinS), inverted(_inverted), useInterrupt(useI)
+{
+	this->init();
+}
+
+void Rotary::init()
+{
+	pinMode(this->pinA, (this->inverted) ? INPUT_PULLUP: INPUT);
+	pinMode(this->pinB, (this->inverted) ? INPUT_PULLUP : INPUT);
+	pinMode(this->pinS, (this->inverted) ? INPUT_PULLUP : INPUT);
+	this->defineMode();
+}
+
+void Rotary::serviceRoutine()
+{
+	if (this->useInterrupt)
+	{
+		if ((this->inverted) ? !digitalRead(this->pinB) : digitalRead(this->pinB))
+		{
+			this->state = COUNTER_CLOCKWISE;		
+		}
+		else
+		{
+			this->state = CLOCKWISE;
+		}
+	}
+}
+
+bool Rotary::getSwitch()
+{
+	if (this->pinS != NULL)
+	{
+		return (this->inverted) ? !digitalRead(this->pinS) : digitalRead(this->pinS);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int Rotary::getState()
+{
+	if (!this->useInterrupt)
+	{
+		bool pinA = (this->inverted) ? !digitalRead(this->pinA) : digitalRead(this->pinA);
+		bool pinB = (this->inverted) ? !digitalRead(this->pinB) : digitalRead(this->pinB);
+
+		if (pinA != pinB)
+		{
+			if (pinB)
+			{
+				return COUNTER_CLOCKWISE;
+			}
+			else
+			{
+				return CLOCKWISE;
+			}
+		}
+		else
+		{
+			return IDLE;
+		}
+	}
+	else
+	{
+		int returnState = state;
+		this->state = IDLE;
+		return returnState;
+	}
+}
+
+void Rotary::defineMode()
+{
+	this->mode = (this->inverted) ? FALLING : RISING;
+}
+#pragma endregion
 
 #ifdef TwoWire_h
+#pragma region WireSearch
 /// <summary>
 /// Search for wire devices.
 /// </summary>
@@ -943,7 +1083,9 @@ void WireSearch::search()
 		}
 	}
 }
+#pragma endregion
 
+#pragma region WireHost
 /// <summary>
 /// Check if client is available.
 /// </summary>
@@ -1038,7 +1180,9 @@ WireHostLite::WireHostLite(byte _address)
 {
 	this->address = _address;
 }
+#pragma endregion
 
+#pragma region WireHostLite
 /// <summary>
 /// Check if client is available
 /// </summary>
@@ -1110,7 +1254,9 @@ byte WireHostLite::getData(byte dataRegister)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region WireClient
 /// <summary>
 /// Invoke in Wire.OnReceive
 /// </summary>
@@ -1156,4 +1302,5 @@ WireClient::WireClient(byte address, byte id)
 	this->deviceProperties.id = id;
 	this->deviceProperties.data[0] = this->deviceProperties.id;
 }
+#pragma endregion
 #endif // TwoWire_h

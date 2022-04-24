@@ -11,6 +11,7 @@
 	#include "WProgram.h"
 #endif
 
+#pragma region Defenitions
 #define ZERO 0
 #define NEWLINE '\n'
 #define CARRIAGERETURN '\r'
@@ -40,7 +41,8 @@
 
 #define addInterrupt(pin, ISR, mode) attachInterrupt(digitalPinToInterrupt(pin), ISR, mode);
 #define removeInterrupt(pin) detachInterrupt(digitalPinToInterrupt(pin));
-#define BCD2DEC(num) hornerScheme(num, 0x10, 10)
+#define BCD2DEC(num) hornerScheme(num, 0x10, 10)  
+#pragma endregion
 
 unsigned long x2i(char*);
 
@@ -242,6 +244,13 @@ enum class LOGLEVEL : byte
 	ERROR
 };
 
+enum ROTARYSTATES
+{
+	IDLE,
+	COUNTER_CLOCKWISE,
+	CLOCKWISE
+};
+
 class NarsSerialCom
 {
 public:
@@ -307,6 +316,27 @@ private:
 	unsigned long lastDebounceTime;
 	unsigned int holdTime;
 	bool called[2];
+};
+
+class Rotary
+{
+public:
+	Rotary();
+	Rotary(bool, bool, byte, byte);
+	Rotary(bool, bool, byte, byte, byte);
+	void serviceRoutine();
+	int getState();
+	bool getSwitch();
+	mutable int mode;
+private:
+	void init();
+	void defineMode();
+	const byte pinA;
+	const byte pinB;
+	const byte pinS;
+	const bool inverted;
+	const bool useInterrupt;
+	int state;
 };
 
 class Logger
@@ -427,7 +457,6 @@ private:
 #ifndef TwoWire_h
 #define LIB_SIZE (sizeof(NarsSerialCom) + sizeof(PushToggle) + sizeof(UnitConverter) + sizeof(Logger) + sizeof(RGBA) + sizeof(RGB) + sizeof(HSV) + sizeof(COLOR) + sizeof(TYPES) + sizeof(LOGLEVEL))
 #endif // !TwoWire_h
-
 
 extern NarsSerialCom SerialCom;
 #endif
