@@ -861,7 +861,7 @@ bool PushToggle::toggled()
 /// <param name="_inverted">invert the input.</param>
 /// <param name="_debounceDelay">refresh time for debouncing.</param>
 Push::Push(byte _pin, bool _inverted, int _debounceDelay)
-	:pin(_pin), inverted(_inverted), debounceDelay(_debounceDelay), onRelease(NULL), onPress(NULL), onPressTime(0), holdTime(0), lastDebounceTime(0)
+	:pin(_pin), inverted(_inverted), debounceDelay(_debounceDelay), onRelease(NULL), onPress(NULL), onPressTime(0), releasedHoldTime(0), lastDebounceTime(0), pressedHoldTime(0)
 {
 	pinMode(_pin, (inverted) ? INPUT_PULLUP : INPUT);
 }
@@ -883,8 +883,9 @@ void Push::update()
 			this->state[RELEASE] = true;
 			this->state[PREVIOUS] = false;
 			this->state[PRESS] = false;
-			this->holdTime = millis() - this->onPressTime;
-			if (this->onRelease != NULL) this->onRelease(this->holdTime);
+			this->releasedHoldTime = millis() - this->onPressTime;
+			this->pressedHoldTime = 0;
+			if (this->onRelease != NULL) this->onRelease(this->releasedHoldTime);
 		}
 		else
 		{
@@ -895,7 +896,8 @@ void Push::update()
 		{
 			this->state[PREVIOUS] = true;
 			this->state[PRESS] = true;
-			this->holdTime = 0;
+			this->releasedHoldTime = 0;
+			this->pressedHoldTime = millis();
 			this->onPressTime = millis();
 			if (this->onPress != NULL) this->onPress();
 		}
@@ -952,9 +954,14 @@ bool Push::released()
 /// <summary>
 /// If just released, get the time the button was held for.
 /// </summary>
-unsigned int Push::getHoldTime()
+unsigned int Push::getReleasedHoldTime()
 {
-	return this->holdTime;
+	return this->releasedHoldTime;
+}
+
+unsigned int Push::getPushedHoldTime()
+{
+	return this->pressedHoldTime;
 }
 #pragma endregion
 
