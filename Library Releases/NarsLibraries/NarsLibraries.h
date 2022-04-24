@@ -293,6 +293,7 @@ public:
 	bool pressed();
 	bool released();
 	unsigned int getReleasedHoldTime();
+	unsigned int getPushedHoldTime();
 	void (*onRelease) (unsigned int);
 	void (*onPress) (void);
 private:
@@ -315,6 +316,7 @@ private:
 	unsigned long onPressTime;
 	unsigned long lastDebounceTime;
 	unsigned int releasedHoldTime;
+	unsigned int pressedHoldTime;
 	bool called[2];
 };
 

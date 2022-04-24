@@ -70,7 +70,8 @@ pressed					KEYWORD2
 released				KEYWORD2
 onRelease				KEYWORD2
 onPress					KEYWORD2
-getHoldTime				KEYWORD2
+getReleasedHoldTime		KEYWORD2
+getPressedHoldTime		KEYWORD2
 
 Rotary					KEYWORD1
 serviceRoutine			KEYWORD2

@@ -34,7 +34,14 @@ void loop()
 	//True when the button gets pressed in.
 	if (button.pressed())
 	{
-		Serial.println("Button pressed");
+		Serial.println("Button pressed for:");
+	}
+
+	//True while button is pressed.
+	if (button.current())
+	{
+		Serial.print("Holding button for... ");
+		Serial.println(button.getPushedHoldTime());
 	}
 
 	//True when the button gets released.
