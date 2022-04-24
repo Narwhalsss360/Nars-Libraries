@@ -218,9 +218,9 @@ void byteWrite(byte pin, byte byteOut) {
 }
 #pragma endregion
 
-#pragma region fromLeft
+#pragma region printRight
 #ifdef LiquidCrystal_I2C_h
-void fromLeft(LiquidCrystal_I2C* ptr, String str, byte row, byte cols)
+void printRight(LiquidCrystal_I2C* ptr, String str, byte row, byte cols)
 {
 	ptr->setCursor(cols - str.length(), row);
 	ptr->print(str);

@@ -67,7 +67,7 @@ void byteWrite(byte, byte);
 String boolToString(int);
 
 #ifdef LiquidCrystal_I2C_h
-void fromLeft(LiquidCrystal_I2C* ptr, String str, byte row, byte cols)
+void printRight(LiquidCrystal_I2C* ptr, String str, byte row, byte cols)
 #endif // LiquidCrystal_I2C_h
 
 struct RGBA
