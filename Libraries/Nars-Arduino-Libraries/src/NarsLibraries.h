@@ -328,8 +328,8 @@ class Rotary
 {
 public:
 	Rotary();
-	Rotary(bool, bool, byte, byte);
-	Rotary(bool, bool, byte, byte, byte);
+	Rotary(byte, byte, bool, bool, unsigned int);
+	Rotary(byte, byte, byte, bool, bool, unsigned int);
 	void serviceRoutine();
 	int getState();
 	bool getSwitch();
@@ -340,9 +340,11 @@ private:
 	const byte pinA;
 	const byte pinB;
 	const byte pinS;
+	const unsigned int debouce;
 	const bool inverted;
 	const bool useInterrupt;
 	int state;
+	unsigned long lastRead;
 };
 
 class Logger

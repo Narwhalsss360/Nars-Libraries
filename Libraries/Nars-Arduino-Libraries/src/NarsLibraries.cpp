@@ -977,7 +977,7 @@ unsigned int Push::getPushedHoldTime()
 
 #pragma region Rotary
 Rotary::Rotary()
-	:pinA(NULL), pinB(NULL), pinS(NULL), inverted(NULL), useInterrupt(NULL)
+	:pinA(NULL), pinB(NULL), pinS(NULL), inverted(NULL), useInterrupt(NULL), debouce(NULL), lastRead(ZERO)
 {
 
 }
@@ -987,8 +987,8 @@ Rotary::Rotary()
 /// </summary>
 /// <param name="_pinA">Rotary pin A</param>
 /// <param name="_pinB">Rotary pin B</param>
-Rotary::Rotary(bool useI, bool _inverted, byte _pinA, byte _pinB)
-	:pinA(_pinA), pinB(_pinB), pinS(NULL), inverted(_inverted), useInterrupt(useI)
+Rotary::Rotary(byte _pinA, byte _pinB, bool useI, bool _inverted, unsigned int _debouce)
+	:pinA(_pinA), pinB(_pinB), pinS(NULL), inverted(_inverted), useInterrupt(useI), debouce(_debouce), lastRead(ZERO)
 {
 	this->init();
 }
@@ -999,8 +999,8 @@ Rotary::Rotary(bool useI, bool _inverted, byte _pinA, byte _pinB)
 /// <param name="_pinA">Rotary pin A</param>
 /// <param name="_pinB">Rotary pin B</param>
 /// <param name="_pinS">Rotary pin Switch</param>
-Rotary::Rotary(bool useI, bool _inverted, byte _pinA, byte _pinB, byte _pinS)
-	:pinA(_pinA), pinB(_pinB), pinS(_pinS), inverted(_inverted), useInterrupt(useI)
+Rotary::Rotary(byte _pinA, byte _pinB, byte _pinS, bool useI, bool _inverted, unsigned int _debouce)
+	:pinA(_pinA), pinB(_pinB), pinS(_pinS), inverted(_inverted), useInterrupt(useI), debouce(_debouce), lastRead(ZERO)
 {
 	this->init();
 }
@@ -1017,13 +1017,17 @@ void Rotary::serviceRoutine()
 {
 	if (this->useInterrupt)
 	{
-		if ((this->inverted) ? !digitalRead(this->pinB) : digitalRead(this->pinB))
+		if (millis() - this->lastRead >= this->debouce)
 		{
-			this->state = COUNTER_CLOCKWISE;		
-		}
-		else
-		{
-			this->state = CLOCKWISE;
+			this->lastRead = millis();
+			if ((this->inverted) ? !digitalRead(this->pinB) : digitalRead(this->pinB))
+			{
+				this->state = COUNTER_CLOCKWISE;
+			}
+			else
+			{
+				this->state = CLOCKWISE;
+			}
 		}
 	}
 }

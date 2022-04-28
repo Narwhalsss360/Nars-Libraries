@@ -74,14 +74,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Arduino", "Arduino", "{C09A
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Push", "Examples\Arduino Examples\Push\Push.vcxproj", "{F7791ED2-BDE0-4AB3-BB74-924058683BE8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NarsLibraries-1.3.0", "E:\Users\sandr\Documents\Arduino\libraries\NarsLibraries\NarsLibraries-1.3.0.vcxitems", "{9644C7D8-83F3-4838-9043-856A9F04C4B2}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{09ce6cb0-5e27-47b4-925e-9b7b93668dab}*SharedItemsImports = 9
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{2e28e225-a449-4c48-9fb8-9b357618229d}*SharedItemsImports = 4
 		Libraries\Nars-C++-Shared-Libraries\Nars-C++-Shared-Libraries.vcxitems*{4b504505-4e7a-4b16-aeb8-dded8d81916b}*SharedItemsImports = 4
-		E:\Users\sandr\Documents\Arduino\libraries\NarsLibraries\NarsLibraries-1.3.0.vcxitems*{9644c7d8-83f3-4838-9043-856a9f04c4b2}*SharedItemsImports = 9
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{990cbab7-b2fc-4d57-87a4-6975b4b3747f}*SharedItemsImports = 4
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{a6276c1a-6cdb-40c2-8449-47a36f9501b0}*SharedItemsImports = 4
 		Libraries\Nars-Arduino-Libraries\Nars-Arduino-Libraries.vcxitems*{c6dab17d-5768-4ca8-a2e6-e7bf1c0a13e0}*SharedItemsImports = 4
